@@ -8,8 +8,7 @@ class FigletCommand(sublime_plugin.TextCommand):
 			self.replace_selection(sel)
 
 	def replace_selection(self, sel):
-		tempDir = sublime.packages_path()+os.sep+'ASCII Decorator (FIGlet)'+os.sep+'pyfiglet'+os.sep+'fonts'
-		f = Figlet(dir=tempDir, font='slant') # or zipfile=PATH
+		f = Figlet(dir=os.path.join(sublime.packages_path(), 'ASCII-Decorator', 'pyfiglet', 'fonts'), font='slant') # or zipfile=PATH
 		original = self.view.substr(sel);
 		result = f.renderText(original);
 		edit = self.view.begin_edit('Figlet')
