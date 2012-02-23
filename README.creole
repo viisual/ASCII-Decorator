@@ -1,6 +1,8 @@
 === Description ===
-ASCII-Decorator is a simple plugin implementation of [[https://github.com/pwaller/pyfiglet|pyfiglet]] for [[www.sublimetext.com/2|Sublime Text 2]].  [[https://github.com/pwaller/pyfiglet|pyfiglet]] is a full port of [[http://www.figlet.org/|FIGlet]] into pure python.  [[http://www.figlet.org/|FIGlet]] is a program that generates text banners, in a variety of typefaces, composed of letters made up of conglomerations of smaller ASCII characters.  Or simply:
+ASCII-Decorator is a simple plugin implementation of [[https://github.com/pwaller/pyfiglet|pyfiglet]] for [[www.sublimetext.com/2|Sublime Text 2]].  [[https://github.com/pwaller/pyfiglet|pyfiglet]] is a full port of [[http://www.figlet.org/|FIGlet]] into pure python.  [[http://www.figlet.org/|FIGlet]] is a program that generates text banners, in a variety of typefaces, composed of letters made up of conglomerations of smaller ASCII characters.
 {{{
+Or simply:
+
     __________________     __         __                   __  __    _         
    / ____/  _/ ____/ /__  / /_   ____/ /___  ___  _____   / /_/ /_  (_)____    
   / /_   / // / __/ / _ \/ __/  / __  / __ \/ _ \/ ___/  / __/ __ \/ / ___/    
@@ -20,8 +22,8 @@ ASCII-Decorator is a simple plugin implementation of [[https://github.com/pwalle
   #### Select ASCII-Decorator from the list.
 
   # Install via git
-  ## In a ssh shell path to the [[www.sublimetext.com/2|Sublime Text 2]] Packages directory
-  ### type: |git clone https://github.com/viisual/ASCII-Decorator.git|
+  ## In a ssh shell: path to the [[www.sublimetext.com/2|Sublime Text 2]] Packages directory
+  ### type: git clone https://github.com/viisual/ASCII-Decorator.git
 
 === Usage ===
   # You can access the plugin via from selecting: Menu > Edit > ASCII Decorator
