@@ -22,7 +22,7 @@ Or simply:
   #### Select ASCII-Decorator from the list.
 
   # Install via git
-  ## In a ssh shell: path to the [[www.sublimetext.com/2|Sublime Text 2]] Packages directory
+  ## In a shell: path to the [[www.sublimetext.com/2|Sublime Text 2]] Packages directory
   ### type: git clone https://github.com/viisual/ASCII-Decorator.git
 
 === Usage ===
