@@ -390,7 +390,7 @@ class FigletRenderingEngine(object):
                         addLeft = ''.join(l)
 
                 buffer[row] = addLeft + addRight[maxSmush:]
-
+                
             self.prevCharWidth = self.curCharWidth
 
         # Justify text. This does not use str.rjust/str.center
@@ -404,8 +404,9 @@ class FigletRenderingEngine(object):
                 buffer[row] = (' ' * int((self.base.width - len(buffer[row])) / 2)) + buffer[row]
 
         # return rendered ASCII with hardblanks replaced
-        buffer = '\n'.join(buffer) + '\n'
+        buffer = '\n'.join(buffer)
         buffer = buffer.replace(self.base.Font.hardBlank, ' ')
+        print buffer
         return FigletString(buffer)
 
 

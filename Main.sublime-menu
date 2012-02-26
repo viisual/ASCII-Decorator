@@ -3,8 +3,8 @@
         "id": "edit",
         "children":
         [
-        	{ "id": "wrap" },
-            { "command": "figlet", "caption": "FIGlet" }
+            { "id": "wrap" },
+            { "command": "figlet", "caption": "ASCII Decorator" }
         ]
     },
     {
@@ -18,13 +18,13 @@
                 "children":
                 [
                     {
-                        "caption": "FIGlet",
+                        "caption": "ASCII Decorator",
                         "children":
                         [
                             {
                                 "command": "open_file",
                                 "args": {
-                                    "file": "${packages}/Sublime-FIGlet/Default (Windows).sublime-keymap",
+                                    "file": "${packages}/ASCII Decorator/Default (Windows).sublime-keymap",
                                     "platform": "Windows"
                                 },
                                 "caption": "Key Bindings – Default"
@@ -32,7 +32,7 @@
                             {
                                 "command": "open_file",
                                 "args": {
-                                    "file": "${packages}/Sublime-FIGlet/Default (OSX).sublime-keymap",
+                                    "file": "${packages}/ASCII Decorator/Default (OSX).sublime-keymap",
                                     "platform": "OSX"
                                 },
                                 "caption": "Key Bindings – Default"
@@ -40,7 +40,7 @@
                             {
                                 "command": "open_file",
                                 "args": {
-                                    "file": "${packages}/Sublime-FIGlet/Default (Linux).sublime-keymap",
+                                    "file": "${packages}/ASCII Decorator/Default (Linux).sublime-keymap",
                                     "platform": "Linux"
                                 },
                                 "caption": "Key Bindings – Default"
@@ -48,7 +48,7 @@
                             {
                                 "command": "open_file",
                                 "args": {
-                                    "file": "${packages}/Sublime-FIGlet/Default (Windows).sublime-keymap",
+                                    "file": "${packages}/User/Default (Windows).sublime-keymap",
                                     "platform": "Windows"
                                 },
                                 "caption": "Key Bindings – User"
@@ -56,7 +56,7 @@
                             {
                                 "command": "open_file",
                                 "args": {
-                                    "file": "${packages}/Sublime-FIGlet/Default (OSX).sublime-keymap",
+                                    "file": "${packages}/User/Default (OSX).sublime-keymap",
                                     "platform": "OSX"
                                 },
                                 "caption": "Key Bindings – User"
@@ -64,7 +64,7 @@
                             {
                                 "command": "open_file",
                                 "args": {
-                                    "file": "${packages}/Sublime-FIGlet/Default (Linux).sublime-keymap",
+                                    "file": "${packages}/User/Default (Linux).sublime-keymap",
                                     "platform": "Linux"
                                 },
                                 "caption": "Key Bindings – User"

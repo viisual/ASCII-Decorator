@@ -1,25 +1,55 @@
-import sublime, sublime_plugin
-import os, re
+import sublime, sublime_plugin, os, re
 from pyfiglet import Figlet
 
-class FigletCommand(sublime_plugin.TextCommand):
-	def run(self, edit):
-		for sel in self.view.sel():
-			self.replace_selection(sel)
+class FigletCommand( sublime_plugin.TextCommand ):
+	"""
+		@todo Load Settings...
+    	Iterate over selections
+    		convert selection to ascii art
+    		preserve OS line endings and spaces/tabs
+    		update selections
+	"""
+	def run( self, edit ):
+		newSelections = []
 
-	def replace_selection(self, sel):
-		tempDir = sublime.packages_path()+os.sep+'ASCII Decorator (FIGlet)'+os.sep+'pyfiglet'+os.sep+'fonts'
-		f = Figlet(dir=tempDir, font='slant') # or zipfile=PATH
-		original = self.view.substr(sel);
-		result = f.renderText(original);
-		edit = self.view.begin_edit('Figlet')
-		#result = self.normalize_line_endings(result)
-		(prefix, main, suffix) = self.fix_whitespace(original, '\n' + result, sel)
-		self.view.replace(edit, sel, prefix + main + suffix)
-		self.view.end_edit(edit)
+		# Create an edit object, demarcating an undo group.
+		edit = self.view.begin_edit( 'ASCII-Decorator' )
+		
+		# Loop through user selections.
+		for currentSelection in self.view.sel():
+			# Decorate the selection to ASCII Art.
+			newSelections.append( self.decorate( edit, currentSelection ) )
+
 		# Clear selections since they've been modified.
-		self.view.sel().clear()  
-		return
+		self.view.sel().clear() 
+
+		for newSelection in newSelections:
+			self.view.sel().add( newSelection )
+		
+		# A corresponding call to end_edit() is required.
+		self.view.end_edit( edit )
+
+	"""
+		Take input and use FIGlet to convert it to ASCII art.
+		Normalize converted ASCII strings to use proper line endings and spaces/tabs.
+	"""
+	def decorate( self, edit, currentSelection ):
+		# Convert the input range to a string, this represents the original selection.
+		original = self.view.substr( currentSelection );
+		# Construct a local path to the fonts directory.
+		fontsDir = os.path.join(sublime.packages_path(), 'ASCII-Decorator', 'pyfiglet', 'fonts')
+		# Convert the input string to ASCII Art.
+		f = Figlet( dir=fontsDir, font='5x7' )
+		output = f.renderText( original );
+
+		# Normalize line endings based on settings.
+		output = self.normalize_line_endings( output )
+		# Normalize whitespace based on settings.
+		output = self.fix_whitespace( original, output, currentSelection )
+
+		self.view.replace( edit, currentSelection, output )
+
+		return sublime.Region( currentSelection.begin(), currentSelection.begin() + len(output) )
 
 	def normalize_line_endings(self, string):
 		string = string.replace('\r\n', '\n').replace('\r', '\n')
@@ -38,6 +68,8 @@ class FigletCommand(sublime_plugin.TextCommand):
 			indent = self.view.substr(indent_region)
 		else:
 			indent = ''
+
+		print indent
 		# Strip whitespace from the prefixed version so we get it right
 		#prefixed = prefixed.strip()
 		#prefixed = re.sub(re.compile('^\s+', re.M), '', prefixed)		
@@ -56,4 +88,4 @@ class FigletCommand(sublime_plugin.TextCommand):
 		match = re.search('(\s*)\Z', original)
 		suffix = match.groups()[0]
 
-		return ('', prefixed, '')
+		return prefixed
