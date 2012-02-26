@@ -1,6 +1,7 @@
 import sublime, sublime_plugin, os, re
 from pyfiglet import Figlet
 
+<<<<<<< HEAD
 class FigletCommand( sublime_plugin.TextCommand ):
 	"""
 		@todo Load Settings...
