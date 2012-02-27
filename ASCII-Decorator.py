@@ -13,7 +13,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
 		newSelections = []
 
 		# Create an edit object, demarcating an undo group.
-		edit = self.view.begin_edit( 'ASCII-Decorator' )
+		edit = self.view.begin_edit( 'ASCII Decorator' )
 		
 		# Loop through user selections.
 		for currentSelection in self.view.sel():
@@ -37,7 +37,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
 		# Convert the input range to a string, this represents the original selection.
 		original = self.view.substr( currentSelection );
 		# Construct a local path to the fonts directory.
-		fontsDir = os.path.join(sublime.packages_path(), 'ASCII-Decorator', 'pyfiglet', 'fonts')
+		fontsDir = os.path.join(sublime.packages_path(), 'ASCII Decorator', 'pyfiglet', 'fonts')
 		# Convert the input string to ASCII Art.
 		f = Figlet( dir=fontsDir, font='5x7' )
 		output = f.renderText( original );
