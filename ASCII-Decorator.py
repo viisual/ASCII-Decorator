@@ -12,7 +12,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
 	def run( self, edit ):
 		newSelections = []
 
-		sublime.load_settings('Base File.sublime-settings')
+		sublime.load_settings('ASCII Decorator.sublime-settings')
 
 		# Create an edit object, demarcating an undo group.
 		edit = self.view.begin_edit( 'ASCII Decorator' )
