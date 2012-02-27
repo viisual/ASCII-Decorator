@@ -1,0 +1,866 @@
+/*
+    ASCII-Decorator default settings
+*/
+{
+    /* Name of the font file to use. */
+    "ascii_decorator_font": "slant"
+}
+
+// Font name: 3-d
+//     **                                             **                                    
+//    /**                                            /** ******                             
+//    /**        ******  ******  *****  **********   /**/**///**  ****** **   ** ********** 
+//    /**       **////**//**//* **///**//**//**//**  /**/**  /** **//// /**  /**//**//**//**
+//    /**      /**   /** /** / /******* /** /** /**  /**/****** //***** /**  /** /** /** /**
+//    /**      /**   /** /**   /**////  /** /** /**  /**/**///   /////**/**  /** /** /** /**
+//    /********//****** /***   //****** *** /** /**  /**/**      ****** //****** *** /** /**
+//    ////////  //////  ///     ////// ///  //  //   // //      //////   ////// ///  //  // 
+
+// Font Name: 3x5
+/*  #                       ###                 
+    #   ### ### ### ###      #  ###  ## # # ### 
+    #   # # #   ##  ###      #  # #  #  # # ### 
+    #   ### #   ### # #      #  ### ##  ### # # 
+    ###                     ### #               */
+
+// Font Name: 4x4_offr
+/*   ##     ########                   ##         #### #### ########   ## ##         ##       
+     ##     ########          ######## ###       ##  ## ##  ########  #######        ###      
+     ##     ##                ########  ###      ## ### ##        ##  #######         ###     
+     ##     ##                           ###     ## ### ##        ##  #######      ### ###    
+     ##     ##                            ###    ##     ##        ##   #####      ####  ###   
+     ##     ##       ########              ###   ##   # ##        ##    ###      ###     ###  
+     ###### ##       ########               ###   #### ####       ##     #       ##       ### 
+            ##                               ##                   ##             ##        ##   */
+/*
+5lineoblique
+Lorem Ipsum
+5x7
+Lorem Ipsum
+5x8
+Lorem Ipsum
+6x9
+Lorem Ipsum
+6x10
+Lorem Ipsum
+64f1____
+Lorem Ipsum
+1943____
+Lorem Ipsum
+a_zooloo
+Lorem Ipsum
+acrobatic
+Lorem Ipsum
+advenger
+Lorem Ipsum
+alligator
+Lorem Ipsum
+alligator2
+Lorem Ipsum
+alphabet
+Lorem Ipsum
+aquaplan
+Lorem Ipsum
+asc_____
+Lorem Ipsum
+ascii___
+Lorem Ipsum
+assalt_m
+Lorem Ipsum
+asslt__m
+Lorem Ipsum
+atc_____
+Lorem Ipsum
+atc_gran
+Lorem Ipsum
+avatar
+Lorem Ipsum
+b_m__200
+Lorem Ipsum
+banner
+Lorem Ipsum
+banner3-D
+Lorem Ipsum
+banner3
+Lorem Ipsum
+banner4
+Lorem Ipsum
+barbwire
+Lorem Ipsum
+basic
+Lorem Ipsum
+battle_s
+Lorem Ipsum
+battlesh
+Lorem Ipsum
+baz__bil
+Lorem Ipsum
+beer_pub
+Lorem Ipsum
+bell
+Lorem Ipsum
+big
+Lorem Ipsum
+bigchief
+Lorem Ipsum
+binary
+Lorem Ipsum
+block
+Lorem Ipsum
+brite
+Lorem Ipsum
+briteb
+Lorem Ipsum
+britebi
+Lorem Ipsum
+britei
+Lorem Ipsum
+broadway
+Lorem Ipsum
+bubble__
+Lorem Ipsum
+bubble_b
+Lorem Ipsum
+bubble
+Lorem Ipsum
+bulbhead
+Lorem Ipsum
+c_ascii_
+Lorem Ipsum
+c_consen
+Lorem Ipsum
+c1______
+Lorem Ipsum
+c2______
+Lorem Ipsum
+calgphy2
+Lorem Ipsum
+caligraphy
+Lorem Ipsum
+catwalk
+Lorem Ipsum
+caus_in_
+Lorem Ipsum
+char1___
+Lorem Ipsum
+char2___
+Lorem Ipsum
+char3___
+Lorem Ipsum
+char4___
+Lorem Ipsum
+charact1
+Lorem Ipsum
+charact2
+Lorem Ipsum
+charact3
+Lorem Ipsum
+charact4
+Lorem Ipsum
+charact5
+Lorem Ipsum
+charact6
+Lorem Ipsum
+characte
+Lorem Ipsum
+charset_
+Lorem Ipsum
+chartr
+Lorem Ipsum
+chartri
+Lorem Ipsum
+chunky
+Lorem Ipsum
+clb6x10
+Lorem Ipsum
+clb8x8
+Lorem Ipsum
+clb8x10
+Lorem Ipsum
+cli8x8
+Lorem Ipsum
+clr4x6
+Lorem Ipsum
+clr5x6
+Lorem Ipsum
+clr5x8
+Lorem Ipsum
+clr5x10
+Lorem Ipsum
+clr6x6
+Lorem Ipsum
+clr6x8
+Lorem Ipsum
+clr6x10
+Lorem Ipsum
+clr7x8
+Lorem Ipsum
+clr7x10
+Lorem Ipsum
+clr8x8
+Lorem Ipsum
+clr8x10
+Lorem Ipsum
+coil_cop
+Lorem Ipsum
+coinstak
+Lorem Ipsum
+colossal
+Lorem Ipsum
+com_sen_
+Lorem Ipsum
+computer
+Lorem Ipsum
+contessa
+Lorem Ipsum
+contrast
+Lorem Ipsum
+convoy__
+Lorem Ipsum
+cosmic
+Lorem Ipsum
+cosmike
+Lorem Ipsum
+cour
+Lorem Ipsum
+courb
+Lorem Ipsum
+courbi
+Lorem Ipsum
+couri
+Lorem Ipsum
+crawford
+Lorem Ipsum
+cricket
+Lorem Ipsum
+cursive
+Lorem Ipsum
+cyberlarge
+Lorem Ipsum
+cybermedium
+Lorem Ipsum
+cybersmall
+Lorem Ipsum
+d_dragon
+Lorem Ipsum
+dcs_bfmo
+Lorem Ipsum
+decimal
+Lorem Ipsum
+deep_str
+Lorem Ipsum
+demo_1__
+Lorem Ipsum
+demo_2__
+Lorem Ipsum
+demo_m__
+Lorem Ipsum
+devilish
+Lorem Ipsum
+diamond
+Lorem Ipsum
+digital
+Lorem Ipsum
+doh
+Lorem Ipsum
+doom
+Lorem Ipsum
+dotmatrix
+Lorem Ipsum
+double
+Lorem Ipsum
+drpepper
+Lorem Ipsum
+druid___
+Lorem Ipsum
+dwhistled
+Lorem Ipsum
+e__fist_
+Lorem Ipsum
+ebbs_1__
+Lorem Ipsum
+ebbs_2__
+Lorem Ipsum
+eca_____
+Lorem Ipsum
+eftichess
+Lorem Ipsum
+eftifont
+Lorem Ipsum
+eftipiti
+Lorem Ipsum
+eftirobot
+Lorem Ipsum
+eftitalic
+Lorem Ipsum
+eftiwall
+Lorem Ipsum
+eftiwater
+Lorem Ipsum
+epic
+Lorem Ipsum
+etcrvs__
+Lorem Ipsum
+f15_____
+Lorem Ipsum
+faces_of
+Lorem Ipsum
+fair_mea
+Lorem Ipsum
+fairligh
+Lorem Ipsum
+fantasy_
+Lorem Ipsum
+fbr_stri
+Lorem Ipsum
+fbr_tilt
+Lorem Ipsum
+fbr1____
+Lorem Ipsum
+fbr2____
+Lorem Ipsum
+fbr12___
+Lorem Ipsum
+fender
+Lorem Ipsum
+finalass
+Lorem Ipsum
+fireing_
+Lorem Ipsum
+flyn_sh
+Lorem Ipsum
+fourtops
+Lorem Ipsum
+fp1_____
+Lorem Ipsum
+fp2_____
+Lorem Ipsum
+fraktur
+Lorem Ipsum
+funky_dr
+Lorem Ipsum
+future_1
+Lorem Ipsum
+future_2
+Lorem Ipsum
+future_3
+Lorem Ipsum
+future_4
+Lorem Ipsum
+future_5
+Lorem Ipsum
+future_6
+Lorem Ipsum
+future_7
+Lorem Ipsum
+future_8
+Lorem Ipsum
+fuzzy
+Lorem Ipsum
+gauntlet
+Lorem Ipsum
+ghost_bo
+Lorem Ipsum
+goofy
+Lorem Ipsum
+gothic__
+Lorem Ipsum
+gothic
+Lorem Ipsum
+graceful
+Lorem Ipsum
+gradient
+Lorem Ipsum
+graffiti
+Lorem Ipsum
+grand_pr
+Lorem Ipsum
+green_be
+Lorem Ipsum
+hades___
+Lorem Ipsum
+heavy_me
+Lorem Ipsum
+helv
+Lorem Ipsum
+helvb
+Lorem Ipsum
+helvbi
+Lorem Ipsum
+helvi
+Lorem Ipsum
+heroboti
+Lorem Ipsum
+hex
+Lorem Ipsum
+high_noo
+Lorem Ipsum
+hills___
+Lorem Ipsum
+hollywood
+Lorem Ipsum
+home_pak
+Lorem Ipsum
+house_of
+Lorem Ipsum
+hypa_bal
+Lorem Ipsum
+hyper___
+Lorem Ipsum
+inc_raw_
+Lorem Ipsum
+invita
+Lorem Ipsum
+isometric1
+Lorem Ipsum
+isometric2
+Lorem Ipsum
+isometric3
+Lorem Ipsum
+isometric4
+Lorem Ipsum
+italic
+Lorem Ipsum
+italics_
+Lorem Ipsum
+ivrit
+Lorem Ipsum
+jazmine
+Lorem Ipsum
+jerusalem
+Lorem Ipsum
+joust___
+Lorem Ipsum
+katakana
+Lorem Ipsum
+kban
+Lorem Ipsum
+kgames_i
+Lorem Ipsum
+kik_star
+Lorem Ipsum
+krak_out
+Lorem Ipsum
+larry3d
+Lorem Ipsum
+lazy_jon
+Lorem Ipsum
+lcd
+Lorem Ipsum
+lean
+Lorem Ipsum
+letter_w
+Lorem Ipsum
+letters
+Lorem Ipsum
+letterw3
+Lorem Ipsum
+lexible_
+Lorem Ipsum
+linux
+Lorem Ipsum
+lockergnome
+Lorem Ipsum
+mad_nurs
+Lorem Ipsum
+madrid
+Lorem Ipsum
+magic_ma
+Lorem Ipsum
+marquee
+Lorem Ipsum
+master_o
+Lorem Ipsum
+maxfour
+Lorem Ipsum
+mayhem_d
+Lorem Ipsum
+mcg_____
+Lorem Ipsum
+mig_ally
+Lorem Ipsum
+mike
+Lorem Ipsum
+mini
+Lorem Ipsum
+mirror
+Lorem Ipsum
+mnemonic
+Lorem Ipsum
+modern__
+Lorem Ipsum
+morse
+Lorem Ipsum
+moscow
+Lorem Ipsum
+mshebrew210
+Lorem Ipsum
+nancyj-fancy
+Lorem Ipsum
+nancyj-underlined
+Lorem Ipsum
+nancyj
+Lorem Ipsum
+new_asci
+Lorem Ipsum
+nfi1____
+Lorem Ipsum
+nipples
+Lorem Ipsum
+notie_ca
+Lorem Ipsum
+npn_____
+Lorem Ipsum
+ntgreek
+Lorem Ipsum
+nvscript
+Lorem Ipsum
+o8
+Lorem Ipsum
+octal
+Lorem Ipsum
+odel_lak
+Lorem Ipsum
+ogre
+Lorem Ipsum
+ok_beer_
+Lorem Ipsum
+os2
+Lorem Ipsum
+outrun__
+Lorem Ipsum
+p_s_h_m_
+Lorem Ipsum
+p_skateb
+Lorem Ipsum
+pacos_pe
+Lorem Ipsum
+panther_
+Lorem Ipsum
+pawn_ins
+Lorem Ipsum
+pawp
+Lorem Ipsum
+peaks
+Lorem Ipsum
+pebbles
+Lorem Ipsum
+pepper
+Lorem Ipsum
+phonix__
+Lorem Ipsum
+platoon_
+Lorem Ipsum
+platoon2
+Lorem Ipsum
+pod_____
+Lorem Ipsum
+poison
+Lorem Ipsum
+puffy
+Lorem Ipsum
+pyramid
+Lorem Ipsum
+r2-d2___
+Lorem Ipsum
+rad_____
+Lorem Ipsum
+rad_phan
+Lorem Ipsum
+radical_
+Lorem Ipsum
+rainbow_
+Lorem Ipsum
+rally_s2
+Lorem Ipsum
+rally_sp
+Lorem Ipsum
+rampage_
+Lorem Ipsum
+rastan__
+Lorem Ipsum
+raw_recu
+Lorem Ipsum
+rci_____
+Lorem Ipsum
+rectangles
+Lorem Ipsum
+relief
+Lorem Ipsum
+relief2
+Lorem Ipsum
+rev
+Lorem Ipsum
+ripper!_
+Lorem Ipsum
+road_rai
+Lorem Ipsum
+rockbox_
+Lorem Ipsum
+rok_____
+Lorem Ipsum
+roman___
+Lorem Ipsum
+roman
+Lorem Ipsum
+rot13
+Lorem Ipsum
+rounded
+Lorem Ipsum
+rowancap
+Lorem Ipsum
+rozzo
+Lorem Ipsum
+runic
+Lorem Ipsum
+runyc
+Lorem Ipsum
+sans
+Lorem Ipsum
+sansb
+Lorem Ipsum
+sansbi
+Lorem Ipsum
+sansi
+Lorem Ipsum
+sblood
+Lorem Ipsum
+sbook
+Lorem Ipsum
+sbookb
+Lorem Ipsum
+sbookbi
+Lorem Ipsum
+sbooki
+Lorem Ipsum
+script__
+Lorem Ipsum
+script
+Lorem Ipsum
+serifcap
+Lorem Ipsum
+shadow
+Lorem Ipsum
+short
+Lorem Ipsum
+skate_ro
+Lorem Ipsum
+skateord
+Lorem Ipsum
+skateroc
+Lorem Ipsum
+sketch_s
+Lorem Ipsum
+slant
+Lorem Ipsum
+slide
+Lorem Ipsum
+slscript
+Lorem Ipsum
+sm______
+Lorem Ipsum
+small
+Lorem Ipsum
+smisome1
+Lorem Ipsum
+smkeyboard
+Lorem Ipsum
+smscript
+Lorem Ipsum
+smshadow
+Lorem Ipsum
+smslant
+Lorem Ipsum
+smtengwar
+Lorem Ipsum
+space_op
+Lorem Ipsum
+spc_demo
+Lorem Ipsum
+speed
+Lorem Ipsum
+stacey
+Lorem Ipsum
+stampatello
+Lorem Ipsum
+standard
+Lorem Ipsum
+star_war
+Lorem Ipsum
+starwars
+Lorem Ipsum
+stealth_
+Lorem Ipsum
+stellar
+Lorem Ipsum
+stencil1
+Lorem Ipsum
+stencil2
+Lorem Ipsum
+stop
+Lorem Ipsum
+straight
+Lorem Ipsum
+street_s
+Lorem Ipsum
+subteran
+Lorem Ipsum
+super_te
+Lorem Ipsum
+t__of_ap
+Lorem Ipsum
+tanja
+Lorem Ipsum
+tav1____
+Lorem Ipsum
+taxi____
+Lorem Ipsum
+tec_7000
+Lorem Ipsum
+tec1____
+Lorem Ipsum
+tecrvs__
+Lorem Ipsum
+tengwar
+Lorem Ipsum
+term
+Lorem Ipsum
+thick
+Lorem Ipsum
+thin
+Lorem Ipsum
+threepoint
+Lorem Ipsum
+ti_pan__
+Lorem Ipsum
+ticks
+Lorem Ipsum
+ticksslant
+Lorem Ipsum
+times
+Lorem Ipsum
+timesofl
+Lorem Ipsum
+tinker-toy
+Lorem Ipsum
+tomahawk
+Lorem Ipsum
+tombstone
+Lorem Ipsum
+top_duck
+Lorem Ipsum
+trashman
+Lorem Ipsum
+trek
+Lorem Ipsum
+triad_st
+Lorem Ipsum
+ts1_____
+Lorem Ipsum
+tsalagi
+Lorem Ipsum
+tsm_____
+Lorem Ipsum
+tsn_base
+Lorem Ipsum
+tty
+Lorem Ipsum
+ttyb
+Lorem Ipsum
+twin_cob
+Lorem Ipsum
+twopoint
+Lorem Ipsum
+type_set
+Lorem Ipsum
+ucf_fan_
+Lorem Ipsum
+ugalympi
+Lorem Ipsum
+unarmed_
+Lorem Ipsum
+univers
+Lorem Ipsum
+usa_____
+Lorem Ipsum
+usa_pq__
+Lorem Ipsum
+usaflag
+Lorem Ipsum
+utopia
+Lorem Ipsum
+utopiab
+Lorem Ipsum
+utopiabi
+Lorem Ipsum
+utopiai
+Lorem Ipsum
+vortron_
+Lorem Ipsum
+war_of_w
+Lorem Ipsum
+weird
+Lorem Ipsum
+whimsy
+Lorem Ipsum
+xbrite
+Lorem Ipsum
+xbriteb
+Lorem Ipsum
+xbritebi
+Lorem Ipsum
+xbritei
+Lorem Ipsum
+xchartr
+Lorem Ipsum
+xchartri
+Lorem Ipsum
+xcour
+Lorem Ipsum
+xcourb
+Lorem Ipsum
+xcourbi
+Lorem Ipsum
+xcouri
+Lorem Ipsum
+xhelv
+Lorem Ipsum
+xhelvb
+Lorem Ipsum
+xhelvbi
+Lorem Ipsum
+xhelvi
+Lorem Ipsum
+xsans
+Lorem Ipsum
+xsansb
+Lorem Ipsum
+xsansbi
+Lorem Ipsum
+xsansi
+Lorem Ipsum
+xsbook
+Lorem Ipsum
+xsbookb
+Lorem Ipsum
+xsbookbi
+Lorem Ipsum
+xsbooki
+Lorem Ipsum
+xtimes
+Lorem Ipsum
+xtty
+Lorem Ipsum
+xttyb
+Lorem Ipsum
+yie_ar_k
+Lorem Ipsum
+yie-ar__
+Lorem Ipsum
+z-pilot_
+Lorem Ipsum
+zig_zag_
+Lorem Ipsum
+zone7___
+Lorem Ipsum
+*/

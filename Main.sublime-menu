@@ -22,6 +22,21 @@
                         "children":
                         [
                             {
+                                "command": "open_file", "args":
+                                {
+                                    "file": "${packages}/ASCII Decorator/ASCII Decorator.sublime-settings"
+                                },
+                                "caption": "Settings – Default"
+                            },
+                            {
+                                "command": "open_file", "args":
+                                {
+                                    "file": "${packages}/User/ASCII Decorator.sublime-settings"
+                                },
+                                "caption": "Settings – User"
+                            },
+                            { "caption": "-" },
+                            {
                                 "command": "open_file",
                                 "args": {
                                     "file": "${packages}/ASCII Decorator/Default (Windows).sublime-keymap",
