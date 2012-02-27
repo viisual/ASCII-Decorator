@@ -406,7 +406,6 @@ class FigletRenderingEngine(object):
         # return rendered ASCII with hardblanks replaced
         buffer = '\n'.join(buffer)
         buffer = buffer.replace(self.base.Font.hardBlank, ' ')
-        print buffer
         return FigletString(buffer)
 
 
