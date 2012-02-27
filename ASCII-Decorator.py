@@ -11,10 +11,8 @@ class FigletCommand( sublime_plugin.TextCommand ):
 	"""
 	def run( self, edit ):
 		newSelections = []
-
-		sublime.load_settings('ASCII Decorator.sublime-settings')
-
-		# Create an edit object, demarcating an undo group.
+		
+		# Create an() edit object, demarcating an undo group.
 		edit = self.view.begin_edit( 'ASCII Decorator' )
 		
 		# Loop through user selections.
@@ -41,7 +39,8 @@ class FigletCommand( sublime_plugin.TextCommand ):
 		# Construct a local path to the fonts directory.
 		fontsDir = os.path.join(sublime.packages_path(), 'ASCII Decorator', 'pyfiglet', 'fonts')
 		# Convert the input string to ASCII Art.
-		f = Figlet( dir=fontsDir, font=self.view.settings().get('ascii_decorator_font') )
+		settings = sublime.load_settings('ASCII Decorator.sublime-settings')
+		f = Figlet( dir=fontsDir, font=settings.get('ascii_decorator_font') )
 		output = f.renderText( original );
 
 		# Normalize line endings based on settings.
