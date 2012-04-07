@@ -11,21 +11,21 @@ class FigletCommand( sublime_plugin.TextCommand ):
 	"""
 	def run( self, edit ):
 		newSelections = []
-		
+
 		# Create an() edit object, demarcating an undo group.
 		edit = self.view.begin_edit( 'ASCII Decorator' )
-		
+
 		# Loop through user selections.
 		for currentSelection in self.view.sel():
 			# Decorate the selection to ASCII Art.
 			newSelections.append( self.decorate( edit, currentSelection ) )
 
 		# Clear selections since they've been modified.
-		self.view.sel().clear() 
+		self.view.sel().clear()
 
 		for newSelection in newSelections:
 			self.view.sel().add( newSelection )
-		
+
 		# A corresponding call to end_edit() is required.
 		self.view.end_edit( edit )
 
@@ -59,7 +59,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
 			string = string.replace('\n', '\r\n')
 		elif line_endings == 'mac':
 			string = string.replace('\n', '\r')
-		return string  
+		return string
 
 	def fix_whitespace(self, original, prefixed, sel):
 		# Determine the indent of the CSS rule
@@ -73,7 +73,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
 		print indent
 		# Strip whitespace from the prefixed version so we get it right
 		#prefixed = prefixed.strip()
-		#prefixed = re.sub(re.compile('^\s+', re.M), '', prefixed)		
+		#prefixed = re.sub(re.compile('^\s+', re.M), '', prefixed)
 
 		# Indent the prefixed version to the right level
 		settings = self.view.settings()
@@ -83,10 +83,10 @@ class FigletCommand( sublime_plugin.TextCommand ):
 		if use_spaces:
 			indent_characters = ' ' * tab_size
 		prefixed = prefixed.replace('\n', '\n' + indent + indent_characters)
+		prefixed = indent_characters + prefixed  # add needed indent for first line
 
 		match = re.search('^(\s*)', original)
 		prefix = match.groups()[0]
 		match = re.search('(\s*)\Z', original)
 		suffix = match.groups()[0]
-
 		return prefixed
