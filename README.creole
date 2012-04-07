@@ -3,13 +3,13 @@ ASCII-Decorator is a simple plugin implementation of [[https://github.com/pwalle
 {{{
 Or simply:
 
-    __________________     __         __                   __  __    _         
-   / ____/  _/ ____/ /__  / /_   ____/ /___  ___  _____   / /_/ /_  (_)____    
-  / /_   / // / __/ / _ \/ __/  / __  / __ \/ _ \/ ___/  / __/ __ \/ / ___/    
- / __/ _/ // /_/ / /  __/ /_   / /_/ / /_/ /  __(__  )  / /_/ / / / (__  ) _ _ 
+    __________________     __         __                   __  __    _
+   / ____/  _/ ____/ /__  / /_   ____/ /___  ___  _____   / /_/ /_  (_)____
+  / /_   / // / __/ / _ \/ __/  / __  / __ \/ _ \/ ___/  / __/ __ \/ / ___/
+ / __/ _/ // /_/ / /  __/ /_   / /_/ / /_/ /  __(__  )  / /_/ / / / (__  ) _ _
 /_/   /___/\____/_/\___/\__/   \__,_/\____/\___/____/   \__/_/ /_/_/____(_|_|_)
 }}}
---------------------------------------------------------- 
+---------------------------------------------------------
 
 === Prerequisites ===
   # [[www.sublimetext.com/2|Sublime Text 2]]
@@ -27,7 +27,7 @@ Or simply:
 
 === Usage ===
   # You can access the plugin via from selecting: Menu > Edit > ASCII Decorator
-  # You can access the plugin via the key-binding: super+shift+k
+  # You can access the plugin via the key-binding: super+shift+K or alt+shift+K
 
 === Todo ===
   # There are currently 300+ ASCII fonts included; however, there is no simple way to specify a font.
@@ -43,12 +43,12 @@ All of the documentation and the majority of the work done was by
     Christopher Jones (cjones@insub.org).
 pyfiglet Packaged by Peter Waller <peter.waller@gmail.com>,
 various enhancements by Stefano Rivera <stefano@rivera.za.net>.
-                                                                    
-                        _|_|  _|            _|              _|      
-_|_|_|    _|    _|    _|            _|_|_|  _|    _|_|    _|_|_|_|  
-_|    _|  _|    _|  _|_|_|_|  _|  _|    _|  _|  _|_|_|_|    _|      
-_|    _|  _|    _|    _|      _|  _|    _|  _|  _|          _|      
-_|_|_|      _|_|_|    _|      _|    _|_|_|  _|    _|_|_|      _|_|  
-_|              _|                      _|                          
-_|          _|_|                    _|_|                            
+
+                        _|_|  _|            _|              _|
+_|_|_|    _|    _|    _|            _|_|_|  _|    _|_|    _|_|_|_|
+_|    _|  _|    _|  _|_|_|_|  _|  _|    _|  _|  _|_|_|_|    _|
+_|    _|  _|    _|    _|      _|  _|    _|  _|  _|          _|
+_|_|_|      _|_|_|    _|      _|    _|_|_|  _|    _|_|_|      _|_|
+_|              _|                      _|
+_|          _|_|                    _|_|
 }}}
