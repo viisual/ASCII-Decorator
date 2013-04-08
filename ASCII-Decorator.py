@@ -1,5 +1,9 @@
-import sublime, sublime_plugin, os, re
+import sublime, sublime_plugin, os, re, sys
 from pyfiglet import Figlet
+
+sys.path.append(os.path.join(sublime.packages_path(), 'Default'))
+import comment
+sys.path.remove(os.path.join(sublime.packages_path(), 'Default'))
 
 class FigletCommand( sublime_plugin.TextCommand ):
 	"""
@@ -34,6 +38,10 @@ class FigletCommand( sublime_plugin.TextCommand ):
 		Normalize converted ASCII strings to use proper line endings and spaces/tabs.
 	"""
 	def decorate( self, edit, currentSelection ):
+		lineComments, blockComments = comment.build_comment_data(self.view, 0)
+		self.firstLine = blockComments[0][0]
+		self.lastLine = blockComments[0][1]
+
 		# Convert the input range to a string, this represents the original selection.
 		original = self.view.substr( currentSelection );
 		# Construct a local path to the fonts directory.
@@ -48,7 +56,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
 		# Normalize whitespace based on settings.
 		output = self.fix_whitespace( original, output, currentSelection )
 
-		self.view.replace( edit, currentSelection, output )
+		self.view.replace( edit, currentSelection, self.firstLine + "\n" + output + "\n" + self.lastLine )
 
 		return sublime.Region( currentSelection.begin(), currentSelection.begin() + len(output) )
 
