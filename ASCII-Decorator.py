@@ -1,5 +1,5 @@
 import sublime, sublime_plugin, os, re
-from pyfiglet import Figlet
+from .pyfiglet import Figlet
 
 class FigletCommand( sublime_plugin.TextCommand ):
 	"""
@@ -70,7 +70,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
 		else:
 			indent = ''
 
-		print indent
+		print(indent)
 		# Strip whitespace from the prefixed version so we get it right
 		#prefixed = prefixed.strip()
 		#prefixed = re.sub(re.compile('^\s+', re.M), '', prefixed)
