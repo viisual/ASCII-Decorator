@@ -33,10 +33,10 @@ DEFAULT_FONT='standard'
 
 def figlet_format(text, font=DEFAULT_FONT, **kwargs):
     fig = Figlet(font)
-    return fig.renderText(text, **kwargs)
+    return(fig.renderText(text, **kwargs))
 
 def print_figlet(text, font=DEFAULT_FONT, **kwargs):
-    print figlet_format(text, font, **kwargs)
+    print(figlet_format(text, font, **kwargs))
 
 
 class FigletError(Exception):
@@ -91,21 +91,23 @@ class FigletFont(object):
         Load font file into memory. This can be overriden with
         a superclass to create different font sources.
         """
-        fontPath = '%s/%s.flf' % (self.dir, self.font)
-
+        fontPath = os.path.join(self.dir, self.font + '.flf')
         if os.path.exists(fontPath) is False:
-            raise FontNotFound, "%s doesn't exist" % fontPath
+            raise FontNotFound("%s doesn't exist" % fontPath)
+
         try:
             fo = open(fontPath, 'rb')
-        except Exception, e:
-            raise FontError, "couldn't open %s: %s" % (fontPath, e)
+        except Exception as e:
+            raise FontError("couldn't open %s: %s" % (fontPath, e))
 
-        try: self.data = fo.read()
-        finally: fo.close()
+        try:
+            self.data = fo.read().decode('utf-8')
+        finally:
+            fo.close()
 
     def getFonts(self):
-        print 'SDKLFJSLDKFJLKDSJF'
-        print [font[:-4] for font in os.walk(self.dir).next()[2] if font.endswith('.flf', '.tlf')]
+        print('SDKLFJSLDKFJLKDSJF')
+        print([font[:-4] for font in os.walk(self.dir).next()[2] if font.endswith('.flf', '.tlf')])
         return [font[:-4] for font in os.walk(self.dir).next()[2] if font.endswith('.flf', '.tlf')]
 
     #def getFonts(self):
@@ -359,7 +361,7 @@ class FigletRenderingEngine(object):
         buffer = ['' for i in range(self.base.Font.height)]
 
         for c in map(ord, list(text)):
-            if self.base.Font.chars.has_key(c) is False: continue
+            if c not in self.base.Font.chars: continue
             curChar = self.base.Font.chars[c]
             self.curCharWidth = self.base.Font.width[c]
             maxSmush = self.smushAmount(buffer=buffer, curChar=curChar)
@@ -423,22 +425,21 @@ class Figlet(object):
         self.setFont()
         self.engine = FigletRenderingEngine(base=self)
 
-    def setFont(self, **kwargs): 
-        if kwargs.has_key('dir'):
+    def setFont(self, **kwargs):
+        if 'dir' in kwargs:
             self.dir = kwargs['dir']
 
-        if kwargs.has_key('font'):
+        if 'font' in kwargs:
             self.font = kwargs['font']
 
         Font = None
         if Font is None and self.dir is not None:
             try: 
                 Font = FigletFont(dir=self.dir, font=self.font)
-            except: 
-                pass
-
+            except Exception as e: 
+                raise
         if Font is None:
-            raise FontNotFound, "Couldn't load font %s: Not found" % self.font
+            raise FontNotFound("Couldn't load font %s: Not found" % self.font)
         
         self.Font = Font
 

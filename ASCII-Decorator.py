@@ -1,5 +1,5 @@
 import sublime, sublime_plugin, os, re
-from pyfiglet import Figlet
+from .pyfiglet import Figlet
 
 class FigletCommand( sublime_plugin.TextCommand ):
 	"""
@@ -10,15 +10,16 @@ class FigletCommand( sublime_plugin.TextCommand ):
     		update selections
 	"""
 	def run( self, edit ):
+		self.edit = edit
 		newSelections = []
 
 		# Create an() edit object, demarcating an undo group.
-		edit = self.view.begin_edit( 'ASCII Decorator' )
+		# edit = self.view.begin_edit( 'ASCII Decorator' )
 
 		# Loop through user selections.
 		for currentSelection in self.view.sel():
 			# Decorate the selection to ASCII Art.
-			newSelections.append( self.decorate( edit, currentSelection ) )
+			newSelections.append( self.decorate( self.edit, currentSelection ) )
 
 		# Clear selections since they've been modified.
 		self.view.sel().clear()
@@ -27,7 +28,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
 			self.view.sel().add( newSelection )
 
 		# A corresponding call to end_edit() is required.
-		self.view.end_edit( edit )
+		# self.view.end_edit( edit )
 
 	"""
 		Take input and use FIGlet to convert it to ASCII art.
@@ -70,7 +71,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
 		else:
 			indent = ''
 
-		print indent
+		print(indent)
 		# Strip whitespace from the prefixed version so we get it right
 		#prefixed = prefixed.strip()
 		#prefixed = re.sub(re.compile('^\s+', re.M), '', prefixed)
