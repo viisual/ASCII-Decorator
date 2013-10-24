@@ -1,5 +1,5 @@
 === Description ===
-ASCII-Decorator is a simple plugin implementation of [[https://github.com/pwaller/pyfiglet|pyfiglet]] for [[www.sublimetext.com/2|Sublime Text 2]].  [[https://github.com/pwaller/pyfiglet|pyfiglet]] is a full port of [[http://www.figlet.org/|FIGlet]] into pure python.  [[http://www.figlet.org/|FIGlet]] is a program that generates text banners, in a variety of typefaces, composed of letters made up of conglomerations of smaller ASCII characters.
+ASCII-Decorator is a simple plugin implementation of [[https://github.com/pwaller/pyfiglet|pyfiglet]] for [[www.sublimetext.com/3|Sublime Text 3]].  [[https://github.com/pwaller/pyfiglet|pyfiglet]] is a full port of [[http://www.figlet.org/|FIGlet]] into pure python.  [[http://www.figlet.org/|FIGlet]] is a program that generates text banners, in a variety of typefaces, composed of letters made up of conglomerations of smaller ASCII characters.
 {{{
 Or simply:
 
@@ -12,18 +12,18 @@ Or simply:
 ---------------------------------------------------------
 
 === Prerequisites ===
-  # [[www.sublimetext.com/2|Sublime Text 2]]
+  # [[www.sublimetext.com/3|Sublime Text 3]]
   # [[http://wbond.net/sublime_packages/package_control|Package Control]]
 
 === Installation ===
-  # (Preferred) Install via [[http://wbond.net/sublime_packages/package_control|Package Control Plugin]] for [[www.sublimetext.com/2|Sublime Text 2]]
+  # (Preferred) Install via [[http://wbond.net/sublime_packages/package_control|Package Control Plugin]] for [[www.sublimetext.com/3|Sublime Text 3]]
   ## Bring up command palette (cmd+shift+P or ctrl+shift+P)
   ### Select option: "Package Control: Install Package"
-  #### Select ASCII-Decorator from the list.
+  #### Select ASCII-Decorator 3 from the list.
 
   # Install via git
-  ## In a shell: path to the [[www.sublimetext.com/2|Sublime Text 2]] Packages directory
-  ### type: git clone https://github.com/viisual/ASCII-Decorator.git
+  ## In a shell: path to the [[www.sublimetext.com/3|Sublime Text 3]] Packages directory
+  ### type: git clone https://github.com/zeeker/ASCII-Decorator.git
 
 === Usage ===
   # You can access the plugin via from selecting: Menu > Edit > ASCII Decorator
@@ -43,6 +43,7 @@ All of the documentation and the majority of the work done was by
     Christopher Jones (cjones@insub.org).
 pyfiglet Packaged by Peter Waller <peter.waller@gmail.com>,
 various enhancements by Stefano Rivera <stefano@rivera.za.net>.
+ported to Sublime Text 3 by Sascha Wolf <swolf.dev@gmail.com>
 
                         _|_|  _|            _|              _|
 _|_|_|    _|    _|    _|            _|_|_|  _|    _|_|    _|_|_|_|
