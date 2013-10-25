@@ -13,8 +13,6 @@ class FigletCommand( sublime_plugin.TextCommand ):
 		self.edit = edit
 		newSelections = []
 
-		# Create an() edit object, demarcating an undo group.
-		# edit = self.view.begin_edit( 'ASCII Decorator' )
 
 		# Loop through user selections.
 		for currentSelection in self.view.sel():
@@ -27,8 +25,6 @@ class FigletCommand( sublime_plugin.TextCommand ):
 		for newSelection in newSelections:
 			self.view.sel().add( newSelection )
 
-		# A corresponding call to end_edit() is required.
-		# self.view.end_edit( edit )
 
 	"""
 		Take input and use FIGlet to convert it to ASCII art.

@@ -1,4 +1,4 @@
-"""                   
+"""
     Python FIGlet adaption
 """
 
@@ -127,13 +127,13 @@ class FigletFont(object):
 
             header = data.pop(0)
             if self.reMagicNumber.search(header) is None:
-                raise FontError('%s is not a valid figlet font' % self.font)
+                raise FontError('{0} is not a valid figlet font'.format(self.font))
 
             header = self.reMagicNumber.sub('', header)
             header = header.split()
-            
+
             if len(header) < 6:
-                raise FontError('malformed header for %s' % self.font)
+                raise FontError('malformed header for {0}'.format(self.font))
 
             hardBlank = header[0]
             height, baseLine, maxLength, oldLayout, commentLines = map(int, header[1:6])
@@ -186,10 +186,10 @@ class FigletFont(object):
                     self.width[i] = width
 
         except Exception as e:
-            raise FontError('problem parsing %s font: %s' % (self.font, e))
+            raise FontError('problem parsing {0} font: {1}'.format(self.font, e))
 
     def __str__(self):
-        return '<FigletFont object: %s>' % self.font
+        return '<FigletFont object: {0}>'.format(self.font)
 
 
 class FigletString(str):
@@ -323,11 +323,11 @@ class FigletRenderingEngine(object):
             lineRight = curChar[row]
             if self.base.direction == 'right-to-left':
                 lineLeft, lineRight = lineRight, lineLeft
-            
+
             linebd = len(lineLeft.rstrip()) - 1
             if linebd < 0:
                 linebd = 0
-                
+
             if linebd < len(lineLeft):
                 ch1 = lineLeft[linebd]
             else:
@@ -361,7 +361,7 @@ class FigletRenderingEngine(object):
         buffer = ['' for i in range(self.base.Font.height)]
 
         for c in map(ord, list(text)):
-            if c not in self.base.Font.chars: continue
+            if (c in self.base.Font.chars) is False: continue
             curChar = self.base.Font.chars[c]
             self.curCharWidth = self.base.Font.width[c]
             maxSmush = self.smushAmount(buffer=buffer, curChar=curChar)
@@ -392,7 +392,7 @@ class FigletRenderingEngine(object):
                         addLeft = ''.join(l)
 
                 buffer[row] = addLeft + addRight[maxSmush:]
-                
+
             self.prevCharWidth = self.curCharWidth
 
         # Justify text. This does not use str.rjust/str.center
@@ -426,21 +426,21 @@ class Figlet(object):
         self.engine = FigletRenderingEngine(base=self)
 
     def setFont(self, **kwargs):
-        if 'dir' in kwargs:
+        if ('dir' in kwargs):
             self.dir = kwargs['dir']
 
-        if 'font' in kwargs:
+        if ('font' in kwargs):
             self.font = kwargs['font']
 
         Font = None
         if Font is None and self.dir is not None:
-            try: 
+            try:
                 Font = FigletFont(dir=self.dir, font=self.font)
             except Exception as e: 
                 raise
         if Font is None:
             raise FontNotFound("Couldn't load font %s: Not found" % self.font)
-        
+
         self.Font = Font
 
     def getDirection(self):
