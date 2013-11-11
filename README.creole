@@ -19,11 +19,11 @@ Or simply:
   # (Preferred) Install via [[http://wbond.net/sublime_packages/package_control|Package Control Plugin]] for [[www.sublimetext.com/3|Sublime Text 3]]
   ## Bring up command palette (cmd+shift+P or ctrl+shift+P)
   ### Select option: "Package Control: Install Package"
-  #### Select ASCII-Decorator 3 from the list.
+  #### Select ASCII-Decorator from the list.
 
   # Install via git
   ## In a shell: path to the [[www.sublimetext.com/3|Sublime Text 3]] Packages directory
-  ### type: git clone https://github.com/zeeker/ASCII-Decorator.git
+  ### type: git clone https://github.com/viisual/ASCII-Decorator.git
 
 === Usage ===
   # You can access the plugin via from selecting: Menu > Edit > ASCII Decorator
