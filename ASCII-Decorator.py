@@ -1,5 +1,8 @@
-import sublime, sublime_plugin, os, re
-from pyfiglet import Figlet
+import sublime, sublime_plugin, os, re, sys
+if sys.version_info < (3,0,0):
+	from pyfiglet import Figlet
+else:
+	from .pyfiglet import Figlet
 
 class FigletCommand( sublime_plugin.TextCommand ):
 	"""
