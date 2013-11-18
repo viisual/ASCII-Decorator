@@ -1,5 +1,5 @@
 import sublime, sublime_plugin, os, re
-from .pyfiglet import Figlet
+from pyfiglet import Figlet
 
 class FigletCommand( sublime_plugin.TextCommand ):
 	"""
