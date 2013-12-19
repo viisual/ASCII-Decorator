@@ -37,7 +37,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
 		# Convert the input range to a string, this represents the original selection.
 		original = self.view.substr( currentSelection );
 		# Construct a local path to the fonts directory.
-		fontsDir = os.path.join(sublime.packages_path(), 'ASCII Decorator', 'pyfiglet', 'fonts')
+		fontsDir = os.path.join(sublime.packages_path(), 'ASCII-Decorator', 'pyfiglet', 'fonts')
 		# Convert the input string to ASCII Art.
 		settings = sublime.load_settings('ASCII Decorator.sublime-settings')
 		f = Figlet( dir=fontsDir, font=settings.get('ascii_decorator_font') )
