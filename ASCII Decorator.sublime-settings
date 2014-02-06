@@ -6,10 +6,13 @@
     "ascii_decorator_font": "slant",
 
     /* When inserting, insert the ascii-art as a comment */
-    "insert_as_comment": true,
+    "insert_as_comment": false,
 
     /* Comment preference.  Will try and use the preference if available. (line | block) */
     "comment_style_preference": "line",
+
+    /* Show preview on highlight when using the quick panel command. */
+    "show_preview": true,
 
     /* ASCII-Decorator idents the text on conversion.
         This setting disables that additional indentation */

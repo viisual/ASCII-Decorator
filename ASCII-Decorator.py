@@ -4,8 +4,6 @@ if sys.version_info < (3,0,0):
 else:
 	from .pyfiglet import Figlet
 
-FIGLET_ERROR = False
-
 
 def get_comment(view, pt):
 	"""
@@ -40,39 +38,44 @@ def get_comment(view, pt):
 	return (line_comments, block_comments)
 
 
+class FigletStatus(object):
+	error = False
+
 
 class FigletMenuCommand( sublime_plugin.TextCommand ):
 	def run( self, edit ):
 		self.undo = False
+		settings = sublime.load_settings('ASCII Decorator.sublime-settings')
 		fontsDir = os.path.join(sublime.packages_path(), 'ASCII Decorator', 'pyfiglet', 'fonts')
 		self.options = []
 		for f in os.listdir(fontsDir):
 			if os.path.isfile(os.path.join(fontsDir, f)) and f.endswith(".flf"):
 				self.options.append(f[:-4])
 		if len(self.options):
-			self.view.window().show_quick_panel(self.options, self.apply_figlet, on_highlight=self.preview)
+			self.view.window().show_quick_panel(
+				self.options,
+				self.apply_figlet,
+				on_highlight=self.preview if bool(settings.get("show_preview", False)) else None
+			)
 
 	def preview(self, value):
 		if value != -1:
 			if self.undo:
-				global FIGLET_ERROR
-				if FIGLET_ERROR:
-					FIGLET_ERROR = False
+				if FigletStatus.error:
+					FigletStatus.error = False
 				else:
 					self.view.run_command("undo")
 			else:
 				self.undo = True
 			self.view.run_command("figlet", {"font": self.options[value]})
 
-
 	def apply_figlet(self, value):
 		if value != -1:
 			self.view.run_command("figlet", {"font": self.options[value]})
 		else:
 			if self.undo:
-				global FIGLET_ERROR
-				if FIGLET_ERROR:
-					FIGLET_ERROR = False
+				if FigletStatus.error:
+					FigletStatus.error = False
 				else:
 					self.view.run_command("undo")
 
@@ -86,9 +89,8 @@ class FigletCommand( sublime_plugin.TextCommand ):
 			update selections
 	"""
 	def run( self, edit, font=None ):
-		global FIGLET_ERROR
-		if FIGLET_ERROR:
-			FIGLET_ERROR = False
+		FigletStatus.error = False
+
 		self.edit = edit
 		newSelections = []
 
@@ -122,8 +124,11 @@ class FigletCommand( sublime_plugin.TextCommand ):
 			f = Figlet( dir=fontsDir, font=font )
 			output = f.renderText( original );
 		except:
-			global FIGLET_ERROR
-			FIGLET_ERROR = True
+			# Set the global error status
+			# This will allow the quick panel
+			# function to be aware that something
+			# went wrong during preview
+			FigletStatus.error = True
 			raise
 
 		# Normalize line endings based on settings.
