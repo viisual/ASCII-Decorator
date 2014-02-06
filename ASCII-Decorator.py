@@ -158,7 +158,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
 		#prefixed = prefixed.strip()
 		#prefixed = re.sub(re.compile('^\s+', re.M), '', prefixed)
 
-		comment = ('')
+		comment = ('',)
 		if sublime.load_settings('ASCII Decorator.sublime-settings').get("insert_as_comment", False):
 			comments = get_comment(self.view, 0)
 			if len(comments[0]):
@@ -177,11 +177,9 @@ class FigletCommand( sublime_plugin.TextCommand ):
 		else:
 			indent_characters = ''
 		if len(comment) > 1:
-			print(comment)
 			prefixed = prefixed.replace('\n', '\n' + indent + indent_characters)
 			prefixed = indent_characters + comment[0] + '\n' + indent + indent_characters + prefixed + '\n' + indent + comment[1] + '\n'
 		else:
-			print(comment)
 			prefixed = prefixed.replace('\n', '\n' + indent + comment[0] + indent_characters)
 			prefixed = comment[0] + indent_characters + prefixed  # add needed indent for first line
 
