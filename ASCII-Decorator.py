@@ -153,24 +153,28 @@ class FigletCommand( sublime_plugin.TextCommand ):
 		else:
 			indent = ''
 
-		print(indent)
 		# Strip whitespace from the prefixed version so we get it right
 		#prefixed = prefixed.strip()
 		#prefixed = re.sub(re.compile('^\s+', re.M), '', prefixed)
 
+		# Get comments for current syntax if desired
+		plugin_settings = sublime.load_settings('ASCII Decorator.sublime-settings')
 		comment = ('',)
-		if sublime.load_settings('ASCII Decorator.sublime-settings').get("insert_as_comment", False):
-			comments = get_comment(self.view, 0)
+		if plugin_settings.get("insert_as_comment", False):
+			comment_style = plugin_settings.get("comment_style_preference", "block")
+			if comment_style is None or comment_style not in ["line", "block"]:
+				comment_style = "line"
+			comments = get_comment(self.view, sel.begin())
 			if len(comments[0]):
 				comment = comments[0][0]
-			elif len(comments[1]):
+			if (comment_style == "block" or len(comments[0]) == 0) and len(comments[1]):
 				comment = comments[1][0]
 
 		# Indent the prefixed version to the right level
 		settings = self.view.settings()
 		use_spaces = settings.get('translate_tabs_to_spaces')
 		tab_size = int(settings.get('tab_size', 8))
-		if sublime.load_settings('ASCII Decorator.sublime-settings').get("use_additional_indent", True):
+		if plugin_settings.get("use_additional_indent", True):
 			indent_characters = '\t'
 			if use_spaces:
 				indent_characters = ' ' * tab_size
@@ -178,7 +182,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
 			indent_characters = ''
 		if len(comment) > 1:
 			prefixed = prefixed.replace('\n', '\n' + indent + indent_characters)
-			prefixed = indent_characters + comment[0] + '\n' + indent + indent_characters + prefixed + '\n' + indent + comment[1] + '\n'
+			prefixed = comment[0] + '\n' + indent + indent_characters + prefixed + '\n' + indent + comment[1] + '\n'
 		else:
 			prefixed = prefixed.replace('\n', '\n' + indent + comment[0] + indent_characters)
 			prefixed = comment[0] + indent_characters + prefixed  # add needed indent for first line
