@@ -69,15 +69,17 @@ class FigletMenuCommand( sublime_plugin.TextCommand ):
                 self.undo = True
             self.view.run_command("figlet", {"font": self.options[value]})
 
+    def preview_undo(self):
+        if self.undo:
+            if FigletStatus.error:
+                FigletStatus.error = False
+            else:
+                self.view.run_command("undo")
+
     def apply_figlet(self, value):
+        self.preview_undo()
         if value != -1:
             self.view.run_command("figlet", {"font": self.options[value]})
-        else:
-            if self.undo:
-                if FigletStatus.error:
-                    FigletStatus.error = False
-                else:
-                    self.view.run_command("undo")
 
 
 class FigletCommand( sublime_plugin.TextCommand ):

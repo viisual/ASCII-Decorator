@@ -118,8 +118,10 @@ class FigletFont(object):
         """
 
         fontPath = os.path.join(dir, font + '.flf')
-        if os.path.exists(fontPath) is False:
-            raise FontNotFound("%s doesn't exist" % fontPath)
+        if not os.path.exists(fontPath):
+            fontPath = os.path.join(dir, font + '.tlf')
+            if not os.path.exists(fontPath):
+                raise FontNotFound("%s doesn't exist" % font)
 
         if is_zipfile(fontPath):
             try:
