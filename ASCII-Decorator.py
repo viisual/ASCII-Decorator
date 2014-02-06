@@ -4,23 +4,98 @@ if sys.version_info < (3,0,0):
 else:
 	from .pyfiglet import Figlet
 
+FIGLET_ERROR = False
+
+
+def get_comment(view, pt):
+	"""
+	Ripped from Sublime's Default.comment.py
+	"""
+
+	shell_vars = view.meta_info("shellVariables", pt)
+	if not shell_vars:
+		return ('')
+
+	# transform the list of dicts into a single dict
+	all_vars = {}
+	for v in shell_vars:
+		if 'name' in v and 'value' in v:
+			all_vars[v['name']] = v['value']
+
+	line_comments = []
+	block_comments = []
+
+	# transform the dict into a single array of valid comments
+	suffixes = [""] + ["_" + str(i) for i in range(1, 10)]
+	for suffix in suffixes:
+		start = all_vars.setdefault("TM_COMMENT_START" + suffix)
+		end = all_vars.setdefault("TM_COMMENT_END" + suffix)
+
+		if start and end is None:
+			line_comments.append((start,))
+		elif start and end:
+			block_comments.append((start, end))
+
+
+	return (line_comments, block_comments)
+
+
+
+class FigletMenuCommand( sublime_plugin.TextCommand ):
+	def run( self, edit ):
+		self.undo = False
+		fontsDir = os.path.join(sublime.packages_path(), 'ASCII Decorator', 'pyfiglet', 'fonts')
+		self.options = []
+		for f in os.listdir(fontsDir):
+			if os.path.isfile(os.path.join(fontsDir, f)) and f.endswith(".flf"):
+				self.options.append(f[:-4])
+		if len(self.options):
+			self.view.window().show_quick_panel(self.options, self.apply_figlet, on_highlight=self.preview)
+
+	def preview(self, value):
+		if value != -1:
+			if self.undo:
+				global FIGLET_ERROR
+				if FIGLET_ERROR:
+					FIGLET_ERROR = False
+				else:
+					self.view.run_command("undo")
+			else:
+				self.undo = True
+			self.view.run_command("figlet", {"font": self.options[value]})
+
+
+	def apply_figlet(self, value):
+		if value != -1:
+			self.view.run_command("figlet", {"font": self.options[value]})
+		else:
+			if self.undo:
+				global FIGLET_ERROR
+				if FIGLET_ERROR:
+					FIGLET_ERROR = False
+				else:
+					self.view.run_command("undo")
+
+
 class FigletCommand( sublime_plugin.TextCommand ):
 	"""
 		@todo Load Settings...
-    	Iterate over selections
-    		convert selection to ascii art
-    		preserve OS line endings and spaces/tabs
-    		update selections
+		Iterate over selections
+			convert selection to ascii art
+			preserve OS line endings and spaces/tabs
+			update selections
 	"""
-	def run( self, edit ):
+	def run( self, edit, font=None ):
+		global FIGLET_ERROR
+		if FIGLET_ERROR:
+			FIGLET_ERROR = False
 		self.edit = edit
 		newSelections = []
-
 
 		# Loop through user selections.
 		for currentSelection in self.view.sel():
 			# Decorate the selection to ASCII Art.
-			newSelections.append( self.decorate( self.edit, currentSelection ) )
+			newSelections.append( self.decorate( self.edit, currentSelection, font ) )
 
 		# Clear selections since they've been modified.
 		self.view.sel().clear()
@@ -33,15 +108,23 @@ class FigletCommand( sublime_plugin.TextCommand ):
 		Take input and use FIGlet to convert it to ASCII art.
 		Normalize converted ASCII strings to use proper line endings and spaces/tabs.
 	"""
-	def decorate( self, edit, currentSelection ):
+	def decorate( self, edit, currentSelection, font ):
 		# Convert the input range to a string, this represents the original selection.
 		original = self.view.substr( currentSelection );
 		# Construct a local path to the fonts directory.
 		fontsDir = os.path.join(sublime.packages_path(), 'ASCII Decorator', 'pyfiglet', 'fonts')
 		# Convert the input string to ASCII Art.
 		settings = sublime.load_settings('ASCII Decorator.sublime-settings')
-		f = Figlet( dir=fontsDir, font=settings.get('ascii_decorator_font') )
-		output = f.renderText( original );
+		if font is None or not os.path.exists(os.path.join(fontsDir, font + ".flf")):
+			font = settings.get('ascii_decorator_font')
+
+		try:
+			f = Figlet( dir=fontsDir, font=font )
+			output = f.renderText( original );
+		except:
+			global FIGLET_ERROR
+			FIGLET_ERROR = True
+			raise
 
 		# Normalize line endings based on settings.
 		output = self.normalize_line_endings( output )
@@ -75,15 +158,32 @@ class FigletCommand( sublime_plugin.TextCommand ):
 		#prefixed = prefixed.strip()
 		#prefixed = re.sub(re.compile('^\s+', re.M), '', prefixed)
 
+		comment = ('')
+		if sublime.load_settings('ASCII Decorator.sublime-settings').get("insert_as_comment", False):
+			comments = get_comment(self.view, 0)
+			if len(comments[0]):
+				comment = comments[0][0]
+			elif len(comments[1]):
+				comment = comments[1][0]
+
 		# Indent the prefixed version to the right level
 		settings = self.view.settings()
 		use_spaces = settings.get('translate_tabs_to_spaces')
 		tab_size = int(settings.get('tab_size', 8))
-		indent_characters = '\t'
-		if use_spaces:
-			indent_characters = ' ' * tab_size
-		prefixed = prefixed.replace('\n', '\n' + indent + indent_characters)
-		prefixed = indent_characters + prefixed  # add needed indent for first line
+		if sublime.load_settings('ASCII Decorator.sublime-settings').get("use_additional_indent", True):
+			indent_characters = '\t'
+			if use_spaces:
+				indent_characters = ' ' * tab_size
+		else:
+			indent_characters = ''
+		if len(comment) > 1:
+			print(comment)
+			prefixed = prefixed.replace('\n', '\n' + indent + indent_characters)
+			prefixed = indent_characters + comment[0] + '\n' + indent + indent_characters + prefixed + '\n' + indent + comment[1] + '\n'
+		else:
+			print(comment)
+			prefixed = prefixed.replace('\n', '\n' + indent + comment[0] + indent_characters)
+			prefixed = comment[0] + indent_characters + prefixed  # add needed indent for first line
 
 		match = re.search('^(\s*)', original)
 		prefix = match.groups()[0]
