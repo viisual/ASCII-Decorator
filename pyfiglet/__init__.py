@@ -101,7 +101,7 @@ class FigletFont(object):
             raise FontError("couldn't open %s: %s" % (fontPath, e))
 
         try:
-            self.data = fo.read().decode('utf-8')
+            self.data = fo.read().decode(encoding='utf-8', errors='replace')
         finally:
             fo.close()
 
