@@ -6,8 +6,9 @@ Python FIGlet adaption
 
 try:
     import pkg_resources
+    pkg_resources.get_provider('pyfiglet.fonts')
 except:
-    pass
+    pkg_resources = None
 import re
 import sys
 import os
@@ -36,7 +37,12 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 """
 
+_font_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fonts")
+if not os.path.exists(_font_dir):
+    _font_dir = None
+
 DEFAULT_FONT='standard'
+DEFAULT_DIR =  _font_dir if pkg_resources is None else None
 
 
 def figlet_format(text, font=DEFAULT_FONT, **kwargs):
@@ -76,7 +82,7 @@ class FigletFont(object):
     reMagicNumber = re.compile(r'^[tf]lf2.')
     reEndMarker = re.compile(r'(.)\s*$')
 
-    def __init__(self, font=DEFAULT_FONT, dir=None):
+    def __init__(self, font=DEFAULT_FONT, dir=DEFAULT_DIR):
         self.font = font
         self.comment = ''
         self.chars = {}
@@ -85,7 +91,7 @@ class FigletFont(object):
         self.loadFont()
 
     @classmethod
-    def preloadFont(cls, font, dir=None):
+    def preloadFont(cls, font, dir=DEFAULT_DIR):
         """
         Load font data if exist
         """
@@ -100,7 +106,7 @@ class FigletFont(object):
             raise FontNotFound(font)
 
     @classmethod
-    def getFonts(cls, dir=None):
+    def getFonts(cls, dir=DEFAULT_DIR):
         if dir:
             return [font[:-4] for font in os.walk(dir).next()[2] if font.endswith(('.flf', '.tlf'))]
 
@@ -139,7 +145,7 @@ class FigletFont(object):
                 raise FontError("couldn't open %s: %s" % (fontPath, e))
 
     @classmethod
-    def infoFont(cls, font, short=False, dir=None):
+    def infoFont(cls, font, short=False, dir=DEFAULT_DIR):
         """
         Get informations of font
         """
@@ -457,7 +463,7 @@ class Figlet(object):
     Main figlet class.
     """
 
-    def __init__(self, font=DEFAULT_FONT, direction='auto', justify='auto', width=80, dir=None):
+    def __init__(self, font=DEFAULT_FONT, direction='auto', justify='auto', width=80, dir=DEFAULT_DIR):
         self.font = font
         self._direction = direction
         self._justify = justify
@@ -504,7 +510,7 @@ class Figlet(object):
         # wrapper method to engine
         return self.engine.render(text)
 
-    def getFonts(self, dir=None):
+    def getFonts(self, dir=DEFAULT_DIR):
         return self.Font.getFonts(dir)
 
 
@@ -513,7 +519,7 @@ def main():
     parser.add_option('-f', '--font', default=DEFAULT_FONT,
             help='font to render with (default: %default)', metavar='FONT')
     parser.add_option("-d", "--directory",
-                  metavar="DIR", help="DIR where fonts are kept")
+                  metavar="DIR", default=DEFAULT_DIR, help="DIR where fonts are kept")
     parser.add_option('-D', '--direction', type='choice', choices=('auto', 'left-to-right', 'right-to-left'),
             default='auto', metavar='DIRECTION', help='set direction text will be formatted in (default: %default)')
     parser.add_option('-j', '--justify', type='choice', choices=('auto', 'left', 'center', 'right'), default='auto',
