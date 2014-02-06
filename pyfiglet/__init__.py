@@ -3,7 +3,7 @@
 """
 
 import os, sys, re
-from zipfile import ZipFile
+from zipfile import ZipFile, is_zipfile
 from optparse import OptionParser
 
 __version__ = '0.6.1dev'
@@ -95,13 +95,21 @@ class FigletFont(object):
         if os.path.exists(fontPath) is False:
             raise FontNotFound("%s doesn't exist" % fontPath)
 
+        is_zip = is_zipfile(fontPath)
+
         try:
-            fo = open(fontPath, 'rb')
+            if is_zip:
+                fo = ZipFile(fontPath, 'r')
+            else:
+                fo = open(fontPath, 'rb')
         except Exception as e:
             raise FontError("couldn't open %s: %s" % (fontPath, e))
 
         try:
-            self.data = fo.read().decode(encoding='utf-8', errors='replace')
+            if is_zip:
+                self.data = fo.read(fo.getinfo(fo.infolist()[0].filename)).decode(encoding='utf-8', errors='replace')
+            else:
+                self.data = fo.read().decode(encoding='utf-8', errors='replace')
         finally:
             fo.close()
 
