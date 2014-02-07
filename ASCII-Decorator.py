@@ -2,9 +2,16 @@ import sublime, sublime_plugin, os, re, sys
 if sys.version_info < (3,0,0):
     ST2 = True
     from pyfiglet import Figlet
+    from pyfiglet import faux_pkg_resources
+    FONT_MODULE = "pyfiglet.fonts"
 else:
     ST2 = False
     from .pyfiglet import Figlet
+    from .pyfiglet import faux_pkg_resources
+    FONT_MODULE = "ASCII Decorator.pyfiglet.fonts"
+
+
+PACKAGE_LOCATION = os.path.abspath(os.path.dirname(__file__))
 
 
 def get_comment(view, pt):
@@ -68,26 +75,24 @@ class UpdateFigletPreviewCommand(sublime_plugin.TextCommand):
 
 class FigletMenuCommand( sublime_plugin.TextCommand ):
     def run( self, edit ):
+        if ST2:
+            faux_pkg_resources.set_relative_path(PACKAGE_LOCATION)
         self.undo = False
         settings = sublime.load_settings('ASCII Decorator.sublime-settings')
-        fontsDir = os.path.join(sublime.packages_path(), 'ASCII Decorator', 'pyfiglet', 'fonts')
         self.options = []
-        for f in os.listdir(fontsDir):
-            pth = os.path.join(fontsDir, f)
-            if os.path.isfile(pth):
-                for ext in (".flf", ".tlf"):
-                    if f.endswith(ext):
-                        self.options.append(pth)
-                        break
+        fonts = FONT_MODULE.rsplit('.', 1)
+        for f in faux_pkg_resources.resource_listdir(*fonts):
+            if f.endswith(('.flf', '.tlf')):
+                self.options.append(f)
         if len(self.options):
             if ST2:
                 self.view.window().show_quick_panel(
-                    [os.path.basename(o)[:-4] for o in self.options],
+                    [o[:-4] for o in self.options],
                     self.apply_figlet
                 )
             else:
                 self.view.window().show_quick_panel(
-                    [os.path.basename(o)[:-4] for o in self.options],
+                    [o[:-4] for o in self.options],
                     self.apply_figlet,
                     on_highlight=self.preview if bool(settings.get("show_preview", False)) else None
                 )
@@ -109,8 +114,8 @@ class FigletMenuCommand( sublime_plugin.TextCommand ):
             view.run_command(
                 "update_figlet_preview",
                 {
-                    "font": os.path.basename(self.options[value])[:-4],
-                    "dir": os.path.dirname(self.options[value])
+                    "font": self.options[value][:-4],
+                    "dir": FONT_MODULE
                 }
             )
 
@@ -120,8 +125,8 @@ class FigletMenuCommand( sublime_plugin.TextCommand ):
             self.view.run_command(
                 "figlet",
                 {
-                    "font": os.path.basename(self.options[value])[:-4],
-                    "dir": os.path.dirname(self.options[value])
+                    "font": self.options[value][:-4],
+                    "dir": FONT_MODULE
                 }
             )
 
@@ -135,6 +140,8 @@ class FigletCommand( sublime_plugin.TextCommand ):
             update selections
     """
     def run( self, edit, font=None, dir=None ):
+        if ST2:
+            faux_pkg_resources.set_relative_path(PACKAGE_LOCATION)
         self.edit = edit
         newSelections = []
 
@@ -157,13 +164,6 @@ class FigletCommand( sublime_plugin.TextCommand ):
     def decorate( self, edit, currentSelection, font, dir):
         # Convert the input range to a string, this represents the original selection.
         original = self.view.substr( currentSelection );
-        # Construct a local path to the fonts directory.
-        fontsDirs = []
-        if dir is not None:
-            fontsDirs.append(dir)
-        else:
-            fontsDirs.append(os.path.join(sublime.packages_path(), 'ASCII Decorator', 'pyfiglet', 'fonts'))
-            fontsDirs.append(os.path.join(sublime.packages_path(), 'User', 'pyfiglet_fonts'))
 
         settings = sublime.load_settings('ASCII Decorator.sublime-settings')
         if font is None:
@@ -171,18 +171,13 @@ class FigletCommand( sublime_plugin.TextCommand ):
 
         # Convert the input string to ASCII Art.
         found = False
-        for fontsDir in fontsDirs:
-            pth = os.path.join(fontsDir, font)
-
-            for ext in (".flf", ".tlf"):
-                if os.path.exists(pth + ext):
-                    found = True
-                    break
-            if found is True:
+        for ext in ("flf", "tlf"):
+            if faux_pkg_resources.resource_exists(FONT_MODULE, "%s.%s" % (font, ext)):
+                found = True
                 break
 
         assert found is True
-        f = Figlet( dir=fontsDir, font=font )
+        f = Figlet( dir=FONT_MODULE, font=font )
         output = f.renderText( original )
 
         # Normalize line endings based on settings.

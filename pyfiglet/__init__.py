@@ -3,12 +3,14 @@
 """
 Python FIGlet adaption
 """
-
 try:
     import pkg_resources
-    pkg_resources.get_provider('pyfiglet.fonts')
 except:
-    pkg_resources = None
+    from . import faux_pkg_resources as pkg_resources
+try:
+    from StringIO import StringIO
+except:
+    from io import BytesIO as StringIO
 import re
 import sys
 import os
@@ -37,12 +39,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 """
 
-_font_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fonts")
-if not os.path.exists(_font_dir):
-    _font_dir = None
-
-DEFAULT_FONT='standard'
-DEFAULT_DIR =  _font_dir if pkg_resources is None else None
+DEFAULT_FONT= 'standard'
+DEFAULT_DIR = 'pyfiglet.fonts'
 
 
 def figlet_format(text, font=DEFAULT_FONT, **kwargs):
@@ -91,62 +89,45 @@ class FigletFont(object):
         self.loadFont()
 
     @classmethod
+    def unpackFont(cls, data, font):
+        is_file_obj = hasattr(data, 'read')
+        if (is_file_obj and is_zipfile(data)) or data.startswith("PK".encode('utf-8')):
+            z = None
+            try:
+                z = ZipFile(StringIO(data) if not is_file_obj else data, 'r')
+                data = z.read(z.getinfo(z.infolist()[0].filename))
+                z.close()
+                return StringIO(data) if is_file_obj else data
+            except Exception as e:
+                if z is not None:
+                    z.close()
+                raise FontError("couldn't unpack %s: %s" % (font, e))
+        else:
+            return data
+
+    @classmethod
     def preloadFont(cls, font, dir=DEFAULT_DIR):
         """
         Load font data if exist
         """
-        if dir is not None:
-            return cls.readFontFile(font, dir)
 
         for extension in ('tlf', 'flf'):
             fn = '%s.%s' % (font, extension)
-            if pkg_resources.resource_exists('pyfiglet.fonts', fn):
-                return pkg_resources.resource_string('pyfiglet.fonts', fn)
-        else:
-            raise FontNotFound(font)
+            if pkg_resources.resource_exists(dir, fn):
+                return cls.unpackFont(
+                    pkg_resources.resource_string(dir, fn), fn
+                ).decode('utf-8', 'replace')
+
+        raise FontNotFound(font)
 
     @classmethod
     def getFonts(cls, dir=DEFAULT_DIR):
-        if dir:
-            return [font[:-4] for font in os.walk(dir).next()[2] if font.endswith(('.flf', '.tlf'))]
-
+        list_args = dir.rsplit('.', 1)
         return [font.rsplit('.', 2)[0] for font
-                in pkg_resources.resource_listdir('pyfiglet', 'fonts')
+                in pkg_resources.resource_listdir(*list_args)
                 if font.endswith(('.flf', '.tlf'))
-                   and cls.reMagicNumber.search(pkg_resources.resource_stream(
-                        'pyfiglet.fonts', font).readline())]
-
-    @classmethod
-    def readFontFile(cls, font, dir):
-        """
-        Load font file into memory. This can be overriden with
-        a superclass to create different font sources.
-        """
-
-        fontPath = os.path.join(dir, font + '.flf')
-        if not os.path.exists(fontPath):
-            fontPath = os.path.join(dir, font + '.tlf')
-            if not os.path.exists(fontPath):
-                raise FontNotFound("%s doesn't exist" % font)
-
-        if is_zipfile(fontPath):
-            z = None
-            try:
-                z = ZipFile(fontPath, 'r')
-                data = z.read(z.getinfo(z.infolist()[0].filename))
-                z.close()
-                return data.decode('utf-8', 'replace')
-            except Exception as e:
-                if z is not None:
-                    z.close()
-                raise FontError("couldn't read %s: %s" % (fontPath, e))
-        else:
-            try:
-                with open(fontPath, 'rb') as f:
-                    data = f.read()
-                return data.decode('utf-8', 'replace')
-            except Exception as e:
-                raise FontError("couldn't open %s: %s" % (fontPath, e))
+                    and cls.reMagicNumber.search(cls.unpackFont(
+                        pkg_resources.resource_stream(dir, font), font).readline())]
 
     @classmethod
     def infoFont(cls, font, short=False, dir=DEFAULT_DIR):
