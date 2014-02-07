@@ -3,14 +3,11 @@
 """
 Python FIGlet adaption
 """
+import pkg_resources
 try:
-    import pkg_resources
+    from StringIO import StringIO as BytesIO
 except:
-    from . import faux_pkg_resources as pkg_resources
-try:
-    from StringIO import StringIO
-except:
-    from io import BytesIO as StringIO
+    from io import BytesIO
 import re
 import sys
 import os
@@ -94,10 +91,10 @@ class FigletFont(object):
         if (is_file_obj and is_zipfile(data)) or data.startswith("PK".encode('utf-8')):
             z = None
             try:
-                z = ZipFile(StringIO(data) if not is_file_obj else data, 'r')
+                z = ZipFile(BytesIO(data) if not is_file_obj else data, 'r')
                 data = z.read(z.getinfo(z.infolist()[0].filename))
                 z.close()
-                return StringIO(data) if is_file_obj else data
+                return BytesIO(data) if is_file_obj else data
             except Exception as e:
                 if z is not None:
                     z.close()

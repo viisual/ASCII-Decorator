@@ -1,16 +1,11 @@
-import sublime, sublime_plugin, os, re, sys
-if sys.version_info < (3,0,0):
-    ST2 = True
-    from pyfiglet import Figlet
-    from pyfiglet import faux_pkg_resources
-    FONT_MODULE = "pyfiglet.fonts"
-else:
-    ST2 = False
-    from .pyfiglet import Figlet
-    from .pyfiglet import faux_pkg_resources
-    FONT_MODULE = "ASCII Decorator.pyfiglet.fonts"
+import sublime
+import sublime_plugin
+import os
+import re
+import sys
 
-
+ST3 = int(sublime.version()) >= 3000
+FONT_MODULE = "pyfiglet.fonts" if not ST3 else "ASCII Decorator.pyfiglet.fonts"
 PACKAGE_LOCATION = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -75,17 +70,15 @@ class UpdateFigletPreviewCommand(sublime_plugin.TextCommand):
 
 class FigletMenuCommand( sublime_plugin.TextCommand ):
     def run( self, edit ):
-        if ST2:
-            faux_pkg_resources.set_relative_path(PACKAGE_LOCATION)
         self.undo = False
         settings = sublime.load_settings('ASCII Decorator.sublime-settings')
         self.options = []
         fonts = FONT_MODULE.rsplit('.', 1)
-        for f in faux_pkg_resources.resource_listdir(*fonts):
+        for f in pkg_resources.resource_listdir(*fonts):
             if f.endswith(('.flf', '.tlf')):
                 self.options.append(f)
         if len(self.options):
-            if ST2:
+            if not ST3:
                 self.view.window().show_quick_panel(
                     [o[:-4] for o in self.options],
                     self.apply_figlet
@@ -140,8 +133,6 @@ class FigletCommand( sublime_plugin.TextCommand ):
             update selections
     """
     def run( self, edit, font=None, dir=None ):
-        if ST2:
-            faux_pkg_resources.set_relative_path(PACKAGE_LOCATION)
         self.edit = edit
         newSelections = []
 
@@ -172,12 +163,12 @@ class FigletCommand( sublime_plugin.TextCommand ):
         # Convert the input string to ASCII Art.
         found = False
         for ext in ("flf", "tlf"):
-            if faux_pkg_resources.resource_exists(FONT_MODULE, "%s.%s" % (font, ext)):
+            if pkg_resources.resource_exists(FONT_MODULE, "%s.%s" % (font, ext)):
                 found = True
                 break
 
         assert found is True
-        f = Figlet( dir=FONT_MODULE, font=font )
+        f = pyfiglet.Figlet( dir=FONT_MODULE, font=font )
         output = f.renderText( original )
 
         # Normalize line endings based on settings.
@@ -246,3 +237,28 @@ class FigletCommand( sublime_plugin.TextCommand ):
         match = re.search('(\s*)\Z', original)
         suffix = match.groups()[0]
         return prefixed
+
+
+def plugin_loaded():
+    global pkg_resources
+    global pyfiglet
+    if not ST3:
+        modules = os.path.join(PACKAGE_LOCATION, "modules", "ST2")
+        if modules not in sys.path:
+            sys.path.append(modules)
+
+    modules = os.path.join(PACKAGE_LOCATION, "modules")
+    if modules not in sys.path:
+        sys.path.append(modules)
+
+    if not ST3:
+        import pkg_resources
+        import pyfiglet
+    else:
+
+        import pkg_resources
+        from . import pyfiglet
+
+
+if not ST3:
+    plugin_loaded()
