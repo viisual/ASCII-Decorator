@@ -1,7 +1,9 @@
 import sublime, sublime_plugin, os, re, sys
 if sys.version_info < (3,0,0):
+    ST2 = True
     from pyfiglet import Figlet
 else:
+    ST2 = False
     from .pyfiglet import Figlet
 
 
@@ -12,7 +14,7 @@ def get_comment(view, pt):
 
     shell_vars = view.meta_info("shellVariables", pt)
     if not shell_vars:
-        return ('')
+        return ('',)
 
     # transform the list of dicts into a single dict
     all_vars = {}
@@ -38,8 +40,30 @@ def get_comment(view, pt):
     return (line_comments, block_comments)
 
 
-class FigletStatus(object):
-    error = False
+class UpdateFigletPreviewCommand(sublime_plugin.TextCommand):
+    preview = None
+    def run(self, edit, font, dir):
+        preview = UpdateFigletPreviewCommand.get_buffer()
+        if preview is not None:
+            self.view.replace(edit, sublime.Region(0, self.view.size()), preview)
+            sel = self.view.sel()
+            sel.clear()
+            sel.add(sublime.Region(0, self.view.size()))
+            self.view.run_command("figlet", {"font": font, "dir": dir})
+            UpdateFigletPreviewCommand.clear_buffer()
+            sel.clear()
+
+    @classmethod
+    def set_buffer(cls, text):
+        cls.preview = text
+
+    @classmethod
+    def get_buffer(cls):
+        return cls.preview
+
+    @classmethod
+    def clear_buffer(cls):
+        cls.preview = None
 
 
 class FigletMenuCommand( sublime_plugin.TextCommand ):
@@ -49,37 +73,57 @@ class FigletMenuCommand( sublime_plugin.TextCommand ):
         fontsDir = os.path.join(sublime.packages_path(), 'ASCII Decorator', 'pyfiglet', 'fonts')
         self.options = []
         for f in os.listdir(fontsDir):
-            if os.path.isfile(os.path.join(fontsDir, f)) and f.endswith(".flf"):
-                self.options.append(f[:-4])
+            pth = os.path.join(fontsDir, f)
+            if os.path.isfile(pth):
+                for ext in (".flf", ".tlf"):
+                    if f.endswith(ext):
+                        self.options.append(pth)
+                        break
         if len(self.options):
-            self.view.window().show_quick_panel(
-                self.options,
-                self.apply_figlet,
-                on_highlight=self.preview if bool(settings.get("show_preview", False)) else None
-            )
+            if ST2:
+                self.view.window().show_quick_panel(
+                    [os.path.basename(o)[:-4] for o in self.options],
+                    self.apply_figlet
+                )
+            else:
+                self.view.window().show_quick_panel(
+                    [os.path.basename(o)[:-4] for o in self.options],
+                    self.apply_figlet,
+                    on_highlight=self.preview if bool(settings.get("show_preview", False)) else None
+                )
 
     def preview(self, value):
         if value != -1:
-            if self.undo:
-                if FigletStatus.error:
-                    FigletStatus.error = False
-                else:
-                    self.view.run_command("undo")
-            else:
-                self.undo = True
-            self.view.run_command("figlet", {"font": self.options[value]})
-
-    def preview_undo(self):
-        if self.undo:
-            if FigletStatus.error:
-                FigletStatus.error = False
-            else:
-                self.view.run_command("undo")
+            sel = self.view.sel()
+            example = None
+            for s in sel:
+                if s.size():
+                    example = self.view.substr(s)
+            if example is None:
+                return
+            syntax = self.view.settings().get('syntax')
+            view = self.view.window().get_output_panel('figlet_preview')
+            view.settings().set('syntax', syntax)
+            self.view.window().run_command("show_panel", {"panel": "output.figlet_preview"})
+            UpdateFigletPreviewCommand.set_buffer(example)
+            view.run_command(
+                "update_figlet_preview",
+                {
+                    "font": os.path.basename(self.options[value])[:-4],
+                    "dir": os.path.dirname(self.options[value])
+                }
+            )
 
     def apply_figlet(self, value):
-        self.preview_undo()
+        self.view.window().run_command("hide_panel", {"panel": "output.figlet_preview"})
         if value != -1:
-            self.view.run_command("figlet", {"font": self.options[value]})
+            self.view.run_command(
+                "figlet",
+                {
+                    "font": os.path.basename(self.options[value])[:-4],
+                    "dir": os.path.dirname(self.options[value])
+                }
+            )
 
 
 class FigletCommand( sublime_plugin.TextCommand ):
@@ -90,16 +134,14 @@ class FigletCommand( sublime_plugin.TextCommand ):
             preserve OS line endings and spaces/tabs
             update selections
     """
-    def run( self, edit, font=None ):
-        FigletStatus.error = False
-
+    def run( self, edit, font=None, dir=None ):
         self.edit = edit
         newSelections = []
 
         # Loop through user selections.
         for currentSelection in self.view.sel():
             # Decorate the selection to ASCII Art.
-            newSelections.append( self.decorate( self.edit, currentSelection, font ) )
+            newSelections.append( self.decorate( self.edit, currentSelection, font, dir ) )
 
         # Clear selections since they've been modified.
         self.view.sel().clear()
@@ -112,26 +154,36 @@ class FigletCommand( sublime_plugin.TextCommand ):
         Take input and use FIGlet to convert it to ASCII art.
         Normalize converted ASCII strings to use proper line endings and spaces/tabs.
     """
-    def decorate( self, edit, currentSelection, font ):
+    def decorate( self, edit, currentSelection, font, dir):
         # Convert the input range to a string, this represents the original selection.
         original = self.view.substr( currentSelection );
         # Construct a local path to the fonts directory.
-        fontsDir = os.path.join(sublime.packages_path(), 'ASCII Decorator', 'pyfiglet', 'fonts')
-        # Convert the input string to ASCII Art.
+        fontsDirs = []
+        if dir is not None:
+            fontsDirs.append(dir)
+        else:
+            fontsDirs.append(os.path.join(sublime.packages_path(), 'ASCII Decorator', 'pyfiglet', 'fonts'))
+            fontsDirs.append(os.path.join(sublime.packages_path(), 'User', 'pyfiglet_fonts'))
+
         settings = sublime.load_settings('ASCII Decorator.sublime-settings')
-        if font is None or not os.path.exists(os.path.join(fontsDir, font + ".flf")):
+        if font is None:
             font = settings.get('ascii_decorator_font')
 
-        try:
-            f = Figlet( dir=fontsDir, font=font )
-            output = f.renderText( original );
-        except:
-            # Set the global error status
-            # This will allow the quick panel
-            # function to be aware that something
-            # went wrong during preview
-            FigletStatus.error = True
-            raise
+        # Convert the input string to ASCII Art.
+        found = False
+        for fontsDir in fontsDirs:
+            pth = os.path.join(fontsDir, font)
+
+            for ext in (".flf", ".tlf"):
+                if os.path.exists(pth + ext):
+                    found = True
+                    break
+            if found is True:
+                break
+
+        assert found is True
+        f = Figlet( dir=fontsDir, font=font )
+        output = f.renderText( original )
 
         # Normalize line endings based on settings.
         output = self.normalize_line_endings( output )

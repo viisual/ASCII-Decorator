@@ -130,17 +130,21 @@ class FigletFont(object):
                 raise FontNotFound("%s doesn't exist" % font)
 
         if is_zipfile(fontPath):
+            z = None
             try:
-                with ZipFile(fontPath, 'r') as z:
-                    data = z.read(z.getinfo(z.infolist()[0].filename))
-                return data.decode(encoding='utf-8', errors='replace')
+                z = ZipFile(fontPath, 'r')
+                data = z.read(z.getinfo(z.infolist()[0].filename))
+                z.close()
+                return data.decode('utf-8', 'replace')
             except Exception as e:
+                if z is not None:
+                    z.close()
                 raise FontError("couldn't read %s: %s" % (fontPath, e))
         else:
             try:
                 with open(fontPath, 'rb') as f:
                     data = f.read()
-                return data.decode(encoding='utf-8', errors='replace')
+                return data.decode('utf-8', 'replace')
             except Exception as e:
                 raise FontError("couldn't open %s: %s" % (fontPath, e))
 
