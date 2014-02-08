@@ -369,7 +369,7 @@ def setup_custom_font_dir():
     global USER_MODULE
 
     # Create custom font directory
-    custom_dir = sublime.packages_path()
+    custom_dir = sublime.packages_path() if ST3 else os.path.join(sublime.packages_path(), "User")
     for part in USER_MODULE.split('.'):
         custom_dir = os.path.join(custom_dir, part)
 
