@@ -9,7 +9,7 @@ if __name__ == '__main__':
         file_pth = os.path.join(pth, f)
         if (
             os.path.isfile(file_pth) and
-            f.lower().endswith(".flf") and
+            f.lower().endswith((".flf", ".tlf")) and
             not zipfile.is_zipfile(file_pth)
         ):
             print("Packing %s..." % file_pth)
