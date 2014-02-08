@@ -256,20 +256,8 @@ class FigletCommand( sublime_plugin.TextCommand ):
         return prefixed
 
 
-def plugin_loaded():
-    global pkg_resources
-    global pyfiglet
+def setup_custom_font_dir():
     global USER_MODULE
-    if not ST3:
-        if "distutils" not in sys.modules:
-            modules = os.path.join(PACKAGE_LOCATION, "modules", "ST2")
-            if modules not in sys.path:
-                sys.path.append(modules)
-
-    if "pkg_resources" not in sys.modules:
-        modules = os.path.join(PACKAGE_LOCATION, "modules")
-        if modules not in sys.path:
-            sys.path.append(modules)
 
     custom_dir = sublime.packages_path()
     for part in USER_MODULE.split('.'):
@@ -294,13 +282,32 @@ def plugin_loaded():
     except:
         USER_MODULE = None
 
+
+def setup_modules():
+    global pkg_resources
+    global pyfiglet
+    if not ST3:
+        if "distutils" not in sys.modules:
+            modules = os.path.join(PACKAGE_LOCATION, "modules", "ST2")
+            if modules not in sys.path:
+                sys.path.append(modules)
+
+    if "pkg_resources" not in sys.modules:
+        modules = os.path.join(PACKAGE_LOCATION, "modules")
+        if modules not in sys.path:
+            sys.path.append(modules)
+
     if not ST3:
         import pkg_resources
         import pyfiglet
     else:
         import pkg_resources
         from . import pyfiglet
-        from .pyfiglet import fonts
+
+
+def plugin_loaded():
+    setup_custom_font_dir()
+    setup_modules()
 
 
 if not ST3:
