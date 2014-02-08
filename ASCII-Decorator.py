@@ -50,7 +50,7 @@ class UpdateFigletPreviewCommand(sublime_plugin.TextCommand):
     """
 
     preview = None
-    def run(self, edit, font, dir):
+    def run(self, edit, font, module):
         preview = UpdateFigletPreviewCommand.get_buffer()
         if not ST3:
             preview = preview.encode('UTF-8')
@@ -59,7 +59,7 @@ class UpdateFigletPreviewCommand(sublime_plugin.TextCommand):
             sel = self.view.sel()
             sel.clear()
             sel.add(sublime.Region(0, self.view.size()))
-            self.view.run_command("figlet", {"font": font, "dir": dir})
+            self.view.run_command("figlet", {"font": font, "module": module})
             UpdateFigletPreviewCommand.clear_buffer()
             sel.clear()
 
@@ -138,7 +138,7 @@ class FigletMenuCommand( sublime_plugin.TextCommand ):
                 "update_figlet_preview",
                 {
                     "font": self.options[value][:-4],
-                    "dir": FONT_MODULE
+                    "module": FONT_MODULE
                 }
             )
 
@@ -156,7 +156,7 @@ class FigletMenuCommand( sublime_plugin.TextCommand ):
                 "figlet",
                 {
                     "font": self.options[value][:-4],
-                    "dir": FONT_MODULE
+                    "module": FONT_MODULE
                 }
             )
 
@@ -170,7 +170,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
             update selections
     """
 
-    def run( self, edit, font=None, dir=None ):
+    def run( self, edit, font=None, module=None ):
         self.edit = edit
         newSelections = []
 
@@ -178,7 +178,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
         for currentSelection in self.view.sel():
             # Decorate the selection to ASCII Art.
             if currentSelection.size():
-                newSelections.append( self.decorate( self.edit, currentSelection, font, dir ) )
+                newSelections.append( self.decorate( self.edit, currentSelection, font, module ) )
             else:
                 newSelections.append(currentSelection)
 
@@ -188,7 +188,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
         for newSelection in newSelections:
             self.view.sel().add( newSelection )
 
-    def decorate( self, edit, currentSelection, font, dir):
+    def decorate( self, edit, currentSelection, font, module):
         """
             Take input and use FIGlet to convert it to ASCII art.
             Normalize converted ASCII strings to use proper line endings and spaces/tabs.
@@ -221,7 +221,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
 
         # Convert the input string to ASCII Art.
         assert found is True
-        f = pyfiglet.Figlet( dir=module, font=font )
+        f = pyfiglet.Figlet( module=module, font=font )
         output = f.renderText( original )
 
         # Normalize line endings based on settings.

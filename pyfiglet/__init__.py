@@ -39,7 +39,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 """
 
 DEFAULT_FONT= 'standard'
-DEFAULT_DIR = 'pyfiglet.fonts'
+DEFAULT_MODULE = 'pyfiglet.fonts'
 
 
 def figlet_format(text, font=DEFAULT_FONT, **kwargs):
@@ -79,12 +79,12 @@ class FigletFont(object):
     reMagicNumber = re.compile(r'^[tf]lf2.')
     reEndMarker = re.compile(r'(.)\s*$')
 
-    def __init__(self, font=DEFAULT_FONT, dir=DEFAULT_DIR):
+    def __init__(self, font=DEFAULT_FONT, module=DEFAULT_MODULE):
         self.font = font
         self.comment = ''
         self.chars = {}
         self.width = {}
-        self.data = self.preloadFont(font, dir)
+        self.data = self.preloadFont(font, module)
         self.loadFont()
 
     @classmethod
@@ -105,37 +105,37 @@ class FigletFont(object):
             return data
 
     @classmethod
-    def preloadFont(cls, font, dir=DEFAULT_DIR):
+    def preloadFont(cls, font, module=DEFAULT_MODULE):
         """
         Load font data if exist
         """
 
         for extension in ('tlf', 'flf'):
             fn = '%s.%s' % (font, extension)
-            if pkg_resources.resource_exists(dir, fn):
+            if pkg_resources.resource_exists(module, fn):
                 return cls.unpackFont(
-                    pkg_resources.resource_string(dir, fn), fn
+                    pkg_resources.resource_string(module, fn), fn
                 ).decode('utf-8', 'replace') if PY3 else cls.unpackFont(
-                    pkg_resources.resource_string(dir, fn), fn
+                    pkg_resources.resource_string(module, fn), fn
                 )
 
         raise FontNotFound(font)
 
     @classmethod
-    def getFonts(cls, dir=DEFAULT_DIR):
-        list_args = dir.rsplit('.', 1)
+    def getFonts(cls, module=DEFAULT_MODULE):
+        list_args = module.rsplit('.', 1)
         return [font.rsplit('.', 2)[0] for font
                 in pkg_resources.resource_listdir(*list_args)
                 if font.endswith(('.flf', '.tlf'))
                     and cls.reMagicNumber.search(cls.unpackFont(
-                        pkg_resources.resource_stream(dir, font), font).readline())]
+                        pkg_resources.resource_stream(module, font), font).readline())]
 
     @classmethod
-    def infoFont(cls, font, short=False, dir=DEFAULT_DIR):
+    def infoFont(cls, font, short=False, module=DEFAULT_MODULE):
         """
         Get informations of font
         """
-        data = FigletFont.preloadFont(font, dir)
+        data = FigletFont.preloadFont(font, module)
         infos = []
         reMagicNumber = re.compile(r'^[tf]lf2.')
         reStartMarker = re.compile(r'^(FONT|COMMENT|FONTNAME_REGISTRY|FAMILY_NAME|FOUNDRY|WEIGHT_NAME|SETWIDTH_NAME|SLANT|ADD_STYLE_NAME|PIXEL_SIZE|POINT_SIZE|RESOLUTION_X|RESOLUTION_Y|SPACING|AVERAGE_WIDTH|COMMENT|FONT_DESCENT|FONT_ASCENT|CAP_HEIGHT|X_HEIGHT|FACE_NAME|FULL_NAME|COPYRIGHT|_DEC_|DEFAULT_CHAR|NOTICE|RELATIVE_).*')
@@ -449,21 +449,21 @@ class Figlet(object):
     Main figlet class.
     """
 
-    def __init__(self, font=DEFAULT_FONT, direction='auto', justify='auto', width=80, dir=DEFAULT_DIR):
+    def __init__(self, font=DEFAULT_FONT, direction='auto', justify='auto', width=80, module=DEFAULT_MODULE):
         self.font = font
         self._direction = direction
         self._justify = justify
         self.width = width
-        self.setFont(dir=dir)
+        self.setFont(module=module)
         self.engine = FigletRenderingEngine(base=self)
 
     def setFont(self, **kwargs):
-        dir = kwargs.get('dir', None)
+        module = kwargs.get('module', None)
 
         if 'font' in kwargs:
             self.font = kwargs['font']
 
-        self.Font = FigletFont(font=self.font, dir=dir)
+        self.Font = FigletFont(font=self.font, module=module)
 
     def getDirection(self):
         if self._direction == 'auto':
@@ -496,16 +496,16 @@ class Figlet(object):
         # wrapper method to engine
         return self.engine.render(text)
 
-    def getFonts(self, dir=DEFAULT_DIR):
-        return self.Font.getFonts(dir)
+    def getFonts(self, module=DEFAULT_MODULE):
+        return self.Font.getFonts(module)
 
 
 def main():
     parser = OptionParser(version=__version__, usage='%prog [options] [text..]')
     parser.add_option('-f', '--font', default=DEFAULT_FONT,
             help='font to render with (default: %default)', metavar='FONT')
-    parser.add_option("-d", "--directory",
-                  metavar="DIR", default=DEFAULT_DIR, help="DIR where fonts are kept")
+    parser.add_option("-m", "--module",
+                  metavar="MODULE", default=DEFAULT_MODULE, help="MODULE where fonts are kept")
     parser.add_option('-D', '--direction', type='choice', choices=('auto', 'left-to-right', 'right-to-left'),
             default='auto', metavar='DIRECTION', help='set direction text will be formatted in (default: %default)')
     parser.add_option('-j', '--justify', type='choice', choices=('auto', 'left', 'center', 'right'), default='auto',
@@ -535,7 +535,7 @@ def main():
     f = Figlet(
         font=opts.font, direction=opts.direction,
         justify=opts.justify, width=opts.width,
-        dir=opts.directory
+        module=opts.module
     )
 
     r = f.renderText(text)
