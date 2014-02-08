@@ -368,6 +368,7 @@ def setup_custom_font_dir():
 
     global USER_MODULE
 
+    # Create custom font directory
     custom_dir = sublime.packages_path()
     for part in USER_MODULE.split('.'):
         custom_dir = os.path.join(custom_dir, part)
@@ -378,6 +379,7 @@ def setup_custom_font_dir():
         except:
             pass
 
+    # Add __init__ file so the folder can be viewed as a module
     init_file = os.path.join(custom_dir, '__init__.py')
     if os.path.exists(custom_dir) and not os.path.exists(init_file):
         try:
@@ -387,11 +389,14 @@ def setup_custom_font_dir():
             pass
 
     try:
+        # See if custom font module can be loaded
         if not ST3:
+            # Load up pyfiglet with custom importer for access with pkg_resources (ST2 only)
             CustomImport(os.path.join(sublime.packages_path(), "User")).load_module(USER_MODULE)
         else:
             __import__(USER_MODULE)
     except:
+        # There was a problem loading custom font module. Do not use it.
         print(str(traceback.format_exc()))
         USER_MODULE = None
 
@@ -418,7 +423,9 @@ def setup_modules():
 
     if not ST3:
         import pkg_resources
+        # Register custom importer with pkg_resources
         pkg_resources.register_loader_type(CustomImport, pkg_resources.DefaultProvider)
+        # Load up pyfiglet with custom importer for access with pkg_resources (ST2 only)
         pyfiglet = CustomImport(os.path.join(PACKAGE_LOCATION)).load_module("pyfiglet")
     else:
         import pkg_resources
