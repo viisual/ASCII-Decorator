@@ -13,7 +13,7 @@ PACKAGE_LOCATION = os.path.abspath(os.path.dirname(__file__))
 
 def get_comment(view, pt):
     """
-    Ripped from Sublime's Default.comment.py
+    Ripped from Sublime's Default.comment.py to find comment convention
     """
 
     shell_vars = view.meta_info("shellVariables", pt)
@@ -45,6 +45,10 @@ def get_comment(view, pt):
 
 
 class UpdateFigletPreviewCommand(sublime_plugin.TextCommand):
+    """
+        A reasonable edit command that works in ST2 and ST3
+    """
+
     preview = None
     def run(self, edit, font, dir):
         preview = UpdateFigletPreviewCommand.get_buffer()
@@ -76,18 +80,22 @@ class FigletMenuCommand( sublime_plugin.TextCommand ):
     def run( self, edit ):
         self.undo = False
         settings = sublime.load_settings('ASCII Decorator.sublime-settings')
-        self.options = []
+
+        # Find module locations
         font_locations = []
         for loc in [USER_MODULE, FONT_MODULE]:
             if loc is not None:
                 font_locations.append(loc)
 
+        # Find available fonts
+        self.options = []
         for fl in font_locations:
             print(fl)
             for f in pkg_resources.resource_listdir(fl, ''):
                 if f.endswith(('.flf', '.tlf')):
                     self.options.append(f)
 
+        # Prepare and show quick panel
         if len(self.options):
             if not ST3:
                 self.view.window().show_quick_panel(
@@ -102,7 +110,12 @@ class FigletMenuCommand( sublime_plugin.TextCommand ):
                 )
 
     def preview(self, value):
+        """
+            Preview the figlet output (ST3 only)
+        """
+
         if value != -1:
+            # Find the first good selection to preview
             sel = self.view.sel()
             example = None
             for s in sel:
@@ -111,10 +124,14 @@ class FigletMenuCommand( sublime_plugin.TextCommand ):
                     break
             if example is None:
                 return
+
+            # Create output panel and set to current syntax
             syntax = self.view.settings().get('syntax')
             view = self.view.window().get_output_panel('figlet_preview')
             view.settings().set('syntax', syntax)
             self.view.window().run_command("show_panel", {"panel": "output.figlet_preview"})
+
+            # Preview
             UpdateFigletPreviewCommand.set_buffer(example)
             view.run_command(
                 "update_figlet_preview",
@@ -125,7 +142,14 @@ class FigletMenuCommand( sublime_plugin.TextCommand ):
             )
 
     def apply_figlet(self, value):
+        """
+            Run and apply pyfiglet on the selections in the view
+        """
+
+        # Hide the preview panel if shown
         self.view.window().run_command("hide_panel", {"panel": "output.figlet_preview"})
+
+        # Apply figlet
         if value != -1:
             self.view.run_command(
                 "figlet",
@@ -144,6 +168,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
             preserve OS line endings and spaces/tabs
             update selections
     """
+
     def run( self, edit, font=None, dir=None ):
         self.edit = edit
         newSelections = []
@@ -162,12 +187,12 @@ class FigletCommand( sublime_plugin.TextCommand ):
         for newSelection in newSelections:
             self.view.sel().add( newSelection )
 
-
-    """
-        Take input and use FIGlet to convert it to ASCII art.
-        Normalize converted ASCII strings to use proper line endings and spaces/tabs.
-    """
     def decorate( self, edit, currentSelection, font, dir):
+        """
+            Take input and use FIGlet to convert it to ASCII art.
+            Normalize converted ASCII strings to use proper line endings and spaces/tabs.
+        """
+
         # Convert the input range to a string, this represents the original selection.
         original = self.view.substr( currentSelection );
 
@@ -175,12 +200,13 @@ class FigletCommand( sublime_plugin.TextCommand ):
         if font is None:
             font = settings.get('ascii_decorator_font')
 
+        # Create a list of locations to search
         font_locations = []
         for loc in [USER_MODULE, FONT_MODULE]:
             if loc is not None:
                 font_locations.append(loc)
 
-        # Convert the input string to ASCII Art.
+        # Find where the font resides
         module = None
         found = False
         for ext in ("flf", "tlf"):
@@ -192,6 +218,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
             if found:
                 break
 
+        # Convert the input string to ASCII Art.
         assert found is True
         f = pyfiglet.Figlet( dir=module, font=font )
         output = f.renderText( original )
@@ -215,6 +242,10 @@ class FigletCommand( sublime_plugin.TextCommand ):
         return string
 
     def fix_whitespace(self, original, prefixed, sel):
+        """
+            Determine leading whitespace and comments if desired.
+        """
+
         # Determine the indent of the CSS rule
         (row, col) = self.view.rowcol(sel.begin())
         indent_region = self.view.find('^\s+', self.view.text_point(row, 0))
@@ -244,12 +275,16 @@ class FigletCommand( sublime_plugin.TextCommand ):
         settings = self.view.settings()
         use_spaces = settings.get('translate_tabs_to_spaces')
         tab_size = int(settings.get('tab_size', 8))
+
+        # Determine if additional indentation is desired
         if plugin_settings.get("use_additional_indent", True):
             indent_characters = '\t'
             if use_spaces:
                 indent_characters = ' ' * tab_size
         else:
             indent_characters = ''
+
+        # Prefix the text with desired identation level, and comments if desired
         if len(comment) > 1:
             prefixed = prefixed.replace('\n', '\n' + indent + indent_characters)
             prefixed = comment[0] + '\n' + indent + indent_characters + prefixed + '\n' + indent + comment[1] + '\n'
@@ -265,13 +300,25 @@ class FigletCommand( sublime_plugin.TextCommand ):
 
 
 class CustomImport(object):
+    """
+        Sublime Text 2 imports plugin modules in a silly way.  The paths of all modules
+        are not relative to the current working directory. This makes it so pkg_resources
+        cannot resolve them.  This importer does not need to be used on ST3 since ST3 does
+        things in a sane way.
+    """
+
     def __init__(self, path):
         self.packages = path
 
     def load_module(self, module_name):
+        """
+            Load the module and ensure a sane path for modules that will be accessed
+            via pkg_resources.
+        """
         import warnings
         import imp
 
+        # Determine the module file name
         file_name = os.path.join(self.packages, os.path.normpath(module_name.replace('.', '/')))
         is_dir = os.path.isdir(file_name)
         if is_dir:
@@ -280,11 +327,15 @@ class CustomImport(object):
             filename = os.path.dirname(file_name)
         file_name += ".py"
 
+        # Determine the module path
         path_name = os.path.join(self.packages, os.path.normpath(module_name.rsplit('.', 1)[0].replace('.', '/')))
 
+        # @todo find a better reload methodology that works
+        # currently remove and imp.remove have a difficult time with this
         if module_name in sys.modules:
             del sys.modules[module_name]
 
+        # Load the modulue
         with warnings.catch_warnings(record=True) as w:
             # Ignore warnings about plugin folder not being a python package
             warnings.simplefilter("always")
@@ -301,10 +352,20 @@ class CustomImport(object):
         return module
 
     def __execute_module(self, source, module_name):
+        """
+            Execute the module
+        """
+
         exec(compile(source, module_name, 'exec'), sys.modules[module_name].__dict__)
 
 
 def setup_custom_font_dir():
+    """
+        Create custom doc folder if missing and attempt to load the doc folder
+        to ensure it is working, and pkg_resources can find it later.  Set USER_MODULE
+        to None if anything goes wrong.
+    """
+
     global USER_MODULE
 
     custom_dir = sublime.packages_path()
@@ -336,6 +397,11 @@ def setup_custom_font_dir():
 
 
 def setup_modules():
+    """
+        Load up pkg_resources and distutils if required.  Load up pyfiglet.
+        Pyfiglet will be loaded via the special importer (ST2 only).
+    """
+
     global pkg_resources
     global pyfiglet
     pyfiglet = None
@@ -360,6 +426,9 @@ def setup_modules():
 
 
 def plugin_loaded():
+    """
+        Setup plugin
+    """
     setup_custom_font_dir()
     setup_modules()
 
