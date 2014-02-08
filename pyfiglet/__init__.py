@@ -5,8 +5,10 @@ Python FIGlet adaption
 """
 import pkg_resources
 try:
+    PY3 = False
     from StringIO import StringIO as BytesIO
 except:
+    PY3 = True
     from io import BytesIO
 import re
 import sys
@@ -113,7 +115,9 @@ class FigletFont(object):
             if pkg_resources.resource_exists(dir, fn):
                 return cls.unpackFont(
                     pkg_resources.resource_string(dir, fn), fn
-                ).decode('utf-8', 'replace')
+                ).decode('utf-8', 'replace') if PY3 else cls.unpackFont(
+                    pkg_resources.resource_string(dir, fn), fn
+                )
 
         raise FontNotFound(font)
 
@@ -437,7 +441,7 @@ class FigletRenderingEngine(object):
         buffer = '\n'.join(buffer)
         buffer = buffer.replace(self.base.Font.hardBlank, ' ')
 
-        return FigletString(buffer)
+        return FigletString(buffer) if PY3 else FigletString(buffer).decode("utf-8", "replace")
 
 
 class Figlet(object):

@@ -3,10 +3,11 @@ import sublime_plugin
 import os
 import re
 import sys
+import traceback
 
 ST3 = int(sublime.version()) >= 3000
 FONT_MODULE = "pyfiglet.fonts" if not ST3 else "ASCII Decorator.pyfiglet.fonts"
-USER_MODULE = None if not ST3 else "User.ASCII Decorator Fonts"
+USER_MODULE = "ASCII Decorator Fonts" if not ST3 else "User.ASCII Decorator Fonts"
 PACKAGE_LOCATION = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -47,6 +48,8 @@ class UpdateFigletPreviewCommand(sublime_plugin.TextCommand):
     preview = None
     def run(self, edit, font, dir):
         preview = UpdateFigletPreviewCommand.get_buffer()
+        if not ST3:
+            preview = preview.encode('UTF-8')
         if preview is not None:
             self.view.replace(edit, sublime.Region(0, self.view.size()), preview)
             sel = self.view.sel()
@@ -80,6 +83,7 @@ class FigletMenuCommand( sublime_plugin.TextCommand ):
                 font_locations.append(loc)
 
         for fl in font_locations:
+            print(fl)
             for f in pkg_resources.resource_listdir(fl, ''):
                 if f.endswith(('.flf', '.tlf')):
                     self.options.append(f)
@@ -256,6 +260,46 @@ class FigletCommand( sublime_plugin.TextCommand ):
         return prefixed
 
 
+class CustomImport(object):
+    def __init__(self, path):
+        self.packages = path
+
+    def load_module(self, module_name):
+        import warnings
+        import imp
+
+        file_name = os.path.join(self.packages, os.path.normpath(module_name.replace('.', '/')))
+        is_dir = os.path.isdir(file_name)
+        if is_dir:
+            file_name = os.path.join(file_name, '__init__')
+        else:
+            filename = os.path.dirname(file_name)
+        file_name += ".py"
+
+        path_name = os.path.join(self.packages, os.path.normpath(module_name.rsplit('.', 1)[0].replace('.', '/')))
+
+        if module_name in sys.modules:
+            del sys.modules[module_name]
+
+        with warnings.catch_warnings(record=True) as w:
+            # Ignore warnings about plugin folder not being a python package
+            warnings.simplefilter("always")
+            module = imp.new_module(module_name)
+            module.__loader__ = self
+            module.__file__ = file_name
+            module.__path__ = [path_name]
+            sys.modules[module_name] = module
+            source = None
+            with open(file_name) as f:
+                source = f.read().replace('\r', '')
+            self.__execute_module(source, module_name)
+            w = filter(lambda i: issubclass(i.category, UserWarning), w)
+        return module
+
+    def __execute_module(self, source, module_name):
+        exec(compile(source, module_name, 'exec'), sys.modules[module_name].__dict__)
+
+
 def setup_custom_font_dir():
     global USER_MODULE
 
@@ -278,14 +322,19 @@ def setup_custom_font_dir():
             pass
 
     try:
-        __import__(USER_MODULE)
+        if not ST3:
+            CustomImport(os.path.join(sublime.packages_path(), "User")).load_module(USER_MODULE)
+        else:
+            __import__(USER_MODULE)
     except:
+        print(str(traceback.format_exc()))
         USER_MODULE = None
 
 
 def setup_modules():
     global pkg_resources
     global pyfiglet
+    pyfiglet = None
     if not ST3:
         if "distutils" not in sys.modules:
             modules = os.path.join(PACKAGE_LOCATION, "modules", "ST2")
@@ -299,7 +348,8 @@ def setup_modules():
 
     if not ST3:
         import pkg_resources
-        import pyfiglet
+        pkg_resources.register_loader_type(CustomImport, pkg_resources.DefaultProvider)
+        pyfiglet = CustomImport(os.path.join(PACKAGE_LOCATION)).load_module("pyfiglet")
     else:
         import pkg_resources
         from . import pyfiglet
