@@ -108,6 +108,7 @@ class FigletMenuCommand( sublime_plugin.TextCommand ):
             for s in sel:
                 if s.size():
                     example = self.view.substr(s)
+                    break
             if example is None:
                 return
             syntax = self.view.settings().get('syntax')
@@ -150,7 +151,10 @@ class FigletCommand( sublime_plugin.TextCommand ):
         # Loop through user selections.
         for currentSelection in self.view.sel():
             # Decorate the selection to ASCII Art.
-            newSelections.append( self.decorate( self.edit, currentSelection, font, dir ) )
+            if currentSelection.size():
+                newSelections.append( self.decorate( self.edit, currentSelection, font, dir ) )
+            else:
+                newSelections.append(currentSelection)
 
         # Clear selections since they've been modified.
         self.view.sel().clear()
