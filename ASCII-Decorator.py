@@ -94,6 +94,7 @@ class FigletMenuCommand( sublime_plugin.TextCommand ):
             for f in pkg_resources.resource_listdir(fl, ''):
                 if f.endswith(('.flf', '.tlf')):
                     self.options.append(f)
+        self.options.sort()
 
         # Prepare and show quick panel
         if len(self.options):
