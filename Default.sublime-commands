@@ -1,0 +1,10 @@
+[
+    {
+        "caption": "ASCII Decorator: Convert",
+        "command": "figlet"
+    },
+    {
+        "caption": "ASCII Decorator: Font Selector",
+        "command": "figlet_menu"
+    }
+]
