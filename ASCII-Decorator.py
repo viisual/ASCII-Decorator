@@ -256,11 +256,15 @@ class FigletCommand( sublime_plugin.TextCommand ):
 
     def run(
         self, edit, font=None, directory=None,
-        insert_as_comment=None, use_additional_indent=None
+        insert_as_comment=None, use_additional_indent=None, comment_style=None
+        width=80, justify=None, direction=None
     ):
         self.edit = edit
         newSelections = []
-        self.init(font, directory, insert_as_comment, use_additional_indent)
+        self.init(
+            font, directory, insert_as_comment, use_additional_indent,
+            comment_style, width, justify, direction
+        )
 
         # Loop through user selections.
         for currentSelection in self.view.sel():
@@ -276,7 +280,10 @@ class FigletCommand( sublime_plugin.TextCommand ):
         for newSelection in newSelections:
             self.view.sel().add( newSelection )
 
-    def init(self, font, directory, insert_as_comment, use_additional_indent):
+    def init(
+        self, font, directory, insert_as_comment, use_additional_indent,
+        comment_style, width, justify, direction
+    ):
         """
             Read plugin settings
         """
@@ -286,19 +293,28 @@ class FigletCommand( sublime_plugin.TextCommand ):
         if use_additional_indent is not None:
             self.insert_as_comment = insert_as_comment
         else:
-            self.insert_as_comment = settings.get("insert_as_comment", False)
+            self.insert_as_comment = settings.get("default_insert_as_comment", False)
 
         if use_additional_indent is not None:
             self.use_additional_indent = use_additional_indent
         else:
-            self.use_additional_indent = settings.get("insert_as_comment", False)
+            self.use_additional_indent = settings.get("default_insert_as_comment", False)
 
-        self.comment_style = settings.get("comment_style_preference", "block")
+        self.comment_style = settings.get("default_comment_style_preference", "block") if comment_style is None else comment_style
         if self.comment_style is None or self.comment_style not in ["line", "block"]:
             self.comment_style = "line"
 
-        self.font = settings.get('ascii_decorator_font') if font is None else font
+        self.width = settings.get('default_width', 80) if width is None else int(width)
 
+        self.justify = settings.get('default_justify', "auto") if width is None else justify
+        if self.justify not in ["auto", "center", "left", "right"]:
+            self.justify = "auto"
+
+        self.direction = settings.get('default_direction', "auto") if width is None else direction
+        if self.direction not in ["auto", "left-to-right", "right-to-left"]:
+            self.direction = "auto"
+
+        self.font = settings.get('ascii_decorator_font', "slant") if font is None else font
         self.directory = directory
 
     def decorate( self, edit, currentSelection ):
@@ -334,7 +350,10 @@ class FigletCommand( sublime_plugin.TextCommand ):
 
         # Convert the input string to ASCII Art.
         assert found is True
-        f = SublimeFiglet( directory=directory, font=self.font )
+        f = SublimeFiglet(
+            directory=directory, font=self.font, width=self.width,
+            justify=self.justify, direction=self.direction
+        )
         output = f.renderText( original )
 
         # Normalize line endings based on settings.
