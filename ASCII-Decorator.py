@@ -25,7 +25,7 @@ def get_comment(view, pt):
 
     shell_vars = view.meta_info("shellVariables", pt)
     if not shell_vars:
-        return ('',)
+        return ([], [])
 
     # transform the list of dicts into a single dict
     all_vars = {}
@@ -256,7 +256,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
 
     def run(
         self, edit, font=None, directory=None,
-        insert_as_comment=None, use_additional_indent=None, comment_style=None
+        insert_as_comment=None, use_additional_indent=None, comment_style=None,
         width=80, justify=None, direction=None
     ):
         self.edit = edit
@@ -366,12 +366,9 @@ class FigletCommand( sublime_plugin.TextCommand ):
         return sublime.Region( currentSelection.begin(), currentSelection.begin() + len(output) )
 
     def normalize_line_endings(self, string):
+        # Sublime buffers only use '\n', but then normalize all line-endings to
+        # the appropriate ending on save.
         string = string.replace('\r\n', '\n').replace('\r', '\n')
-        line_endings = self.view.settings().get('default_line_ending')
-        if line_endings == 'windows':
-            string = string.replace('\n', '\r\n')
-        elif line_endings == 'mac':
-            string = string.replace('\n', '\r')
         return string
 
     def fix_whitespace(self, original, prefixed, sel):
