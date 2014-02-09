@@ -33,8 +33,6 @@ Or simply:
   # There are currently 300+ ASCII fonts included; however, there is no simple way to specify a font.
   ## FIGlet provides other parameters which I'd like to implement into settings.
   # Add a menu to the context sensative menu (when text is selected).
-  # Ensure I am handling whitespace and line endings properly across all OS.
-  # Come up with a way to add block style comments around generated selections.
 
 ---------------------------------------------------------
 
