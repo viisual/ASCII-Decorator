@@ -3,7 +3,11 @@
 """
 Python FIGlet adaption
 """
-import pkg_resources
+try:
+    import pkg_resources
+except:
+    print("Couldn't load pkg_resources")
+    pass
 try:
     PY3 = False
     from StringIO import StringIO as BytesIO
