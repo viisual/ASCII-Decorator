@@ -4,123 +4,47 @@ import os
 import re
 import sys
 import traceback
-from zipfile import ZipFile, is_zipfile
+import tempfile
 
 ST3 = int(sublime.version()) >= 3000
 
 if not ST3:
-    import pyfiglet
+    from subfiglet import SublimeFiglet, figlet_paths
+    import subcomments
 else:
-    from . import pyfiglet
+    from .subfiglet import SublimeFiglet, figlet_paths
+    from . import subcomments
 
 PACKAGE_LOCATION = os.path.abspath(os.path.dirname(__file__))
-DEFAULT_DIR = os.path.join(PACKAGE_LOCATION, "pyfiglet", "fonts")
-USER_DIR = None
 
 
-def get_comment(view, pt):
-    """
-    Ripped from Sublime's Default.comment.py to find comment convention
-    """
+class FontPreviewGeneratorCommand(sublime_plugin.WindowCommand):
+    def run(self, text):
+        # Find directory locations
+        font_locations = figlet_paths()
 
-    shell_vars = view.meta_info("shellVariables", pt)
-    if not shell_vars:
-        return ([], [])
+        # Find available fonts
+        self.options = []
+        for fl in font_locations:
+            for f in os.listdir(fl):
+                pth = os.path.join(fl, f)
+                if os.path.isfile(pth):
+                    if f.endswith((".flf", ".tlf")):
+                        self.options.append((f[:-4], fl))
 
-    # transform the list of dicts into a single dict
-    all_vars = {}
-    for v in shell_vars:
-        if 'name' in v and 'value' in v:
-            all_vars[v['name']] = v['value']
+        self.options.sort()
 
-    line_comments = []
-    block_comments = []
+        with tempfile.NamedTemporaryFile(mode = 'wb', delete=False, suffix='.txt') as p:
+            for font in self.options:
+                f = SublimeFiglet(
+                    font=font[0], directory=font[1], width=80,
+                    justify="auto", direction="auto"
+                )
+                p.write(("Font: %s Directory: %s\n" % (font[0], font[1])).encode("utf-8"))
+                p.write(f.renderText(text).replace('\r\n', '\n').replace('\r', '\n').encode('utf-8'))
+                p.write("\n\n".encode("utf-8"))
 
-    # transform the dict into a single array of valid comments
-    suffixes = [""] + ["_" + str(i) for i in range(1, 10)]
-    for suffix in suffixes:
-        start = all_vars.setdefault("TM_COMMENT_START" + suffix)
-        end = all_vars.setdefault("TM_COMMENT_END" + suffix)
-
-        if start and end is None:
-            line_comments.append((start,))
-        elif start and end:
-            block_comments.append((start, end))
-
-
-    return (line_comments, block_comments)
-
-
-class SublimeFigletFont(pyfiglet.FigletFont):
-    def __init__(self, font=pyfiglet.DEFAULT_FONT, directory=DEFAULT_DIR):
-        self.font = font
-        self.comment = ''
-        self.chars = {}
-        self.width = {}
-        self.data = self.preloadFont(font, directory)
-        self.loadFont()
-
-    @classmethod
-    def preloadFont(cls, font, directory=DEFAULT_DIR):
-        """
-        Load font file into memory. This can be overriden with
-        a superclass to create different font sources.
-        """
-
-        fontPath = os.path.join(directory, font + '.flf')
-        if not os.path.exists(fontPath):
-            fontPath = os.path.join(directory, font + '.tlf')
-            if not os.path.exists(fontPath):
-                raise pyfiglet.FontNotFound("%s doesn't exist" % font)
-
-        if is_zipfile(fontPath):
-            z = None
-            try:
-                z = ZipFile(fontPath, 'r')
-                data = z.read(z.getinfo(z.infolist()[0].filename))
-                z.close()
-                return data.decode('utf-8', 'replace') if ST3 else data
-            except Exception as e:
-                if z is not None:
-                    z.close()
-                raise pyfiglet.FontError("couldn't read %s: %s" % (fontPath, e))
-        else:
-            try:
-                with open(fontPath, 'rb') as f:
-                    data = f.read()
-                return data.decode('utf-8', 'replace') if ST3 else data
-            except Exception as e:
-                raise pyfiglet.FontError("couldn't open %s: %s" % (fontPath, e))
-
-        raise pyfiglet.FontNotFound(font)
-
-    @classmethod
-    def getFonts(cls, directory=DEFAULT_DIR):
-        return [font[:-4] for font in os.walk(dir).next()[2] if font.endswith(('.flf', '.tlf'))]
-
-
-class SublimeFiglet(pyfiglet.Figlet):
-    def __init__(
-        self, font=pyfiglet.DEFAULT_FONT, direction='auto',
-        justify='auto', width=80, directory=DEFAULT_DIR
-    ):
-        self.font = font
-        self._direction = direction
-        self._justify = justify
-        self.width = width
-        self.setFont(directory=directory)
-        self.engine = pyfiglet.FigletRenderingEngine(base=self)
-
-    def setFont(self, **kwargs):
-        directory = kwargs.get('directory', None)
-
-        if 'font' in kwargs:
-            self.font = kwargs['font']
-
-        self.Font = SublimeFigletFont(font=self.font, directory=directory)
-
-    def getFonts(self, directory=DEFAULT_DIR):
-        return self.Font.getFonts(directory)
+        self.window.open_file(p.name)
 
 
 class UpdateFigletPreviewCommand(sublime_plugin.TextCommand):
@@ -129,7 +53,7 @@ class UpdateFigletPreviewCommand(sublime_plugin.TextCommand):
     """
 
     preview = None
-    def run(self, edit, font, directory=None):
+    def run(self, edit, font, directory=None, width=None, justify=None, direction=None, use_additional_indent=False):
         preview = UpdateFigletPreviewCommand.get_buffer()
         if not ST3:
             preview = preview.encode('UTF-8')
@@ -141,8 +65,13 @@ class UpdateFigletPreviewCommand(sublime_plugin.TextCommand):
             self.view.run_command(
                 "figlet",
                 {
-                    "font": font, "directory": directory,
-                    "use_additional_indent": False, "insert_as_comment": False
+                    "font": font,
+                    "directory": directory,
+                    "use_additional_indent": use_additional_indent,
+                    "insert_as_comment": False,
+                    "width": width,
+                    "justify": justify,
+                    "direction": direction
                 }
             )
             UpdateFigletPreviewCommand.clear_buffer()
@@ -161,16 +90,124 @@ class UpdateFigletPreviewCommand(sublime_plugin.TextCommand):
         cls.preview = None
 
 
+class FigletFavoritesCommand( sublime_plugin.TextCommand ):
+    def run( self, edit ):
+        self.undo = False
+        settings = sublime.load_settings('ASCII Decorator.sublime-settings')
+
+        favorites = settings.get("favorite_fonts", [])
+
+        if len(favorites) == 0:
+            return
+
+        self.fonts = []
+
+        for f in favorites:
+            if "font" not in f or "name" not in f:
+                continue
+
+            self.fonts.append(
+                {
+                    "name": f.get("name"),
+                    "font": f.get("font"),
+                    "comment": f.get("comment", True),
+                    "comment_style": f.get("comment_style", "block"),
+                    "width": f.get("width", 80),
+                    "direction": f.get("direction", "auto"),
+                    "justify": f.get("justify", "auto"),
+                    "indent": f.get("indent", True)
+                }
+            )
+
+        # Prepare and show quick panel
+        if len(self.fonts):
+            if not ST3:
+                self.view.window().show_quick_panel(
+                    [f["name"] for f in self.fonts],
+                    self.apply_figlet
+                )
+            else:
+                self.view.window().show_quick_panel(
+                    [f["name"] for f in self.fonts],
+                    self.apply_figlet,
+                    on_highlight=self.preview if bool(settings.get("show_preview", False)) else None
+                )
+
+    def preview(self, value):
+        """
+            Preview the figlet output (ST3 only)
+        """
+
+        if value != -1:
+            # Find the first good selection to preview
+            sel = self.view.sel()
+            example = None
+            for s in sel:
+                if s.size():
+                    example = self.view.substr(s)
+                    break
+            if example is None:
+                return
+
+            # Create output panel and set to current syntax
+            view = self.view.window().get_output_panel('figlet_preview')
+            view.settings().set("draw_white_space", "none")
+            self.view.window().run_command("show_panel", {"panel": "output.figlet_preview"})
+
+            font = self.fonts[value]
+
+            # Preview
+            UpdateFigletPreviewCommand.set_buffer(example)
+            view.run_command(
+                "update_figlet_preview",
+                {
+                    "font": font.get("font"),
+                    "use_additional_indent": font.get("indent"),
+                    "width": font.get("width"),
+                    "justify": font.get("justify"),
+                    "direction": font.get("direction")
+                }
+            )
+
+    def apply_figlet(self, value):
+        """
+            Run and apply pyfiglet on the selections in the view
+        """
+
+        # Hide the preview panel if shown
+        self.view.window().run_command("hide_panel", {"panel": "output.figlet_preview"})
+
+        # Apply figlet
+        if value != -1:
+            font = self.fonts[value]
+            self.view.run_command(
+                "figlet",
+                {
+                    "font": font.get("font"),
+                    "insert_as_comment": font.get("comment"),
+                    "comment_style": font.get("comment_style"),
+                    "use_additional_indent": font.get("indent"),
+                    "width": font.get("width"),
+                    "justify": font.get("justify"),
+                    "direction": font.get("direction")
+                }
+            )
+
+    def is_enabled(self):
+        enabled = False
+        for s in self.view.sel():
+            if s.size():
+                enabled = True
+        return enabled
+
+
 class FigletMenuCommand( sublime_plugin.TextCommand ):
     def run( self, edit ):
         self.undo = False
         settings = sublime.load_settings('ASCII Decorator.sublime-settings')
 
         # Find directory locations
-        font_locations = []
-        for loc in [USER_DIR, DEFAULT_DIR]:
-            if loc is not None:
-                font_locations.append(loc)
+        font_locations = figlet_paths()
 
         # Find available fonts
         self.options = []
@@ -244,6 +281,27 @@ class FigletMenuCommand( sublime_plugin.TextCommand ):
                 }
             )
 
+    def is_enabled(self):
+        enabled = False
+        for s in self.view.sel():
+            if s.size():
+                enabled = True
+        return enabled
+
+
+class FigletDefaultCommand( sublime_plugin.TextCommand ):
+    def run(self, edit):
+        settings = sublime.load_settings('ASCII Decorator.sublime-settings')
+        font = settings.get('ascii_decorator_font', "slant")
+        self.view.run_command("figlet", {"font": font})
+
+    def is_enabled(self):
+        enabled = False
+        for s in self.view.sel():
+            if s.size():
+                enabled = True
+        return enabled
+
 
 class FigletCommand( sublime_plugin.TextCommand ):
     """
@@ -255,7 +313,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
     """
 
     def run(
-        self, edit, font=None, directory=None,
+        self, edit, font, directory=None,
         insert_as_comment=None, use_additional_indent=None, comment_style=None,
         width=80, justify=None, direction=None
     ):
@@ -314,7 +372,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
         if self.direction not in ["auto", "left-to-right", "right-to-left"]:
             self.direction = "auto"
 
-        self.font = settings.get('ascii_decorator_font', "slant") if font is None else font
+        self.font = font
         self.directory = directory
 
     def decorate( self, edit, currentSelection ):
@@ -326,14 +384,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
         # Convert the input range to a string, this represents the original selection.
         original = self.view.substr( currentSelection );
 
-        if self.directory is None:
-            # Create a list of locations to search
-            font_locations = []
-            for loc in [USER_DIR, DEFAULT_DIR]:
-                if loc is not None:
-                    font_locations.append(loc)
-        else:
-            font_locations = [self.directory]
+        font_locations = figlet_paths() if self.directory is None else [self.directory]
 
         # Find where the font resides
         directory = None
@@ -391,7 +442,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
         # Get comments for current syntax if desired
         comment = ('',)
         if self.insert_as_comment:
-            comments = get_comment(self.view, sel.begin())
+            comments = subcomments.get_comment(self.view, sel.begin())
             if len(comments[0]):
                 comment = comments[0][0]
             if (self.comment_style == "block" or len(comments[0]) == 0) and len(comments[1]):
@@ -410,7 +461,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
         else:
             indent_characters = ''
 
-        # Prefix the text with desired identation level, and comments if desired
+        # Prefix the text with desired indentation level, and comments if desired
         if len(comment) > 1:
             prefixed = prefixed.replace('\n', '\n' + indent + indent_characters)
             prefixed = comment[0] + '\n' + indent + indent_characters + prefixed + '\n' + indent + comment[1] + '\n'
@@ -423,33 +474,3 @@ class FigletCommand( sublime_plugin.TextCommand ):
         match = re.search('(\s*)\Z', original)
         suffix = match.groups()[0]
         return prefixed
-
-
-def setup_custom_font_dir():
-    """
-        Create custom doc folder if missing.  Set USER_DIR
-        to None if anything goes wrong.
-    """
-
-    global USER_DIR
-    USER_DIR = os.path.join(sublime.packages_path(), "User", "ASCII Decorator Fonts")
-
-    if not os.path.exists(USER_DIR):
-        try:
-            os.makedirs(USER_DIR)
-        except:
-            pass
-
-    if not os.path.exists(USER_DIR):
-        USER_DIR = None
-
-
-def plugin_loaded():
-    """
-        Setup plugin
-    """
-    setup_custom_font_dir()
-
-
-if not ST3:
-    plugin_loaded()
