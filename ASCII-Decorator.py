@@ -138,7 +138,13 @@ class UpdateFigletPreviewCommand(sublime_plugin.TextCommand):
             sel = self.view.sel()
             sel.clear()
             sel.add(sublime.Region(0, self.view.size()))
-            self.view.run_command("figlet", {"font": font, "directory": directory})
+            self.view.run_command(
+                "figlet",
+                {
+                    "font": font, "directory": directory,
+                    "use_additional_indent": False, "insert_as_comment": False
+                }
+            )
             UpdateFigletPreviewCommand.clear_buffer()
             sel.clear()
 
@@ -208,9 +214,8 @@ class FigletMenuCommand( sublime_plugin.TextCommand ):
                 return
 
             # Create output panel and set to current syntax
-            syntax = self.view.settings().get('syntax')
             view = self.view.window().get_output_panel('figlet_preview')
-            view.settings().set('syntax', syntax)
+            view.settings().set("draw_white_space", "none")
             self.view.window().run_command("show_panel", {"panel": "output.figlet_preview"})
 
             # Preview
@@ -249,15 +254,19 @@ class FigletCommand( sublime_plugin.TextCommand ):
             update selections
     """
 
-    def run( self, edit, font=None, directory=None ):
+    def run(
+        self, edit, font=None, directory=None,
+        insert_as_comment=None, use_additional_indent=None
+    ):
         self.edit = edit
         newSelections = []
+        self.init(font, directory, insert_as_comment, use_additional_indent)
 
         # Loop through user selections.
         for currentSelection in self.view.sel():
             # Decorate the selection to ASCII Art.
             if currentSelection.size():
-                newSelections.append( self.decorate( self.edit, currentSelection, font, directory ) )
+                newSelections.append( self.decorate( self.edit, currentSelection ) )
             else:
                 newSelections.append(currentSelection)
 
@@ -267,7 +276,32 @@ class FigletCommand( sublime_plugin.TextCommand ):
         for newSelection in newSelections:
             self.view.sel().add( newSelection )
 
-    def decorate( self, edit, currentSelection, font, directory):
+    def init(self, font, directory, insert_as_comment, use_additional_indent):
+        """
+            Read plugin settings
+        """
+
+        settings = sublime.load_settings('ASCII Decorator.sublime-settings')
+
+        if use_additional_indent is not None:
+            self.insert_as_comment = insert_as_comment
+        else:
+            self.insert_as_comment = settings.get("insert_as_comment", False)
+
+        if use_additional_indent is not None:
+            self.use_additional_indent = use_additional_indent
+        else:
+            self.use_additional_indent = settings.get("insert_as_comment", False)
+
+        self.comment_style = settings.get("comment_style_preference", "block")
+        if self.comment_style is None or self.comment_style not in ["line", "block"]:
+            self.comment_style = "line"
+
+        self.font = settings.get('ascii_decorator_font') if font is None else font
+
+        self.directory = directory
+
+    def decorate( self, edit, currentSelection ):
         """
             Take input and use FIGlet to convert it to ASCII art.
             Normalize converted ASCII strings to use proper line endings and spaces/tabs.
@@ -276,24 +310,20 @@ class FigletCommand( sublime_plugin.TextCommand ):
         # Convert the input range to a string, this represents the original selection.
         original = self.view.substr( currentSelection );
 
-        settings = sublime.load_settings('ASCII Decorator.sublime-settings')
-        if font is None:
-            font = settings.get('ascii_decorator_font')
-
-
-        if directory is None:
+        if self.directory is None:
             # Create a list of locations to search
             font_locations = []
             for loc in [USER_DIR, DEFAULT_DIR]:
                 if loc is not None:
                     font_locations.append(loc)
         else:
-            font_locations = [directory]
+            font_locations = [self.directory]
 
         # Find where the font resides
+        directory = None
         found = False
         for fl in font_locations:
-            pth = os.path.join(fl, font)
+            pth = os.path.join(fl, self.font)
             for ext in (".flf", ".tlf"):
                 directory = fl
                 if os.path.exists(pth + ext):
@@ -304,7 +334,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
 
         # Convert the input string to ASCII Art.
         assert found is True
-        f = SublimeFiglet( directory=directory, font=font )
+        f = SublimeFiglet( directory=directory, font=self.font )
         output = f.renderText( original )
 
         # Normalize line endings based on settings.
@@ -343,16 +373,12 @@ class FigletCommand( sublime_plugin.TextCommand ):
         #prefixed = re.sub(re.compile('^\s+', re.M), '', prefixed)
 
         # Get comments for current syntax if desired
-        plugin_settings = sublime.load_settings('ASCII Decorator.sublime-settings')
         comment = ('',)
-        if plugin_settings.get("insert_as_comment", False):
-            comment_style = plugin_settings.get("comment_style_preference", "block")
-            if comment_style is None or comment_style not in ["line", "block"]:
-                comment_style = "line"
+        if self.insert_as_comment:
             comments = get_comment(self.view, sel.begin())
             if len(comments[0]):
                 comment = comments[0][0]
-            if (comment_style == "block" or len(comments[0]) == 0) and len(comments[1]):
+            if (self.comment_style == "block" or len(comments[0]) == 0) and len(comments[1]):
                 comment = comments[1][0]
 
         # Indent the prefixed version to the right level
@@ -361,7 +387,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
         tab_size = int(settings.get('tab_size', 8))
 
         # Determine if additional indentation is desired
-        if plugin_settings.get("use_additional_indent", True):
+        if self.use_additional_indent:
             indent_characters = '\t'
             if use_spaces:
                 indent_characters = ' ' * tab_size
