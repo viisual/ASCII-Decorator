@@ -509,7 +509,7 @@ def main():
     parser.add_option('-f', '--font', default=DEFAULT_FONT,
             help='font to render with (default: %default)', metavar='FONT')
     parser.add_option("-m", "--module",
-                  metavar="MODULE", default=DEFAULT_MODULE, help="MODULE where fonts are kept")
+                  metavar="MODULE", default="fonts", help="MODULE where fonts are kept")
     parser.add_option('-D', '--direction', type='choice', choices=('auto', 'left-to-right', 'right-to-left'),
             default='auto', metavar='DIRECTION', help='set direction text will be formatted in (default: %default)')
     parser.add_option('-j', '--justify', type='choice', choices=('auto', 'left', 'center', 'right'), default='auto',
