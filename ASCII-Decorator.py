@@ -53,7 +53,11 @@ class UpdateFigletPreviewCommand(sublime_plugin.TextCommand):
     """
 
     preview = None
-    def run(self, edit, font, directory=None, width=None, justify=None, direction=None, use_additional_indent=False):
+    def run(
+        self, edit, font, directory=None, width=None,
+        justify=None, direction=None, use_additional_indent=False,
+        flip=None, reverse=None
+    ):
         preview = UpdateFigletPreviewCommand.get_buffer()
         if not ST3:
             preview = preview.encode('UTF-8')
@@ -71,7 +75,9 @@ class UpdateFigletPreviewCommand(sublime_plugin.TextCommand):
                     "insert_as_comment": False,
                     "width": width,
                     "justify": justify,
-                    "direction": direction
+                    "direction": direction,
+                    "flip": flip,
+                    "reverse": reverse
                 }
             )
             UpdateFigletPreviewCommand.clear_buffer()
@@ -115,7 +121,9 @@ class FigletFavoritesCommand( sublime_plugin.TextCommand ):
                     "width": f.get("width", 80),
                     "direction": f.get("direction", "auto"),
                     "justify": f.get("justify", "auto"),
-                    "indent": f.get("indent", True)
+                    "indent": f.get("indent", True),
+                    "flip": f.get("flip", False),
+                    "reverse": f.get("reverse", False)
                 }
             )
 
@@ -165,7 +173,9 @@ class FigletFavoritesCommand( sublime_plugin.TextCommand ):
                     "use_additional_indent": font.get("indent"),
                     "width": font.get("width"),
                     "justify": font.get("justify"),
-                    "direction": font.get("direction")
+                    "direction": font.get("direction"),
+                    "flip": font.get("flip"),
+                    "reverse": font.get("reverse")
                 }
             )
 
@@ -189,7 +199,9 @@ class FigletFavoritesCommand( sublime_plugin.TextCommand ):
                     "use_additional_indent": font.get("indent"),
                     "width": font.get("width"),
                     "justify": font.get("justify"),
-                    "direction": font.get("direction")
+                    "direction": font.get("direction"),
+                    "flip": font.get("flip"),
+                    "reverse": font.get("reverse")
                 }
             )
 
@@ -315,13 +327,13 @@ class FigletCommand( sublime_plugin.TextCommand ):
     def run(
         self, edit, font, directory=None,
         insert_as_comment=None, use_additional_indent=None, comment_style=None,
-        width=80, justify=None, direction=None
+        width=80, justify=None, direction=None, flip=None, reverse=None
     ):
         self.edit = edit
         newSelections = []
         self.init(
             font, directory, insert_as_comment, use_additional_indent,
-            comment_style, width, justify, direction
+            comment_style, width, justify, direction, flip, reverse
         )
 
         # Loop through user selections.
@@ -340,7 +352,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
 
     def init(
         self, font, directory, insert_as_comment, use_additional_indent,
-        comment_style, width, justify, direction
+        comment_style, width, justify, direction, flip, reverse
     ):
         """
             Read plugin settings
@@ -371,6 +383,9 @@ class FigletCommand( sublime_plugin.TextCommand ):
         self.direction = settings.get('default_direction', "auto") if width is None else direction
         if self.direction not in ["auto", "left-to-right", "right-to-left"]:
             self.direction = "auto"
+
+        self.flip = flip if flip is not None else False
+        self.reverse = reverse if reverse is not None else False
 
         self.font = font
         self.directory = directory
@@ -405,7 +420,14 @@ class FigletCommand( sublime_plugin.TextCommand ):
             directory=directory, font=self.font, width=self.width,
             justify=self.justify, direction=self.direction
         )
-        output = f.renderText( original ).decode("utf-8", "replace") if not ST3 else f.renderText( original )
+        output = f.renderText( original )
+        if self.reverse is True:
+            output = output.reverse()
+        if self.flip is True:
+            output = output.flip()
+
+        if not ST3:
+            output = output.decode("utf-8", "replace")
 
         # Normalize line endings based on settings.
         output = self.normalize_line_endings( output )

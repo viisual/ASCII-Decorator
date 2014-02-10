@@ -42,7 +42,9 @@
             "width": 80,              // Override default width
             "direction": "auto",      // Override default direction
             "justify": "auto",        // Override default justification
-            "indent": true            // Override default additional indentation setting
+            "indent": true,           // Override default additional indentation setting
+            "flip": false,            // Flip output
+            "reverse": false          // Reverse output
         }
     ]
 }
