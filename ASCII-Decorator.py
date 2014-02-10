@@ -405,7 +405,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
             directory=directory, font=self.font, width=self.width,
             justify=self.justify, direction=self.direction
         )
-        output = f.renderText( original )
+        output = f.renderText( original ).decode("utf-8", "replace") if not ST3 else f.renderText( original )
 
         # Normalize line endings based on settings.
         output = self.normalize_line_endings( output )
