@@ -117,9 +117,10 @@ class FigletFont(object):
         for extension in ('tlf', 'flf'):
             fn = '%s.%s' % (font, extension)
             if pkg_resources.resource_exists(module, fn):
-                return cls.unpackFont(
+                data = cls.unpackFont(
                     pkg_resources.resource_string(module, fn), fn
                 )
+                return data.decode('utf-8', 'replace') if PY3 else data
 
         raise FontNotFound(font)
 
