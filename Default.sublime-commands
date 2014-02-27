@@ -1,0 +1,19 @@
+[
+    {
+        "caption": "ASCII Decorator: Default Font",
+        "command": "figlet_default"
+    },
+    {
+        "caption": "ASCII Decorator: Font Selector",
+        "command": "figlet_menu"
+    },
+    {
+        "caption": "ASCII Decorator: Font Favorites",
+        "command": "figlet_favorites"
+    },
+    {
+        "caption": "ASCII Decorator: Generate Font Test",
+        "command": "font_preview_generator",
+        "args": {"text": "Lorem Ipsum"}
+    }
+]

@@ -1,0 +1,13 @@
+[
+    { "caption": "-" },
+    {
+        "caption": "ASCII Decorator",
+        "children":
+        [
+            {"command": "figlet_default", "caption": "Default Font" },
+            {"command": "figlet_menu", "caption": "Font Selector"},
+            {"command": "figlet_favorites", "caption": "Font Favorites"}
+        ]
+    },
+    { "caption": "-"}
+]

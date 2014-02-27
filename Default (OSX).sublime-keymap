@@ -1,5 +1,5 @@
-    [  
-        {  
-            "keys": ["super+shift+k"], "command": "figlet"  
-        }  
-    ]  
+    [
+        {
+            "keys": ["super+shift+k"], "command": "figlet_default"
+        }
+    ]
