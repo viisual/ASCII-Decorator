@@ -208,7 +208,7 @@ class FigletFavoritesCommand( sublime_plugin.TextCommand ):
     def is_enabled(self):
         enabled = False
         for s in self.view.sel():
-            if s.size():
+            if s.size() or self.view.word(s).size():
                 enabled = True
         return enabled
 
@@ -296,7 +296,7 @@ class FigletMenuCommand( sublime_plugin.TextCommand ):
     def is_enabled(self):
         enabled = False
         for s in self.view.sel():
-            if s.size():
+            if s.size() or self.view.word(s).size():
                 enabled = True
         return enabled
 
@@ -310,7 +310,7 @@ class FigletDefaultCommand( sublime_plugin.TextCommand ):
     def is_enabled(self):
         enabled = False
         for s in self.view.sel():
-            if s.size():
+            if s.size() or self.view.word(s).size():
                 enabled = True
         return enabled
 
@@ -339,10 +339,10 @@ class FigletCommand( sublime_plugin.TextCommand ):
         # Loop through user selections.
         for currentSelection in self.view.sel():
             # Decorate the selection to ASCII Art.
+            if not currentSelection.size(): # Select word under cursor if selection is empty
+                currentSelection = self.view.word(currentSelection)
             if currentSelection.size():
                 newSelections.append( self.decorate( self.edit, currentSelection ) )
-            else:
-                newSelections.append(currentSelection)
 
         # Clear selections since they've been modified.
         self.view.sel().clear()
