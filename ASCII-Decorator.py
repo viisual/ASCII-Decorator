@@ -24,7 +24,7 @@ class FontPreviewGeneratorCommand(sublime_plugin.WindowCommand):
         font_locations = figlet_paths()
 
         # Verify selected text
-        if use_selected_text == "True":
+        if use_selected_text == True:
             view = sublime.active_window ().active_view ()
             regions = view.sel ()
             region_count = len ( regions )
