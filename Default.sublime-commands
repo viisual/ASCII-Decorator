@@ -19,6 +19,6 @@
     {
         "caption": "ASCII Decorator: Generate Font Test (Selected Text)",
         "command": "font_preview_generator",
-        "args": {"use_selected_text": "True"}
+        "args": {"use_selected_text": true}
     }
 ]
