@@ -19,8 +19,8 @@ PACKAGE_LOCATION = os.path.abspath(os.path.dirname(__file__))
 
 
 class FontPreviewGeneratorCommand(sublime_plugin.WindowCommand):
-    def run( self, text = "Lorem Ipsum", use_selected_text = "False" ):
-        # Find directory locations`
+    def run(self, text = "Lorem Ipsum", use_selected_text = "False"):
+        # Find directory locations
         font_locations = figlet_paths()
 
         # Verify selected text
