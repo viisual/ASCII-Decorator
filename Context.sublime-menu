@@ -1,14 +1,13 @@
 [
-  { "caption": "-" },
-  {
-    "caption": "ASCII Decorator",
-    "children":
-    [
-      {"command": "figlet_default", "caption": "Default Font" },
-      {"command": "figlet_menu", "caption": "Font Selector"},
-      {"command": "figlet_favorites", "caption": "Font Favorites"},
-      {"command": "font_preview_generator", "args": { "use_selected_text": "True" }, "caption": "Generate Font Test From Selection"}
-    ]
-  },
-  { "caption": "-"}
+    { "caption": "-" },
+    {
+        "caption": "ASCII Decorator",
+        "children":
+        [
+            {"command": "figlet_default", "caption": "Default Font" },
+            {"command": "figlet_menu", "caption": "Font Selector"},
+            {"command": "figlet_favorites", "caption": "Font Favorites"}
+        ]
+    },
+    { "caption": "-"}
 ]
