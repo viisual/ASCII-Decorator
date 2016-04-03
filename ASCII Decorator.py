@@ -205,13 +205,6 @@ class FigletFavoritesCommand( sublime_plugin.TextCommand ):
                 }
             )
 
-    def is_enabled(self):
-        enabled = False
-        for s in self.view.sel():
-            if s.size() or self.view.word(s).size():
-                enabled = True
-        return enabled
-
 
 class FigletMenuCommand( sublime_plugin.TextCommand ):
     def run( self, edit ):
@@ -293,26 +286,12 @@ class FigletMenuCommand( sublime_plugin.TextCommand ):
                 }
             )
 
-    def is_enabled(self):
-        enabled = False
-        for s in self.view.sel():
-            if s.size() or self.view.word(s).size():
-                enabled = True
-        return enabled
-
 
 class FigletDefaultCommand( sublime_plugin.TextCommand ):
     def run(self, edit):
         settings = sublime.load_settings('ASCII Decorator.sublime-settings')
         font = settings.get('ascii_decorator_font', "slant")
         self.view.run_command("figlet", {"font": font})
-
-    def is_enabled(self):
-        enabled = False
-        for s in self.view.sel():
-            if s.size() or self.view.word(s).size():
-                enabled = True
-        return enabled
 
 
 class FigletCommand( sublime_plugin.TextCommand ):
@@ -338,11 +317,15 @@ class FigletCommand( sublime_plugin.TextCommand ):
 
         # Loop through user selections.
         for currentSelection in self.view.sel():
+            lineA = self.view.line( currentSelection.a )
+            lineB = self.view.line( currentSelection.b )
             # Decorate the selection to ASCII Art.
-            if not currentSelection.size(): # Select word under cursor if selection is empty
-                currentSelection = self.view.word(currentSelection)
-            if currentSelection.size():
-                newSelections.append( self.decorate( self.edit, currentSelection ) )
+            if lineA == lineB: # single line selection
+                newSelections.append( self.decorate( self.edit, lineA ) )
+            else: # multi line selection
+                for line in reversed ( self.view.lines( currentSelection ) ):
+                    if self.view.substr( line ).strip() != "":
+                        newSelections.append( self.decorate( self.edit, line ) )
 
         # Clear selections since they've been modified.
         self.view.sel().clear()
