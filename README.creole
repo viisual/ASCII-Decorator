@@ -26,7 +26,7 @@ Or simply:
   ### type: git clone https://github.com/viisual/ASCII-Decorator.git
 
 === Usage ===
-  # You can access the plugin default font via from selecting: Menu > Edit > ASCII Decorator
+  # You can access the plugin default font via from selecting: Menu > Edit > ASCII-Decorator
   # You can access the plugin default font via the key-binding: super+shift+K or alt+shift+K
   # You can access the font selector via the view context menu or the command palette
   # You can access your pre-defined favorite fonts via the view context menu or the command palette

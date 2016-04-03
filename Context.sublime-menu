@@ -1,7 +1,7 @@
 [
     { "caption": "-" },
     {
-        "caption": "ASCII Decorator",
+        "caption": "ASCII-Decorator",
         "children":
         [
             {"command": "figlet_default", "caption": "Default Font" },

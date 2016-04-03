@@ -99,7 +99,7 @@ class UpdateFigletPreviewCommand(sublime_plugin.TextCommand):
 class FigletFavoritesCommand( sublime_plugin.TextCommand ):
     def run( self, edit ):
         self.undo = False
-        settings = sublime.load_settings('ASCII Decorator.sublime-settings')
+        settings = sublime.load_settings('ASCII-Decorator.sublime-settings')
 
         favorites = settings.get("favorite_fonts", [])
 
@@ -216,7 +216,7 @@ class FigletFavoritesCommand( sublime_plugin.TextCommand ):
 class FigletMenuCommand( sublime_plugin.TextCommand ):
     def run( self, edit ):
         self.undo = False
-        settings = sublime.load_settings('ASCII Decorator.sublime-settings')
+        settings = sublime.load_settings('ASCII-Decorator.sublime-settings')
 
         # Find directory locations
         font_locations = figlet_paths()
@@ -303,7 +303,7 @@ class FigletMenuCommand( sublime_plugin.TextCommand ):
 
 class FigletDefaultCommand( sublime_plugin.TextCommand ):
     def run(self, edit):
-        settings = sublime.load_settings('ASCII Decorator.sublime-settings')
+        settings = sublime.load_settings('ASCII-Decorator.sublime-settings')
         font = settings.get('ascii_decorator_font', "slant")
         self.view.run_command("figlet", {"font": font})
 
@@ -358,7 +358,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
             Read plugin settings
         """
 
-        settings = sublime.load_settings('ASCII Decorator.sublime-settings')
+        settings = sublime.load_settings('ASCII-Decorator.sublime-settings')
 
         if use_additional_indent is not None:
             self.insert_as_comment = insert_as_comment
