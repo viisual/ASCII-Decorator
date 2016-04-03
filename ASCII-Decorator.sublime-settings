@@ -1,0 +1,50 @@
+/*
+    ASCII-Decorator default settings
+*/
+{
+    /* Default name of the font file to use. */
+    "ascii_decorator_font": "slant",
+
+    /* (ST3 only) Show preview on highlight when using the quick panel command.
+        (true | false) (default = true)*/
+    "show_preview": true,
+
+    /* When inserting, insert the ascii-art as a comment
+        (true | false) (default = false)*/
+    "default_insert_as_comment": false,
+
+    /* Comment preference.  Will try and use the preference if available.
+        (line | block) (default = "line") */
+    "default_comment_style_preference": "line",
+
+    /* ASCII-Decorator idents the text on conversion.
+        This setting disables that additional indentation
+        (true | false) (default = true) */
+    "default_use_additional_indent": true,
+
+    /* Default width (default = 80) */
+    "default_width": 80,
+
+    /* Default direction ("auto" | "left-to-right" | "right-to-left")
+        (default = "auto") */
+    "default_direction": "auto",
+
+    /* Default justification ("auto" | "left" |"center" |"right") (default = "auto") */
+    "default_justify": "auto",
+
+    /* Define user fonts setup for the favorite fonts menu */
+    "favorite_fonts": [
+        {
+            "name": "Default Font",   // (required) Friendly name for font configuration
+            "font": "slant",          // (required) Font
+            "comment": true,          // Override default setting
+            "comment_style": "block", // Override default comment style
+            "width": 80,              // Override default width
+            "direction": "auto",      // Override default direction
+            "justify": "auto",        // Override default justification
+            "indent": true,           // Override default additional indentation setting
+            "flip": false,            // Flip output
+            "reverse": false          // Reverse output
+        }
+    ]
+}
