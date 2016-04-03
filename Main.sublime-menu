@@ -4,7 +4,7 @@
         "children":
         [
             { "id": "wrap" },
-            { "command": "figlet", "caption": "ASCII-Decorator" }
+            { "command": "figlet", "caption": "ASCII Decorator" }
         ]
     },
     {
@@ -18,20 +18,20 @@
                 "children":
                 [
                     {
-                        "caption": "ASCII-Decorator",
+                        "caption": "ASCII Decorator",
                         "children":
                         [
                             {
                                 "command": "open_file", "args":
                                 {
-                                    "file": "${packages}/ASCII-Decorator/ASCII-Decorator.sublime-settings"
+                                    "file": "${packages}/ASCII-Decorator/ASCII Decorator.sublime-settings"
                                 },
                                 "caption": "Settings – Default"
                             },
                             {
                                 "command": "open_file", "args":
                                 {
-                                    "file": "${packages}/User/ASCII-Decorator.sublime-settings"
+                                    "file": "${packages}/User/ASCII Decorator.sublime-settings"
                                 },
                                 "caption": "Settings – User"
                             },
