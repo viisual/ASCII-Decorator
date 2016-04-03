@@ -1,5 +1,5 @@
 === Description ===
-ASCII-Decorator is a simple plugin implementation of [[https://github.com/pwaller/pyfiglet|pyfiglet]] for [[www.sublimetext.com/3|Sublime Text 3]].  [[https://github.com/pwaller/pyfiglet|pyfiglet]] is a full port of [[http://www.figlet.org/|FIGlet]] into pure python.  [[http://www.figlet.org/|FIGlet]] is a program that generates text banners, in a variety of typefaces, composed of letters made up of conglomerations of smaller ASCII characters.
+ASCII Decorator is a simple plugin implementation of [[https://github.com/pwaller/pyfiglet|pyfiglet]] for [[www.sublimetext.com/3|Sublime Text 3]].  [[https://github.com/pwaller/pyfiglet|pyfiglet]] is a full port of [[http://www.figlet.org/|FIGlet]] into pure python.  [[http://www.figlet.org/|FIGlet]] is a program that generates text banners, in a variety of typefaces, composed of letters made up of conglomerations of smaller ASCII characters.
 {{{
 Or simply:
 
@@ -19,21 +19,51 @@ Or simply:
   # (Preferred) Install via [[http://wbond.net/sublime_packages/package_control|Package Control Plugin]] for [[www.sublimetext.com/3|Sublime Text 3]]
   ## Bring up command palette (cmd+shift+P or ctrl+shift+P)
   ### Select option: "Package Control: Install Package"
-  #### Select ASCII-Decorator from the list.
+  #### Select ASCII Decorator from the list.
 
   # Install via git
   ## In a shell: path to the [[www.sublimetext.com/3|Sublime Text 3]] Packages directory
-  ### type: git clone https://github.com/viisual/ASCII-Decorator.git
+  ### type: git clone https://github.com/viisual/ASCII Decorator.git
 
 === Usage ===
-  # You can access the plugin default font via from selecting: Menu > Edit > ASCII-Decorator
+  # You can access the plugin default font via from selecting: Menu > Edit > ASCII Decorator
   # You can access the plugin default font via the key-binding: super+shift+K or alt+shift+K
   # You can access the font selector via the view context menu or the command palette
   # You can access your pre-defined favorite fonts via the view context menu or the command palette
-
+  
 === Setup Font Favorites ===
 You can define frequently used font configurations in the settings file under "favorite_fonts".  Only "name" and "font" are requried.  The rest of the settings override the defaults if used.
 {{{
+    /* Default name of the font file to use. */
+    "ascii_decorator_font": "slant",
+
+    /* (ST3 only) Show preview on highlight when using the quick panel command.
+        (true | false) (default = true)*/
+    "show_preview": true,
+
+    /* When inserting, insert the ascii-art as a comment
+        (true | false) (default = false)*/
+    "default_insert_as_comment": false,
+
+    /* Comment preference.  Will try and use the preference if available.
+        (line | block) (default = "line") */
+    "default_comment_style_preference": "line",
+
+    /* ASCII Decorator idents the text on conversion.
+        This setting disables that additional indentation
+        (true | false) (default = true) */
+    "default_use_additional_indent": true,
+
+    /* Default width (default = 80) */
+    "default_width": 80,
+
+    /* Default direction ("auto" | "left-to-right" | "right-to-left")
+        (default = "auto") */
+    "default_direction": "auto",
+
+    /* Default justification ("auto" | "left" |"center" |"right") (default = "auto") */
+    "default_justify": "auto",
+
     /* Define user fonts setup for the favorite fonts menu */
     "favorite_fonts": [
         {
@@ -44,7 +74,9 @@ You can define frequently used font configurations in the settings file under "f
             "width": 80,              // Override default width
             "direction": "auto",      // Override default direction
             "justify": "auto",        // Override default justification
-            "indent": true            // Override default additional indentation setting
+            "indent": true,           // Override default additional indentation setting
+            "flip": false,            // Flip output
+            "reverse": false          // Reverse output
         }
     ]
 }}}

@@ -1,5 +1,5 @@
 /*
-    ASCII-Decorator default settings
+    ASCII Decorator default settings
 */
 {
     /* Default name of the font file to use. */
@@ -17,7 +17,7 @@
         (line | block) (default = "line") */
     "default_comment_style_preference": "line",
 
-    /* ASCII-Decorator idents the text on conversion.
+    /* ASCII Decorator idents the text on conversion.
         This setting disables that additional indentation
         (true | false) (default = true) */
     "default_use_additional_indent": true,
