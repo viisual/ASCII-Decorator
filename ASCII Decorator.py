@@ -34,10 +34,17 @@ class FontPreviewGeneratorCommand(sublime_plugin.WindowCommand):
 
             selection = selections[0]
             line_a = view.line( selection.a )
-            line_b = view.line( selection.b )
-            if line_a != line_b: return
+            line_b = view.line( selection.a )
 
-            text = view.substr( selection )
+            if line_a != line_b:
+                return
+
+            if selection.a == selection.b:
+                source_region = line_a
+            else:
+                source_region = selection
+
+            text = view.substr( source_region )
             text = text.strip()
 
             if text == "":
