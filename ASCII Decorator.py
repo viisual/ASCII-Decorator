@@ -17,11 +17,38 @@ else:
 
 PACKAGE_LOCATION = os.path.abspath(os.path.dirname(__file__))
 
-
 class FontPreviewGeneratorCommand(sublime_plugin.WindowCommand):
-    def run(self, text):
+    def run(self, text = "Lorem Ipsum", use_selected_text = False):
         # Find directory locations
         font_locations = figlet_paths()
+
+        # Verify selected text
+        if use_selected_text == True:
+
+            view = self.window.active_view()
+            selections = view.sel()
+            regionCount = len( selections )
+
+            if regionCount == 0 or regionCount > 1:
+                return
+
+            selection = selections[0]
+            line_A = view.line( selection.a )
+            line_B = view.line( selection.b )
+
+            if line_A != line_B:
+                return
+
+            if selection.a == selection.b:
+                sourceRegion = line_A
+            else:
+                sourceRegion = selection
+
+            text = view.substr( sourceRegion )
+            text = text.strip()
+
+            if text == "":
+                return
 
         # Find available fonts
         self.options = []
@@ -315,15 +342,22 @@ class FigletCommand( sublime_plugin.TextCommand ):
             comment_style, width, justify, direction, flip, reverse
         )
 
-        # Loop through user selections.
-        for currentSelection in self.view.sel():
-            lineA = self.view.line( currentSelection.a )
-            lineB = self.view.line( currentSelection.b )
-            # Decorate the selection to ASCII Art.
-            if lineA == lineB: # single line selection
-                newSelections.append( self.decorate( self.edit, lineA ) )
+        # Loop through user selections & decorate the selections to ASCII Art.
+        for selection in self.view.sel():
+
+            line_A = self.view.line( selection.a )
+            line_B = self.view.line( selection.b )
+
+            if  line_A == line_B \
+            and selection.a == selection.b: # use caret line
+                newSelections.append( self.decorate( self.edit, line_A ) )
+
+            elif line_A == line_B \
+            and  selection.a != selection.b: # use selection
+                newSelections.append( self.decorate( self.edit, selection ) )
+
             else: # multi line selection
-                for line in reversed ( self.view.lines( currentSelection ) ):
+                for line in reversed ( self.view.lines( selection ) ):
                     if self.view.substr( line ).strip() != "":
                         newSelections.append( self.decorate( self.edit, line ) )
 
