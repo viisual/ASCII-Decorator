@@ -17,11 +17,31 @@ else:
 
 PACKAGE_LOCATION = os.path.abspath(os.path.dirname(__file__))
 
-
 class FontPreviewGeneratorCommand(sublime_plugin.WindowCommand):
-    def run(self, text):
+    def run(self, text = "Lorem Ipsum", use_selected_text = False):
         # Find directory locations
         font_locations = figlet_paths()
+
+        # Verify selected text
+        if use_selected_text == True:
+
+            view = self.window.active_view()
+            selections = view.sel()
+            region_count = len( selections )
+
+            if region_count == 0 or region_count > 1:
+                return
+
+            selection = selections[0]
+            line_a = view.line( selection.a )
+            line_b = view.line( selection.b )
+            if line_a != line_b: return
+
+            text = view.substr( selection )
+            text = text.strip()
+
+            if text == "":
+                return
 
         # Find available fonts
         self.options = []

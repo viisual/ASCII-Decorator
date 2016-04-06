@@ -12,8 +12,13 @@
         "command": "figlet_favorites"
     },
     {
-        "caption": "ASCII Decorator: Generate Font Test",
+        "caption": "ASCII Decorator: Generate Font Test (Selected Text)",
         "command": "font_preview_generator",
-        "args": { "text": "Lorem Ipsum" }
-    }
+        "args": {"use_selected_text": true}
+    },
+    {
+        "caption": "ASCII Decorator: Generate Font Test (Lorem Ipsum)",
+        "command": "font_preview_generator",
+        "args": {"text": "Lorem Ipsum"}
+    },
 ]
