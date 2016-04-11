@@ -18,12 +18,6 @@ Or simply:
 
 # Features
 
-Each command will convert all selected regions to ASCII text. Regions are handled in the following ways:
-
-* Caret with no selection: entire line text will be converted
-* Selection on a single line: only selected text will be converted.
-* Selection that spans multiple lines: each line with text will be converted
-
 ### Font Selector & Font Favorites
 
 See a live preview of all selected regions. `Font Selector` shows all fonts by name, while `Font Favorites` shows your customized list of frequently used fonts.
@@ -59,20 +53,50 @@ Creates a new document which shows your selected text in all available fonts, so
 
 # Usage
 
-* You can access the plugin default font via from selecting: Menu > Edit > ASCII Decorator
-* You can access the plugin default font via the key-binding: super+shift+K or alt+shift+K
-* You can access the `Font Selector`, `Font Favorites`, & `Generate Font Test` commands via the view context menu or the command palette
+### Command Palette
+
+* ASCII Decorator: Default Font
+* ASCII Decorator: Font Selector
+* ASCII Decorator: Font Favorites
+* ASCII Decorator: Generate Font Test (Selected Text)
+* ASCII Decorator: Generate Font Test (Lorem Ipsum)
+
+### Context Menu
+
+Right click on your document to access the context menu.&nbsp; The `ASCII Decorator` sub-menu contains:
+
+`Default Font`
+`Font Selector`
+`Font Favorites`
+`Generate Font Test (Selected Text)`
+
+### Key Bindings
+
+One key binding is included by default.&nbsp; See [**sublime-commands**](https://github.com/viisual/ASCII-Decorator/blob/master/Default.sublime-commands) for any additional commands you would like to map to a key binding. 
+
+Convert Selected Text To Default Font:
+
+ * <kbd>Super + Shift + K<kbd> (OSX & Linux)
+ * <kbd>Alt + Shift + K</kbd> (Windows)
+
+### Selections
+
+Each command will convert all selected regions to ASCII text. Regions are handled in the following ways:
+
+* Caret with no selection: entire line text will be converted
+* Selection on a single line: only selected text will be converted.
+* Selection that spans multiple lines: each line with text will be converted
 
 # Configuration
 
 You can define your [**sublime-settings**](https://github.com/viisual/ASCII-Decorator/blob/master/ASCII%20Decorator.sublime-settings) preferences @:
 ```
-`Menu / Preferences / Package Settings / ASCII Decorator / Settings - User
+`Menu > Preferences > Package Settings > ASCII Decorator > Settings - User
 ```
 
-Custom key-bindings can be set @:
+Custom key bindings can be set @:
 ```
-`Menu / Preferences / Package Settings / ASCII Decorator / Key Bindings - User
+`Menu > Preferences > Package Settings > ASCII Decorator > Key Bindings - User
 
 ```
 
