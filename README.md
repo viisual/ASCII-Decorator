@@ -47,26 +47,26 @@ Creates a new document which shows your selected text in all available fonts, so
 **Install via git**
 
 * In a shell: path to the Sublime Text `Packages` directory
-* type: `git clone https://github.com/viisual/ASCII Decorator.git`
+* Type: `git clone https://github.com/viisual/ASCII Decorator.git`
 
 # Usage
 
 ### Command Palette
 
-* ASCII Decorator: Default Font
-* ASCII Decorator: Font Selector
-* ASCII Decorator: Font Favorites
-* ASCII Decorator: Generate Font Test (Selected Text)
-* ASCII Decorator: Generate Font Test (Lorem Ipsum)
+* `ASCII Decorator: Default Font`
+* `ASCII Decorator: Font Selector`
+* `ASCII Decorator: Font Favorites`
+* `ASCII Decorator: Generate Font Test (Selected Text)`
+* `ASCII Decorator: Generate Font Test (Lorem Ipsum)`
 
 ### Context Menu
 
 Right click on your document to access the context menu.&nbsp; The `ASCII Decorator` sub-menu contains:
 
-`Default Font`
-`Font Selector`
-`Font Favorites`
-`Generate Font Test (Selected Text)`
+* `Default Font`
+* `Font Selector`
+* `Font Favorites`
+* `Generate Font Test (Selected Text)`
 
 ### Key Bindings
 
