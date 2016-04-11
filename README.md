@@ -1,4 +1,4 @@
-# Description
+# ASCII Decorator
 
 ASCII Decorator is a simple plugin implementation of [**pyfiglet**](https://github.com/pwaller/pyfiglet) for [**Sublime Text 3**](www.sublimetext.com/3).&nbsp; [**pyfiglet**](https://github.com/pwaller/pyfiglet) is a full port of [**FIGlet**](http://www.figlet.org/) into pure python.&nbsp; [**FIGlet**](http://www.figlet.org/) is a program that generates text banners, in a variety of typefaces, composed of letters made up of conglomerations of smaller ASCII characters.
 
@@ -10,6 +10,10 @@ Or simply:
  / __/ _/ // /_/ / /  __/ /_   / /_/ / /_/ /  __(__  )  / /_/ / / / (__  ) _ _
 /_/   /___/\____/_/\___/\__/   \__,_/\____/\___/____/   \__/_/ /_/_/____(_|_|_)
 ```
+
+## SECTIONS
+
+[Features](https://github.com/viisual/ASCII-Decorator#features) &nbsp;|&nbsp; [Installation](https://github.com/viisual/ASCII-Decorator#installation) &nbsp;|&nbsp; [Usage](https://github.com/viisual/ASCII-Decorator#usage) &nbsp;|&nbsp; [Configuration](https://github.com/viisual/ASCII-Decorator#configuration) &nbsp;|&nbsp; [Credits](https://github.com/viisual/ASCII-Decorator#credits)
 
 # Features
 
@@ -52,6 +56,12 @@ Creates a new document which shows your selected text in all available fonts, so
 # Usage
 
 ### Command Palette
+
+Bring up the command palette:
+* <kbd>Cmd + Shift + P</kbd> (*OSX & Linux*)
+* <kbd>Ctrl + Shift + P</kbd> (*Windows*)
+
+Type:
 
 * `ASCII Decorator: Default Font`
 * `ASCII Decorator: Font Selector`
