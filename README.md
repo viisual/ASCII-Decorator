@@ -11,7 +11,7 @@ Or simply:
 /_/   /___/\____/_/\___/\__/   \__,_/\____/\___/____/   \__/_/ /_/_/____(_|_|_)
 ```
 
-## SECTIONS
+# Sections
 
 [Features](https://github.com/viisual/ASCII-Decorator#features) &nbsp;|&nbsp; [Installation](https://github.com/viisual/ASCII-Decorator#installation) &nbsp;|&nbsp; [Usage](https://github.com/viisual/ASCII-Decorator#usage) &nbsp;|&nbsp; [Configuration](https://github.com/viisual/ASCII-Decorator#configuration) &nbsp;|&nbsp; [Credits](https://github.com/viisual/ASCII-Decorator#credits)
 
