@@ -1,6 +1,6 @@
 # Description
 
-ASCII Decorator is a simple plugin implementation of [pyfiglet](https://github.com/pwaller/pyfiglet) for [Sublime Text 3](www.sublimetext.com/3).&nbsp; [pyfiglet](https://github.com/pwaller/pyfiglet) is a full port of [FIGlet](http://www.figlet.org/) into pure python.&nbsp; [FIGlet](http://www.figlet.org/) is a program that generates text banners, in a variety of typefaces, composed of letters made up of conglomerations of smaller ASCII characters.
+ASCII Decorator is a simple plugin implementation of [**pyfiglet**](https://github.com/pwaller/pyfiglet) for [**Sublime Text 3**](www.sublimetext.com/3).&nbsp; [**pyfiglet**](https://github.com/pwaller/pyfiglet) is a full port of [**FIGlet**](http://www.figlet.org/) into pure python.&nbsp; [**FIGlet**](http://www.figlet.org/) is a program that generates text banners, in a variety of typefaces, composed of letters made up of conglomerations of smaller ASCII characters.
 
 Or simply:
 ```
@@ -19,8 +19,8 @@ Or simply:
 
 # Prerequisites
 
-* [Sublime Text 3](www.sublimetext.com/3)
-* [Package Control](http://wbond.net/sublime_packages/package_control)
+* [**Sublime Text 3**](www.sublimetext.com/3)
+* [**Package Control**](http://wbond.net/sublime_packages/package_control)
 
 &nbsp;
 
@@ -64,7 +64,7 @@ Creates a new document which shows your selected text in all available fonts, so
 
 # Installation
 
-**(Preferred) Install via [Package Control Plugin](http://wbond.net/sublime_packages/package_control) for [Sublime Text 3](www.sublimetext.com/3)**
+**(Preferred) Install via [**Package Control Plugin**](http://wbond.net/sublime_packages/package_control) for [**Sublime Text 3**](www.sublimetext.com/3)**
 
 * Bring up command palette (cmd+shift+P or ctrl+shift+P)
 * Select option: "Package Control: Install Package"
@@ -72,7 +72,7 @@ Creates a new document which shows your selected text in all available fonts, so
 
 **Install via git**
 
-* In a shell: path to the [Sublime Text 3](www.sublimetext.com/3) Packages directory
+* In a shell: path to the [**Sublime Text 3**](www.sublimetext.com/3) Packages directory
 * type: git clone https://github.com/viisual/ASCII Decorator.git
 
 # Usage
@@ -89,7 +89,7 @@ Creates a new document which shows your selected text in all available fonts, so
   
 # Configuration
 
-You can define your [sublime-settings](https://github.com/viisual/ASCII-Decorator/blob/master/ASCII%20Decorator.sublime-settings) preferences @:
+You can define your [**sublime-settings**](https://github.com/viisual/ASCII-Decorator/blob/master/ASCII%20Decorator.sublime-settings) preferences @:
 ```
 `Menu / Preferences / Package Settings / ASCII Decorator / Settings - User
 ```
@@ -109,7 +109,7 @@ Custom key-bindings can be set @:
 ```
 All of the documentation and the majority of the work done was by [**Christopher Jones**](cjones@insub.org).
 
-pyfiglet Packaged by [Peter Waller](peter.waller@gmail.com),
+pyfiglet Packaged by [**Peter Waller**](peter.waller@gmail.com),
 various enhancements by [**Stefano Rivera**](stefano@rivera.za.net) & [**Enteleform**](https://packagecontrol.io/browse/authors/Enteleform).
 ported to Sublime Text 3 by Sascha Wolf <swolf.dev@gmail.com>
 
