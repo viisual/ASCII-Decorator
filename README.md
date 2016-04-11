@@ -40,7 +40,7 @@ Creates a new document which shows your selected text in all available fonts, so
 
 # Installation
 
-Install via [**Package Control**](http://wbond.net/sublime_packages/package_control) for [**Sublime Text 3**](www.sublimetext.com/3) (*Preferred*)
+Install via [**Package Control**](https://packagecontrol.io/) for [**Sublime Text 3**](https://www.sublimetext.com/3) (*Preferred*)
 
 * Bring up the command palette:
  * <kbd>Cmd + Shift + P</kbd> (*OSX & Linux*)
@@ -97,9 +97,12 @@ Each command will convert all selected regions to ASCII text.
 
 Regions are handled in the following ways:
 
-* Caret with no selection: the entire line's text will be converted
-* Selection on a single line: only selected text will be converted.
-* Selection that spans multiple lines: each line that contains text will be converted
+* Caret with no selection: 
+ * the entire line's text will be converted
+* Selection on a single line: 
+ * only selected text will be converted.
+* Selection that spans multiple lines: 
+ * each line that contains text will be converted
 
 # Configuration
 
@@ -111,11 +114,11 @@ Custom key bindings can be set @:
 
 # Credits
 
-Primary development & documentation by: [**Christopher Jones**](cjones@insub.org).
+Primary development & documentation by: [**Christopher Jones**](mailto:cjones@insub.org).
 
-Packaging of `pyfiglet` by: [**Peter Waller**](peter.waller@gmail.com)  
-Various enhancements by: [**Stefano Rivera**](stefano@rivera.za.net) & [**Enteleform**](https://packagecontrol.io/browse/authors/Enteleform).  
-Ported to Sublime Text 3 by: [**Sascha Wolf**](swolf.dev@gmail.com)  
+Packaging of `pyfiglet` by: [**Peter Waller**](mailto:peter.waller@gmail.com)  
+Various enhancements by: [**Stefano Rivera**](mailto:stefano@rivera.za.net) & [**Enteleform**](https://packagecontrol.io/browse/authors/Enteleform)  
+Ported to `Sublime Text 3` by: [**Sascha Wolf**](mailto:swolf.dev@gmail.com)  
 
 ```
                         _|_|  _|            _|              _|
