@@ -99,22 +99,24 @@ Regions are handled in the following ways:
 
 * Caret with no selection: 
  * the entire line's text will be converted
+ 
 * Selection on a single line: 
  * only selected text will be converted.
+ 
 * Selection that spans multiple lines: 
  * each line that contains text will be converted
 
 # Configuration
 
-You can define your [**sublime-settings**](https://github.com/viisual/ASCII-Decorator/blob/master/ASCII%20Decorator.sublime-settings) preferences @:
+You can define your [**sublime-settings**](https://github.com/viisual/ASCII-Decorator/blob/master/ASCII%20Decorator.sublime-settings) preferences @:  
 `Menu > Preferences > Package Settings > ASCII Decorator > Settings - User`
 
-Custom key bindings can be set @:
+Custom key bindings can be set @:  
 `Menu > Preferences > Package Settings > ASCII Decorator > Key Bindings - User`
 
 # Credits
 
-Primary development & documentation by: [**Christopher Jones**](mailto:cjones@insub.org).
+Primary development & documentation by: [**Christopher Jones**](mailto:cjones@insub.org)
 
 Packaging of `pyfiglet` by: [**Peter Waller**](mailto:peter.waller@gmail.com)  
 Various enhancements by: [**Stefano Rivera**](mailto:stefano@rivera.za.net) & [**Enteleform**](https://packagecontrol.io/browse/authors/Enteleform)  
