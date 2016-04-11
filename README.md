@@ -15,7 +15,7 @@ Or simply:
 
 ### Font Selector & Font Favorites
 
-See a live preview of all selected regions.
+See a live preview of the first selected region, and convert all selected regions to the chosen font upon execution.
 `Font Selector` shows all fonts by name, while `Font Favorites` shows your customized list of frequently used fonts.
 
 By default, `Font Favorites` comes with a list of searchable header styles that can be used in the following ways:
