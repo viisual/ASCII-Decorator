@@ -47,7 +47,8 @@
             • Right-Click Menu:  ASCII Decorator / Font Favorites
 
     /* Alternatively, you can set up your own favorite font list.
-        This is an example entry with the full set of available parameters: */
+        This is an example entry with the full set of available parameters.
+        Only "name" & "font" are required. */
             // {
             //     "name": "Default Font",   // (required) Friendly name for font configuration
             //     "font": "slant",          // (required) Font
