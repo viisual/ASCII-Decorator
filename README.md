@@ -19,7 +19,7 @@ Or simply:
 
 ### Font Selector & Font Favorites
 
-See a live preview of the first selected region, and convert all selected regions to the chosen font upon execution.  
+See a live preview of the first selected region and convert all selected regions to the chosen font upon execution.  
 `Font Selector` shows all fonts by name, while `Font Favorites` shows your customized list of frequently used fonts.
 
 By default, `Font Favorites` comes with a list of searchable header styles that can be used in the following ways:
@@ -82,9 +82,7 @@ The `ASCII Decorator` sub-menu contains:
 
 ### Key Bindings
 
-One key binding is included by default.
-
-Convert Selected Text To Default Font:
+One key binding is included for `Default Font`:
 
  * <kbd>Super + Shift + K</kbd> (*OSX & Linux*)
  * <kbd>Alt + Shift + K</kbd> (*Windows*)
@@ -97,13 +95,11 @@ Each command will convert all selected regions to ASCII text.
 
 Regions are handled in the following ways:
 
-* Caret with no selection: 
+* Caret with no selection:
  * the entire line's text will be converted
- 
-* Selection on a single line: 
+* Selection on a single line:
  * only selected text will be converted.
- 
-* Selection that spans multiple lines: 
+* Selection that spans multiple lines:
  * each line that contains text will be converted
 
 # Configuration
