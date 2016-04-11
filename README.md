@@ -11,14 +11,10 @@ Or simply:
 /_/   /___/\____/_/\___/\__/   \__,_/\____/\___/____/   \__/_/ /_/_/____(_|_|_)
 ```
 
-&nbsp; 
-
 # Prerequisites
 
 * [**Sublime Text 3**](www.sublimetext.com/3)
 * [**Package Control**](http://wbond.net/sublime_packages/package_control)
-
-&nbsp;
 
 # Features
 
@@ -48,8 +44,6 @@ Creates a new document which shows your selected text in all available fonts, so
 
 ![GenerateFontTest_SelectedText](https://raw.githubusercontent.com/Enteleform/ASCII-Decorator/master/GIFs/GenerateFontTest_SelectedText.gif)
 
-&nbsp;
-
 # Installation
 
 **(Preferred) Install via [**Package Control Plugin**](http://wbond.net/sublime_packages/package_control) for [**Sublime Text 3**](www.sublimetext.com/3)**
@@ -69,8 +63,6 @@ Creates a new document which shows your selected text in all available fonts, so
 * You can access the plugin default font via the key-binding: super+shift+K or alt+shift+K
 * You can access the `Font Selector`, `Font Favorites`, & `Generate Font Test` commands via the view context menu or the command palette
 
-&nbsp;
-  
 # Configuration
 
 You can define your [**sublime-settings**](https://github.com/viisual/ASCII-Decorator/blob/master/ASCII%20Decorator.sublime-settings) preferences @:
@@ -84,8 +76,6 @@ Custom key-bindings can be set @:
 
 ```
 
-&nbsp;
-
 # Credits
 
 ```
@@ -93,7 +83,7 @@ All of the documentation and the majority of the work done was by [**Christopher
 
 pyfiglet Packaged by [**Peter Waller**](peter.waller@gmail.com),
 various enhancements by [**Stefano Rivera**](stefano@rivera.za.net) & [**Enteleform**](https://packagecontrol.io/browse/authors/Enteleform).
-ported to Sublime Text 3 by Sascha Wolf <swolf.dev@gmail.com>
+ported to Sublime Text 3 by [**Sascha Wolf**](swolf.dev@gmail.com)
 
                         _|_|  _|            _|              _|
 _|_|_|    _|    _|    _|            _|_|_|  _|    _|_|    _|_|_|_|
