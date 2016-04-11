@@ -113,9 +113,9 @@ Custom key bindings can be set @:
 
 Primary development & documentation by: [**Christopher Jones**](cjones@insub.org).
 
-pyfiglet Packaged by: [**Peter Waller**](peter.waller@gmail.com),
-Various enhancements by: [**Stefano Rivera**](stefano@rivera.za.net) & [**Enteleform**](https://packagecontrol.io/browse/authors/Enteleform).
-Ported to Sublime Text 3 by: [**Sascha Wolf**](swolf.dev@gmail.com)
+Packaging of `pyfiglet` by: [**Peter Waller**](peter.waller@gmail.com)  
+Various enhancements by: [**Stefano Rivera**](stefano@rivera.za.net) & [**Enteleform**](https://packagecontrol.io/browse/authors/Enteleform).  
+Ported to Sublime Text 3 by: [**Sascha Wolf**](swolf.dev@gmail.com)  
 
 ```
                         _|_|  _|            _|              _|
