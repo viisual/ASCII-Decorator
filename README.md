@@ -4,7 +4,7 @@
 
 &nbsp;
 
-ASCII Decorator is a simple plugin implementation of [**pyfiglet**](https://github.com/pwaller/pyfiglet) for [**Sublime Text 3**](www.sublimetext.com/3).&nbsp; [**pyfiglet**](https://github.com/pwaller/pyfiglet) is a full port of [**FIGlet**](http://www.figlet.org/) into pure python.&nbsp; [**FIGlet**](http://www.figlet.org/) is a program that generates text banners, in a variety of typefaces, composed of letters made up of conglomerations of smaller ASCII characters.
+ASCII Decorator is a simple plugin implementation of [pyfiglet](https://github.com/pwaller/pyfiglet) for [Sublime Text 3](www.sublimetext.com/3).&nbsp; [pyfiglet](https://github.com/pwaller/pyfiglet) is a full port of [FIGlet](http://www.figlet.org/) into pure python.&nbsp; [FIGlet](http://www.figlet.org/) is a program that generates text banners, in a variety of typefaces, composed of letters made up of conglomerations of smaller ASCII characters.
 
 Or simply:
 ```
@@ -40,7 +40,7 @@ Creates a new document which shows your selected text in all available fonts, so
 
 # Installation
 
-**Install via [**Package Control Plugin**](http://wbond.net/sublime_packages/package_control) for [**Sublime Text 3**](www.sublimetext.com/3)** (*Preferred*)
+Install via [Package Control](http://wbond.net/sublime_packages/package_control) for [Sublime Text 3](www.sublimetext.com/3) (*Preferred*)
 
 * Bring up the command palette:
  * <kbd>Cmd + Shift + P</kbd> (*OSX & Linux*)
@@ -48,7 +48,7 @@ Creates a new document which shows your selected text in all available fonts, so
 * Select option: `Package Control: Install Package`
 * Select `ASCII Decorator` from the list
 
-**Install via git**
+Install via `git`
 
 * In a shell: path to the Sublime Text `Packages` directory
 * Type: `git clone https://github.com/viisual/ASCII Decorator.git`
@@ -89,7 +89,7 @@ Convert Selected Text To Default Font:
  * <kbd>Super + Shift + K</kbd> (*OSX & Linux*)
  * <kbd>Alt + Shift + K</kbd> (*Windows*)
 
-See [**sublime-commands**](https://github.com/viisual/ASCII-Decorator/blob/master/Default.sublime-commands) for a list of additional commands that can be mapped to a key binding.
+See [sublime-commands](https://github.com/viisual/ASCII-Decorator/blob/master/Default.sublime-commands) for a list of additional commands that can be mapped to a key binding.
 
 ### Selections
 
@@ -103,7 +103,7 @@ Regions are handled in the following ways:
 
 # Configuration
 
-You can define your [**sublime-settings**](https://github.com/viisual/ASCII-Decorator/blob/master/ASCII%20Decorator.sublime-settings) preferences @:
+You can define your [sublime-settings](https://github.com/viisual/ASCII-Decorator/blob/master/ASCII%20Decorator.sublime-settings) preferences @:
 ```
 `Menu > Preferences > Package Settings > ASCII Decorator > Settings - User
 ```
@@ -117,11 +117,11 @@ Custom key bindings can be set @:
 # Credits
 
 ```
-All of the documentation and the majority of the work done was by [**Christopher Jones**](cjones@insub.org).
+All of the documentation and the majority of the work done was by [Christopher Jones](cjones@insub.org).
 
-pyfiglet Packaged by [**Peter Waller**](peter.waller@gmail.com),
-various enhancements by [**Stefano Rivera**](stefano@rivera.za.net) & [**Enteleform**](https://packagecontrol.io/browse/authors/Enteleform).
-ported to Sublime Text 3 by [**Sascha Wolf**](swolf.dev@gmail.com)
+pyfiglet Packaged by [Peter Waller](peter.waller@gmail.com),
+various enhancements by [Stefano Rivera](stefano@rivera.za.net) & [Enteleform](https://packagecontrol.io/browse/authors/Enteleform).
+ported to Sublime Text 3 by [Sascha Wolf](swolf.dev@gmail.com)
 
                         _|_|  _|            _|              _|
 _|_|_|    _|    _|    _|            _|_|_|  _|    _|_|    _|_|_|_|
