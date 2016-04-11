@@ -13,18 +13,10 @@ Or simply:
 
 &nbsp; 
 
------
-
-&nbsp;
-
 # Prerequisites
 
 * [**Sublime Text 3**](www.sublimetext.com/3)
 * [**Package Control**](http://wbond.net/sublime_packages/package_control)
-
-&nbsp;
-
------
 
 &nbsp;
 
@@ -58,10 +50,6 @@ Creates a new document which shows your selected text in all available fonts, so
 
 &nbsp;
 
------
-
-&nbsp;
-
 # Installation
 
 **(Preferred) Install via [**Package Control Plugin**](http://wbond.net/sublime_packages/package_control) for [**Sublime Text 3**](www.sublimetext.com/3)**
@@ -82,10 +70,6 @@ Creates a new document which shows your selected text in all available fonts, so
 * You can access the `Font Selector`, `Font Favorites`, & `Generate Font Test` commands via the view context menu or the command palette
 
 &nbsp;
-
------
-
-&nbsp;
   
 # Configuration
 
@@ -102,9 +86,7 @@ Custom key-bindings can be set @:
 
 &nbsp;
 
------
-
-&nbsp;
+# Credits
 
 ```
 All of the documentation and the majority of the work done was by [**Christopher Jones**](cjones@insub.org).
