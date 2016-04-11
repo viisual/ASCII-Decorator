@@ -11,11 +11,6 @@ Or simply:
 /_/   /___/\____/_/\___/\__/   \__,_/\____/\___/____/   \__/_/ /_/_/____(_|_|_)
 ```
 
-# Prerequisites
-
-* [**Sublime Text 3**](www.sublimetext.com/3)
-* [**Package Control**](http://wbond.net/sublime_packages/package_control)
-
 # Features
 
 ### Font Selector & Font Favorites
@@ -37,6 +32,11 @@ By default, `Font Favorites` comes with a list of searchable header styles that 
 Creates a new document which shows your selected text in all available fonts, so you can choose the one you like best!
 
 ![GenerateFontTest_SelectedText](https://raw.githubusercontent.com/Enteleform/ASCII-Decorator/master/GIFs/GenerateFontTest_SelectedText.gif)
+
+# Prerequisites
+
+* [**Sublime Text 3**](www.sublimetext.com/3)
+* [**Package Control**](http://wbond.net/sublime_packages/package_control)
 
 # Installation
 
