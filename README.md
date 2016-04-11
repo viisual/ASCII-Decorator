@@ -15,15 +15,16 @@ Or simply:
 
 ### Font Selector & Font Favorites
 
-See a live preview of all selected regions. `Font Selector` shows all fonts by name, while `Font Favorites` shows your customized list of frequently used fonts.
+See a live preview of all selected regions.
+`Font Selector` shows all fonts by name, while `Font Favorites` shows your customized list of frequently used fonts.
 
 By default, `Font Favorites` comes with a list of searchable header styles that can be used in the following ways:
 
-**By Size**
+**- By Size -**
 
 ![FontFavorites_BySize](https://raw.githubusercontent.com/Enteleform/ASCII-Decorator/master/GIFs/FontFavorites_BySize.gif)
 
-**By Style**
+**- By Style -**
 
 ![FontFavorites_ByStyle](https://raw.githubusercontent.com/Enteleform/ASCII-Decorator/master/GIFs/FontFavorites_ByStyle.gif)
 
@@ -33,18 +34,15 @@ Creates a new document which shows your selected text in all available fonts, so
 
 ![GenerateFontTest_SelectedText](https://raw.githubusercontent.com/Enteleform/ASCII-Decorator/master/GIFs/GenerateFontTest_SelectedText.gif)
 
-# Prerequisites
-
-* [**Sublime Text 3**](www.sublimetext.com/3)
-* [**Package Control**](http://wbond.net/sublime_packages/package_control)
-
 # Installation
 
 **(Preferred) Install via [**Package Control Plugin**](http://wbond.net/sublime_packages/package_control) for [**Sublime Text 3**](www.sublimetext.com/3)**
 
-* Bring up command palette (cmd+shift+P or ctrl+shift+P)
-* Select option: "Package Control: Install Package"
-* Select ASCII Decorator from the list.
+* Bring up the command palette
+ * <kbd>Cmd + Shift + P</kbd> (OSX & Linux)
+ * <kbd>Ctrl + Shift + P</kbd> (Windows)
+* Select option: `Package Control: Install Package`
+* Select `ASCII Decorator` from the list
 
 **Install via git**
 
