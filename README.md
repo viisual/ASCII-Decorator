@@ -61,7 +61,9 @@ Creates a new document which shows your selected text in all available fonts, so
 
 ### Context Menu
 
-Right click on your document to access the context menu.&nbsp; The `ASCII Decorator` sub-menu contains:
+Right click on your document to access the context menu.
+
+The `ASCII Decorator` sub-menu contains:
 
 * `Default Font`
 * `Font Selector`
@@ -70,16 +72,20 @@ Right click on your document to access the context menu.&nbsp; The `ASCII Decora
 
 ### Key Bindings
 
-One key binding is included by default.&nbsp; See [**sublime-commands**](https://github.com/viisual/ASCII-Decorator/blob/master/Default.sublime-commands) for any additional commands you would like to map to a key binding. 
+One key binding is included by default.
 
 Convert Selected Text To Default Font:
 
  * <kbd>Super + Shift + K<kbd> (*OSX & Linux*)
  * <kbd>Alt + Shift + K</kbd> (*Windows*)
 
+See [**sublime-commands**](https://github.com/viisual/ASCII-Decorator/blob/master/Default.sublime-commands) for a list of additional commands that can be mapped to a key binding.
+
 ### Selections
 
-Each command will convert all selected regions to ASCII text. Regions are handled in the following ways:
+Each command will convert all selected regions to ASCII text.
+
+Regions are handled in the following ways:
 
 * Caret with no selection: entire line text will be converted
 * Selection on a single line: only selected text will be converted.
