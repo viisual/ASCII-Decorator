@@ -39,8 +39,8 @@ Creates a new document which shows your selected text in all available fonts, so
 **Install via [**Package Control Plugin**](http://wbond.net/sublime_packages/package_control) for [**Sublime Text 3**](www.sublimetext.com/3)** (*Preferred*)
 
 * Bring up the command palette:
- * <kbd>Cmd + Shift + P</kbd> (OSX & Linux)
- * <kbd>Ctrl + Shift + P</kbd> (Windows)
+ * <kbd>Cmd + Shift + P</kbd> (*OSX & Linux*)
+ * <kbd>Ctrl + Shift + P</kbd> (*Windows*)
 * Select option: `Package Control: Install Package`
 * Select `ASCII Decorator` from the list
 
@@ -74,8 +74,8 @@ One key binding is included by default.&nbsp; See [**sublime-commands**](https:/
 
 Convert Selected Text To Default Font:
 
- * <kbd>Super + Shift + K<kbd> (OSX & Linux)
- * <kbd>Alt + Shift + K</kbd> (Windows)
+ * <kbd>Super + Shift + K<kbd> (*OSX & Linux*)
+ * <kbd>Alt + Shift + K</kbd> (*Windows*)
 
 ### Selections
 
