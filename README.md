@@ -34,7 +34,7 @@ By default, `Font Favorites` comes with a list of searchable header styles that 
 
 ### Generate Font Test
 
-Creates a new document which shows your selected text in all available fonts, so you can choose the one you like best!
+Creates a new document which shows your selected text ( *or Lorem Ipsum* ) in all available fonts, so you can choose the one you like best!
 
 ![**GenerateFontTest_SelectedText**](https://raw.githubusercontent.com/Enteleform/ASCII-Decorator/master/GIFs/GenerateFontTest_SelectedText.gif)
 
