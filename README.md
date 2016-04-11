@@ -36,9 +36,9 @@ Creates a new document which shows your selected text in all available fonts, so
 
 # Installation
 
-**(Preferred) Install via [**Package Control Plugin**](http://wbond.net/sublime_packages/package_control) for [**Sublime Text 3**](www.sublimetext.com/3)**
+**Install via [**Package Control Plugin**](http://wbond.net/sublime_packages/package_control) for [**Sublime Text 3**](www.sublimetext.com/3)** (*Preferred*)
 
-* Bring up the command palette
+* Bring up the command palette:
  * <kbd>Cmd + Shift + P</kbd> (OSX & Linux)
  * <kbd>Ctrl + Shift + P</kbd> (Windows)
 * Select option: `Package Control: Install Package`
@@ -46,8 +46,8 @@ Creates a new document which shows your selected text in all available fonts, so
 
 **Install via git**
 
-* In a shell: path to the [**Sublime Text 3**](www.sublimetext.com/3) Packages directory
-* type: git clone https://github.com/viisual/ASCII Decorator.git
+* In a shell: path to the Sublime Text `Packages` directory
+* type: `git clone https://github.com/viisual/ASCII Decorator.git`
 
 # Usage
 
