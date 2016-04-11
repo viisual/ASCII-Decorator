@@ -20,11 +20,11 @@ See a live preview of the first selected region, and convert all selected region
 
 By default, `Font Favorites` comes with a list of searchable header styles that can be used in the following ways:
 
-**- By Size -**
+**─── By Size ───**
 
 ![FontFavorites_BySize](https://raw.githubusercontent.com/Enteleform/ASCII-Decorator/master/GIFs/FontFavorites_BySize.gif)
 
-**- By Style -**
+**─── By Style ───**
 
 ![FontFavorites_ByStyle](https://raw.githubusercontent.com/Enteleform/ASCII-Decorator/master/GIFs/FontFavorites_ByStyle.gif)
 
