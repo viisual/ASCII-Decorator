@@ -4,7 +4,7 @@
 
 &nbsp;
 
-ASCII Decorator is a simple plugin implementation of [pyfiglet](https://github.com/pwaller/pyfiglet) for [Sublime Text 3](www.sublimetext.com/3).&nbsp; [pyfiglet](https://github.com/pwaller/pyfiglet) is a full port of [FIGlet](http://www.figlet.org/) into pure python.&nbsp; [FIGlet](http://www.figlet.org/) is a program that generates text banners, in a variety of typefaces, composed of letters made up of conglomerations of smaller ASCII characters.
+ASCII Decorator is a simple plugin implementation of [**pyfiglet**](https://github.com/pwaller/pyfiglet) for [**Sublime Text 3**](www.sublimetext.com/3).&nbsp; [**pyfiglet**](https://github.com/pwaller/pyfiglet) is a full port of [**FIGlet**](http://www.figlet.org/) into pure python.&nbsp; [**FIGlet**](http://www.figlet.org/) is a program that generates text banners, in a variety of typefaces, composed of letters made up of conglomerations of smaller ASCII characters.
 
 Or simply:
 ```
@@ -26,21 +26,21 @@ By default, `Font Favorites` comes with a list of searchable header styles that 
 
 **─── By Size ───**
 
-![FontFavorites_BySize](https://raw.githubusercontent.com/Enteleform/ASCII-Decorator/master/GIFs/FontFavorites_BySize.gif)
+![**FontFavorites_BySize**](https://raw.githubusercontent.com/Enteleform/ASCII-Decorator/master/GIFs/FontFavorites_BySize.gif)
 
 **─── By Style ───**
 
-![FontFavorites_ByStyle](https://raw.githubusercontent.com/Enteleform/ASCII-Decorator/master/GIFs/FontFavorites_ByStyle.gif)
+![**FontFavorites_ByStyle**](https://raw.githubusercontent.com/Enteleform/ASCII-Decorator/master/GIFs/FontFavorites_ByStyle.gif)
 
 ### Generate Font Test
 
 Creates a new document which shows your selected text in all available fonts, so you can choose the one you like best!
 
-![GenerateFontTest_SelectedText](https://raw.githubusercontent.com/Enteleform/ASCII-Decorator/master/GIFs/GenerateFontTest_SelectedText.gif)
+![**GenerateFontTest_SelectedText**](https://raw.githubusercontent.com/Enteleform/ASCII-Decorator/master/GIFs/GenerateFontTest_SelectedText.gif)
 
 # Installation
 
-Install via [Package Control](http://wbond.net/sublime_packages/package_control) for [Sublime Text 3](www.sublimetext.com/3) (*Preferred*)
+Install via [**Package Control**](http://wbond.net/sublime_packages/package_control) for [**Sublime Text 3**](www.sublimetext.com/3) (*Preferred*)
 
 * Bring up the command palette:
  * <kbd>Cmd + Shift + P</kbd> (*OSX & Linux*)
@@ -50,7 +50,7 @@ Install via [Package Control](http://wbond.net/sublime_packages/package_control)
 
 Install via `git`
 
-* In a shell: path to the Sublime Text `Packages` directory
+* In a shell: navigate to the Sublime Text `Packages` directory
 * Type: `git clone https://github.com/viisual/ASCII Decorator.git`
 
 # Usage
@@ -71,7 +71,7 @@ Type:
 
 ### Context Menu
 
-Right click on your document to access the context menu.
+Right-click on your document to access the context menu.
 
 The `ASCII Decorator` sub-menu contains:
 
@@ -89,7 +89,7 @@ Convert Selected Text To Default Font:
  * <kbd>Super + Shift + K</kbd> (*OSX & Linux*)
  * <kbd>Alt + Shift + K</kbd> (*Windows*)
 
-See [sublime-commands](https://github.com/viisual/ASCII-Decorator/blob/master/Default.sublime-commands) for a list of additional commands that can be mapped to a key binding.
+See [**sublime-commands**](https://github.com/viisual/ASCII-Decorator/blob/master/Default.sublime-commands) for a list of additional commands that can be mapped to key bindings.
 
 ### Selections
 
@@ -97,32 +97,27 @@ Each command will convert all selected regions to ASCII text.
 
 Regions are handled in the following ways:
 
-* Caret with no selection: entire line text will be converted
+* Caret with no selection: the entire line's text will be converted
 * Selection on a single line: only selected text will be converted.
-* Selection that spans multiple lines: each line with text will be converted
+* Selection that spans multiple lines: each line that contains text will be converted
 
 # Configuration
 
-You can define your [sublime-settings](https://github.com/viisual/ASCII-Decorator/blob/master/ASCII%20Decorator.sublime-settings) preferences @:
-```
-`Menu > Preferences > Package Settings > ASCII Decorator > Settings - User
-```
+You can define your [**sublime-settings**](https://github.com/viisual/ASCII-Decorator/blob/master/ASCII%20Decorator.sublime-settings) preferences @:
+`Menu > Preferences > Package Settings > ASCII Decorator > Settings - User`
 
 Custom key bindings can be set @:
-```
-`Menu > Preferences > Package Settings > ASCII Decorator > Key Bindings - User
-
-```
+`Menu > Preferences > Package Settings > ASCII Decorator > Key Bindings - User`
 
 # Credits
 
+Primary development & documentation by: [**Christopher Jones**](cjones@insub.org).
+
+pyfiglet Packaged by: [**Peter Waller**](peter.waller@gmail.com),
+Various enhancements by: [**Stefano Rivera**](stefano@rivera.za.net) & [**Enteleform**](https://packagecontrol.io/browse/authors/Enteleform).
+Ported to Sublime Text 3 by: [**Sascha Wolf**](swolf.dev@gmail.com)
+
 ```
-All of the documentation and the majority of the work done was by [Christopher Jones](cjones@insub.org).
-
-pyfiglet Packaged by [Peter Waller](peter.waller@gmail.com),
-various enhancements by [Stefano Rivera](stefano@rivera.za.net) & [Enteleform](https://packagecontrol.io/browse/authors/Enteleform).
-ported to Sublime Text 3 by [Sascha Wolf](swolf.dev@gmail.com)
-
                         _|_|  _|            _|              _|
 _|_|_|    _|    _|    _|            _|_|_|  _|    _|_|    _|_|_|_|
 _|    _|  _|    _|  _|_|_|_|  _|  _|    _|  _|  _|_|_|_|    _|
