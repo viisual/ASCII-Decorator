@@ -86,7 +86,7 @@ One key binding is included by default.
 
 Convert Selected Text To Default Font:
 
- * <kbd>Super + Shift + K<kbd> (*OSX & Linux*)
+ * <kbd>Super + Shift + K</kbd> (*OSX & Linux*)
  * <kbd>Alt + Shift + K</kbd> (*Windows*)
 
 See [**sublime-commands**](https://github.com/viisual/ASCII-Decorator/blob/master/Default.sublime-commands) for a list of additional commands that can be mapped to a key binding.
