@@ -175,12 +175,31 @@ class FigletFavoritesCommand( sublime_plugin.TextCommand ):
 
         if value != -1:
             # Find the first good selection to preview
-            sel = self.view.sel()
             example = None
-            for s in sel:
-                if s.size():
-                    example = self.view.substr(s)
+
+            for selection in self.view.sel():
+
+                line_A = self.view.line( selection.a )
+                line_B = self.view.line( selection.b )
+
+                if  line_A == line_B \
+                and selection.a == selection.b \
+                and self.view.substr( line_A ).strip() != "": # use caret line
+                    example = self.view.substr( line_A )
                     break
+
+                elif line_A == line_B \
+                and  selection.a != selection.b \
+                and self.view.substr( selection ).strip() != "": # use selection
+                    example = self.view.substr( selection )
+                    break
+
+                else: # multi line selection
+                    for line in reversed ( self.view.lines( selection ) ):
+                        if self.view.substr( line ).strip() != "":
+                            example = self.view.substr( line )
+                            break
+
             if example is None:
                 return
 
@@ -349,11 +368,13 @@ class FigletCommand( sublime_plugin.TextCommand ):
             line_B = self.view.line( selection.b )
 
             if  line_A == line_B \
-            and selection.a == selection.b: # use caret line
+            and selection.a == selection.b \
+            and self.view.substr( line_A ).strip() != "": # use caret line
                 newSelections.append( self.decorate( self.edit, line_A ) )
 
             elif line_A == line_B \
-            and  selection.a != selection.b: # use selection
+            and  selection.a != selection.b \
+            and self.view.substr( selection ).strip() != "": # use selection
                 newSelections.append( self.decorate( self.edit, selection ) )
 
             else: # multi line selection
