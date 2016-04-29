@@ -7,7 +7,7 @@
             {"command": "figlet_default", "caption": "Default Font" },
             {"command": "figlet_menu", "caption": "Font Selector"},
             {"command": "figlet_favorites", "caption": "Font Favorites"},
-            {"command": "font_preview_generator", "args": { "use_selected_text": true }, "caption": "Generate Font Test From Selection"}
+            {"command": "font_preview_generator", "args": { "use_selected_text": true }, "caption": "Generate Font Test (Selected Text)"}
          ]
     },
     { "caption": "-"}
