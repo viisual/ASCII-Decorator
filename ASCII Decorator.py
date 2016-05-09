@@ -588,12 +588,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
         """
 
         # Determine the indent of the CSS rule
-        (row, col) = self.view.rowcol(sel.begin())
-        indent_region = self.view.find('^\s+', self.view.text_point(row, 0))
-        if indent_region and self.view.rowcol(indent_region.begin())[0] == row:
-            indent = self.view.substr(indent_region)
-        else:
-            indent = ''
+        indent = self.calculate_indent(sel)
 
         # Strip whitespace from the prefixed version so we get it right
         #prefixed = prefixed.strip()
