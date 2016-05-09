@@ -17,6 +17,23 @@ else:
 
 PACKAGE_LOCATION = os.path.abspath(os.path.dirname(__file__))
 
+
+def calculate_indent(view, sel):
+
+    # Determine the indent of the CSS rule
+    (row, col) = view.rowcol(sel.begin())
+    indent_region = view.find('^\s+', view.text_point(row, 0))
+    if indent_region and view.rowcol(indent_region.begin())[0] == row:
+        indent = view.substr(indent_region)
+    else:
+        indent = ''
+    return indent
+
+
+def remove_trailing_ws(string):
+    return re.sub(r'(?m) *$', '', string)
+
+
 class FontPreviewGeneratorCommand(sublime_plugin.WindowCommand):
     def run(self, text = "Lorem Ipsum", use_selected_text = False):
         # Find directory locations
@@ -68,7 +85,9 @@ class FontPreviewGeneratorCommand(sublime_plugin.WindowCommand):
                     justify="auto", direction="auto"
                 )
                 p.write(("Font: %s Directory: %s\n" % (font[0], font[1])).encode("utf-8"))
-                p.write(f.renderText(text).replace('\r\n', '\n').replace('\r', '\n').encode('utf-8'))
+                p.write(
+                    remove_trailing_ws(f.renderText(text).replace('\r\n', '\n').replace('\r', '\n')).encode('utf-8')
+                )
                 p.write("\n\n".encode("utf-8"))
 
         self.window.open_file(p.name)
@@ -185,7 +204,8 @@ class FigletFavoritesCommand( sublime_plugin.TextCommand ):
                 if  line_A == line_B \
                 and selection.a == selection.b \
                 and self.view.substr( line_A ).strip() != "": # use caret line
-                    example = self.view.substr( line_A )
+                    indent = calculate_indent(self.view, line_A)
+                    example = self.view.substr( sublime.Region(line_A.begin() + len(indent), line_A.end()) )
                     break
 
                 elif line_A == line_B \
@@ -195,9 +215,10 @@ class FigletFavoritesCommand( sublime_plugin.TextCommand ):
                     break
 
                 else: # multi line selection
-                    for line in reversed ( self.view.lines( selection ) ):
+                    for line in self.view.lines( selection ):
                         if self.view.substr( line ).strip() != "":
-                            example = self.view.substr( line )
+                            indent = calculate_indent(self.view, line)
+                            example = self.view.substr( sublime.Region(line.begin() + len(indent), line.end()) )
                             break
 
             if example is None:
@@ -370,7 +391,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
             if  line_A == line_B \
             and selection.a == selection.b \
             and self.view.substr( line_A ).strip() != "": # use caret line
-                indent = self.calculate_indent(line_A)
+                indent = calculate_indent(self.view, line_A)
                 line_A = sublime.Region(line_A.begin() + len(indent), line_A.end())
                 newSelections.append( self.decorate( self.edit, line_A ) )
 
@@ -383,7 +404,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
                 # Calculate the indentation that must be removed from the first line.
                 # Convert the indent into a value representing the size of the white space:
                 #     space = 1, tab = (current sublime setting)
-                indent = self.calculate_indent(selection)
+                indent = calculate_indent(self.view, selection)
                 settings = sublime.load_settings('ASCII Decorator.sublime-settings')
                 tab_size = int(settings.get('tab_size', 8))
                 char_count = 0
@@ -420,17 +441,6 @@ class FigletCommand( sublime_plugin.TextCommand ):
 
         for newSelection in newSelections:
             self.view.sel().add( newSelection )
-
-    def calculate_indent(self, sel):
-
-        # Determine the indent of the CSS rule
-        (row, col) = self.view.rowcol(sel.begin())
-        indent_region = self.view.find('^\s+', self.view.text_point(row, 0))
-        if indent_region and self.view.rowcol(indent_region.begin())[0] == row:
-            indent = self.view.substr(indent_region)
-        else:
-            indent = ''
-        return indent
 
     def init(
         self, font, directory, insert_as_comment, use_additional_indent,
@@ -579,16 +589,13 @@ class FigletCommand( sublime_plugin.TextCommand ):
         string = string.replace('\r\n', '\n').replace('\r', '\n')
         return string
 
-    def remove_trailing_ws(self, string):
-        return re.sub(r'(?m) *$', '', string)
-
     def fix_whitespace(self, original, prefixed, sel):
         """
             Determine leading whitespace and comments if desired.
         """
 
         # Determine the indent of the CSS rule
-        indent = self.calculate_indent(sel)
+        indent = calculate_indent(self.view, sel)
 
         # Strip whitespace from the prefixed version so we get it right
         #prefixed = prefixed.strip()
@@ -628,4 +635,4 @@ class FigletCommand( sublime_plugin.TextCommand ):
         prefix = match.groups()[0]
         match = re.search('(\s*)\Z', original)
         suffix = match.groups()[0]
-        return self.remove_trailing_ws(prefixed)
+        return remove_trailing_ws(prefixed)
