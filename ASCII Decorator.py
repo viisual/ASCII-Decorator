@@ -370,6 +370,8 @@ class FigletCommand( sublime_plugin.TextCommand ):
             if  line_A == line_B \
             and selection.a == selection.b \
             and self.view.substr( line_A ).strip() != "": # use caret line
+                indent = self.calculate_indent(line_A)
+                line_A = sublime.Region(line_A.begin() + len(indent), line_A.end())
                 newSelections.append( self.decorate( self.edit, line_A ) )
 
             elif line_A == line_B \
@@ -378,15 +380,57 @@ class FigletCommand( sublime_plugin.TextCommand ):
                 newSelections.append( self.decorate( self.edit, selection ) )
 
             else: # multi line selection
-                for line in reversed ( self.view.lines( selection ) ):
-                    if self.view.substr( line ).strip() != "":
-                        newSelections.append( self.decorate( self.edit, line ) )
+                # Calculate the indentation that must be removed from the first line.
+                # Convert the indent into a value representing the size of the white space:
+                #     space = 1, tab = (current sublime setting)
+                indent = self.calculate_indent(selection)
+                settings = sublime.load_settings('ASCII Decorator.sublime-settings')
+                tab_size = int(settings.get('tab_size', 8))
+                char_count = 0
+                for c in indent:
+                    if c is '\t':
+                        char_count += tab_size
+                    else:
+                        char_count += 1
+                lines = []
+                for line in self.view.lines( selection ):
+                    # Remove the equivalent indentation of each line in the block.
+                    # Helps with files that use inconsistent leading indentation (mix of tabs and spaces).
+                    text = self.view.substr( line )
+                    if text.strip() != "":
+                        line_ws = char_count
+                        char_removal = 0
+                        for c in text:
+                            if c == '\t':
+                                line_ws -= tab_size
+                                char_removal += 1
+                            elif c == ' ':
+                                char_removal += 1
+                                line_ws -= 1
+                            else:
+                                break
+                            if line_ws <= 0:
+                                break
+                        lines.append(sublime.Region(line.begin() + char_removal, line.end()))
+
+                newSelections.append( self.decorate_multi( self.edit, lines ) )
 
         # Clear selections since they've been modified.
         self.view.sel().clear()
 
         for newSelection in newSelections:
             self.view.sel().add( newSelection )
+
+    def calculate_indent(self, sel):
+
+        # Determine the indent of the CSS rule
+        (row, col) = self.view.rowcol(sel.begin())
+        indent_region = self.view.find('^\s+', self.view.text_point(row, 0))
+        if indent_region and self.view.rowcol(indent_region.begin())[0] == row:
+            indent = self.view.substr(indent_region)
+        else:
+            indent = ''
+        return indent
 
     def init(
         self, font, directory, insert_as_comment, use_additional_indent,
@@ -428,6 +472,59 @@ class FigletCommand( sublime_plugin.TextCommand ):
         self.font = font
         self.directory = directory
 
+    def decorate_multi( self, edit, currentSelections ):
+        """
+            Take input and use FIGlet to convert it to ASCII art.
+            Normalize converted ASCII strings to use proper line endings and spaces/tabs.
+        """
+
+        # Convert the input range to a string, this represents the original selection.
+        font_locations = figlet_paths() if self.directory is None else [self.directory]
+
+        # Find where the font resides
+        directory = None
+        found = False
+        for fl in font_locations:
+            pth = os.path.join(fl, self.font)
+            for ext in (".flf", ".tlf"):
+                directory = fl
+                if os.path.exists(pth + ext):
+                    found = True
+                    break
+            if found is True:
+                break
+        assert found is True
+
+        output = []
+
+        for line in currentSelections:
+            original = self.view.substr(line)
+
+            # Convert the input string to ASCII Art.
+            f = SublimeFiglet(
+                directory=directory, font=self.font, width=self.width,
+                justify=self.justify, direction=self.direction
+            )
+            line_output = f.renderText( original )
+            if self.reverse is True:
+                line_output = line_output.reverse()
+            if self.flip is True:
+                line_output = line_output.flip()
+
+            if not ST3:
+                line_output = line_output.decode("utf-8", "replace")
+            output.append(line_output)
+
+        # Normalize line endings based on settings.
+        output = self.normalize_line_endings( '\n'.join(output) )
+        # Normalize whitespace based on settings.
+        totalselection = sublime.Region(currentSelections[0].begin(), currentSelections[-1].end())
+        output = self.fix_whitespace( original, output, totalselection )
+
+        self.view.replace( edit, totalselection, output )
+
+        return sublime.Region( totalselection.begin(), totalselection.begin() + len(output) )
+
     def decorate( self, edit, currentSelection ):
         """
             Take input and use FIGlet to convert it to ASCII art.
@@ -435,7 +532,7 @@ class FigletCommand( sublime_plugin.TextCommand ):
         """
 
         # Convert the input range to a string, this represents the original selection.
-        original = self.view.substr( currentSelection );
+        original = self.view.substr( currentSelection )
 
         font_locations = figlet_paths() if self.directory is None else [self.directory]
 
@@ -481,6 +578,9 @@ class FigletCommand( sublime_plugin.TextCommand ):
         # the appropriate ending on save.
         string = string.replace('\r\n', '\n').replace('\r', '\n')
         return string
+
+    def remove_trailing_ws(self, string):
+        return re.sub(r'(?m) *$', '', string)
 
     def fix_whitespace(self, original, prefixed, sel):
         """
@@ -533,4 +633,4 @@ class FigletCommand( sublime_plugin.TextCommand ):
         prefix = match.groups()[0]
         match = re.search('(\s*)\Z', original)
         suffix = match.groups()[0]
-        return prefixed
+        return self.remove_trailing_ws(prefixed)
