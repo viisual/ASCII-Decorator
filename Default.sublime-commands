@@ -20,5 +20,5 @@
         "caption": "ASCII Decorator: Generate Font Test (Lorem Ipsum)",
         "command": "font_preview_generator",
         "args": {"text": "Lorem Ipsum"}
-    },
+    }
 ]
