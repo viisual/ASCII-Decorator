@@ -51,7 +51,7 @@ Install via [**Package Control**](https://packagecontrol.io/installation) for [*
 Install via `git`
 
 * In a shell: navigate to the Sublime Text `Packages` directory
-* Type: `git clone https://github.com/viisual/ASCII Decorator.git`
+* Type: `git clone https://github.com/viisual/ASCII-Decorator.git`
 
 # Usage
 
