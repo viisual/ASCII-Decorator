@@ -26,17 +26,17 @@ By default, `Font Favorites` comes with a list of searchable header styles that 
 
 **─── By Size ───**
 
-![**FontFavorites_BySize**](https://raw.githubusercontent.com/Enteleform/ASCII-Decorator/master/GIFs/FontFavorites_BySize.gif)
+![**FontFavorites_BySize**](./GIFs/FontFavorites_BySize.gif)
 
 **─── By Style ───**
 
-![**FontFavorites_ByStyle**](https://raw.githubusercontent.com/Enteleform/ASCII-Decorator/master/GIFs/FontFavorites_ByStyle.gif)
+![**FontFavorites_ByStyle**](./GIFs/FontFavorites_ByStyle.gif)
 
 ### Generate Font Test
 
 Creates a new document which shows your selected text ( *or "Lorem Ipsum"* ) in all available fonts, so you can choose the one you like best!
 
-![**GenerateFontTest_SelectedText**](https://raw.githubusercontent.com/Enteleform/ASCII-Decorator/master/GIFs/GenerateFontTest_SelectedText.gif)
+![**GenerateFontTest_SelectedText**](./GIFs/GenerateFontTest_SelectedText.gif)
 
 # Installation
 
